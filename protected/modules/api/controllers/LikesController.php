@@ -54,20 +54,10 @@ class LikesController extends ApiController
      */
     public function actionPostLike($entity)
     {
-        d($_REQUEST);
-        d($entity);
-        die;
-        $res = $this->_likeUpdate($_POST['id'], $entity, 1);
+        $res = $this->_likeUpdate($_REQUEST['id'], $entity, 1);
         $this->render()->sendResponse(array(self::CONTENT_IS_UPDATE => $res));
     }
     
-    public function actionGetLike($entity)
-    {
-        d($_GET);
-        $res = $this->_likeUpdate($_GET['id'], $entity, 1);
-        $this->render()->sendResponse(array(self::CONTENT_IS_UPDATE => $res));
-    }
-
     /**
      * Like disentity
      * @param string $entity
@@ -83,11 +73,12 @@ class LikesController extends ApiController
 
     private function _likeUpdate($entity_id, $entity, $weight)
     {
-        assert(is_int($entity_id));
+        //assert(is_int($entity_id));
 
-        $userId = (int) $_POST['user_id'];
+        $userId = (int) $_REQUEST['user_id'];
         $model = $this->_getModelName($entity);
-
+        d($model);
+        die;
         $criteria = new EMongoCriteria();
         $criteria->entity_id('==', $entity_id);
 
