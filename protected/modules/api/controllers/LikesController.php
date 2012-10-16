@@ -82,8 +82,9 @@ class LikesController extends ApiController
 
         
              /* @var $likes Likes */
+        dd($model);
             $model = Likes::model($model);
-            d($model);
+            dd($model);
             die;
             try {
             if ($likes = Likes::model($model)->find($criteria)) {
