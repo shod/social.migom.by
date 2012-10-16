@@ -93,7 +93,7 @@ class LikesController extends ApiController
                 $likes->entity_id = $entity_id;
             }
         } catch (Exception $exc) {
-            throw new ApiException(Yii::t('Likes', "Entity '{entity}' is not exist", array('{entity}' => $entity)));
+            throw new ApiException(Yii::t('Likes', "Entity '{entity}' is not exist", array('{entity}' => $model)));
         }
 
         $user = new LikesUsers();
