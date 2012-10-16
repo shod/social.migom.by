@@ -1,6 +1,6 @@
 <?php
 
-class Likes_Embiddeds_Users extends EMongoEmbeddedDocument
+class Likes_Embidded_Users extends EMongoEmbeddedDocument
 {
 
     public $id;
