@@ -82,6 +82,9 @@ class LikesController extends ApiController
 
         try {
              /* @var $likes Likes */
+            $model = Likes::model($model);
+            d($model);
+            die;
             if ($likes = Likes::model($model)->find($criteria)) {
                 foreach ($likes->users as $user) {
                     if ($user->id == $userId) {
