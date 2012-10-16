@@ -40,6 +40,7 @@ class UserController extends Controller
 	 */
 	public function actionIndex()
 	{
+        die('test');
             $id = Yii::app()->request->getParam('id', Yii::app()->user->id);
             if(!$id){
                 $this->redirect('/site/login');
