@@ -17,8 +17,6 @@ class ApiModule extends CWebModule {
             'api/<controller:\w+>/<_a:(list)>' => 'api/<controller>/get<_a>',
         ),
         'POST' => array(
-            'api/<controller:\w+>/like/' => 'api/<controller>/postLike',
-            'api/<controller:\w+>/<action:\w+>/<entity:\w+>/<id:\d+>' => 'api/<controller>/post<action>',
             'api/<controller:\w+>/<action:\w+>/<entity:\w+>' => 'api/<controller>/post<action>',
             'api/<controller:\w+>/<action:\w+>' => 'api/<controller>/post<action>',
         ),
@@ -36,8 +34,8 @@ class ApiModule extends CWebModule {
      *  import the module-level models and components
      */
     public function init() {
-//        var_dump($_SERVER["REDIRECT_URL"], $_SERVER["REQUEST_METHOD"]);
-//        var_dump($_POST);
+     //   var_dump($_SERVER["REDIRECT_URL"], $_SERVER["REQUEST_METHOD"]);
+     //   var_dump($_POST);
         $this->setImport(array(
 //            'api.models.*',
             'api.components.*',
