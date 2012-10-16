@@ -17,7 +17,7 @@ class ApiModule extends CWebModule {
             'api/<controller:\w+>/<_a:(list)>' => 'api/<controller>/get<_a>',
         ),
         'POST' => array(
-            'api/<controller:\w+>/like/<entity:\w+>' => 'api/<controller>/postLike',
+            'api/<controller:\w+>/like/' => 'api/<controller>/postLike',
             'api/<controller:\w+>/<action:\w+>/<entity:\w+>/<id:\d+>' => 'api/<controller>/post<action>',
             'api/<controller:\w+>/<action:\w+>/<entity:\w+>' => 'api/<controller>/post<action>',
             'api/<controller:\w+>/<action:\w+>' => 'api/<controller>/post<action>',
