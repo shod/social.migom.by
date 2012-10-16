@@ -77,8 +77,6 @@ class LikesController extends ApiController
 
         $userId = (int) $_REQUEST['user_id'];
         $model = $this->_getModelName($entity);
-        d($model);
-        die;
         $criteria = new EMongoCriteria();
         $criteria->entity_id('==', $entity_id);
 
@@ -105,6 +103,7 @@ class LikesController extends ApiController
         $likes->users[] = $user;
         $likes->setWeightInc($weight);
         $likes->save();
+        d($likes);
         return true;
     }
 
