@@ -51,6 +51,8 @@ class Likes extends EMongoDocument {
         if ($className != __CLASS__) {
             $className = 'Likes_' . $className;
         }
+        d($className);
+        die;
         return parent::model($className);
     }
     
