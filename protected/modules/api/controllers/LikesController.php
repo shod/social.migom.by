@@ -65,9 +65,9 @@ class LikesController extends ApiController
      * @param int $user_id
      * @access (is_int($id))
      */
-    public function actionPostDislike($entity, $id)
+    public function actionPostDislike($entity)
     {
-        $res = $this->_likeUpdate($id, $entity, -1);
+        $res = $this->_likeUpdate($_REQUEST['id'], $entity, -1);
         $this->render()->sendResponse(array(self::CONTENT_IS_UPDATE => $res));
     }
 
