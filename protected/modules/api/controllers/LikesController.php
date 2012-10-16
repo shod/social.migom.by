@@ -80,12 +80,9 @@ class LikesController extends ApiController
         $criteria = new EMongoCriteria();
         $criteria->entity_id('==', $entity_id);
 
-        
+        try { 
              /* @var $likes Likes */
             $model = Likes::model($model);
-            dd($model);
-            die;
-          try {  
             if ($likes = Likes::model($model)->find($criteria)) {
                 foreach ($likes->users as $user) {
                     if ($user->id == $userId) {
