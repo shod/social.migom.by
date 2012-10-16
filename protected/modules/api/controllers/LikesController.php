@@ -82,14 +82,14 @@ class LikesController extends ApiController
 
         try { 
              /* @var $likes Likes */
-            if ($likes = Likes::model($model)->find($criteria)) {
+            if ($likes = $model::model()->find($criteria)) {
                 foreach ($likes->users as $user) {
                     if ($user->id == $userId) {
                         return false;
                     }
                 }
             } else {
-                $likes = Likes::model($model);
+                $likes = new $model();
                 $likes->entity_id = $entity_id;
             }
         } catch (Exception $exc) {
@@ -114,7 +114,7 @@ class LikesController extends ApiController
     private function _getModelName($entity)
     {
         $connection = Yii::app()->cache->get($this->key);
-        return $connection['name'] . '_' . $entity;
+        return 'Likes_' . $connection['name'] . '_' . $entity;
     }
 
 }

@@ -48,9 +48,6 @@ class Likes extends EMongoDocument {
      * This method have to be defined in every model, like with normal CActiveRecord
      */
     public static function model($className = __CLASS__) {
-        if ($className != __CLASS__) {
-            $className = 'Likes_' . $className;
-        }
         return parent::model($className);
     }
     
