@@ -7,12 +7,32 @@
 class NotifyController extends ApiController
 {
 
+    const EXCEPTION_COST_MUST_BE_MORE_ZERO = 'Cost must be more zero';
+    const EXCEPTION_USER_IS_NOT_EXIST = 'User is not exist';
+    
+    
+    /**
+     * Add notify about change product cost
+     * @param type $id - product id
+     * @param float $cost - product cost
+     * @throws ApiException
+     */
     public function actionPostProductCost($id)
     {
+        $userId = (int) Yii::app()->request->getParam('user_id');
+        $cost = (float) Yii::app()->request->getParam('cost');
+        if(!Users::model()->findByPk($userId)->count()){
+            throw new ApiException(Yii::t('Notify', self::EXCEPTION_USER_IS_NOT_EXIST));
+        }
+        
+        if($cost == 0){
+            throw new ApiException(Yii::t('Notify', self::EXCEPTION_COST_MUST_BE_MORE_ZERO));
+        }
+        
         $model = new Notify_Product_Cost();
-        $model->product_id = $id;
+        $model->product_id = (int)$id;
         $model->cost = (float) Yii::app()->request->getParam('cost');
-        $model->user_id = (int) Yii::app()->request->getParam('user_id');
+        $model->user_id = $userId;
         try {
             $model->save();
         } catch (Exception $exc) {
