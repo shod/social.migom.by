@@ -1,6 +1,6 @@
 <?php
 
-class Likes_Migom_News_Comments extends Likes
+class Likes_Migom_Comments_News extends Likes
 {
 
     /**
@@ -9,7 +9,7 @@ class Likes_Migom_News_Comments extends Likes
      */
     public function getCollectionName()
     {
-        return 'likes_migom_news_comments';
+        return 'likes_migom_comments_news';
     }
 
     /**
