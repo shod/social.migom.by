@@ -21,7 +21,7 @@ class NotifyController extends ApiController
     {
         $userId = (int) Yii::app()->request->getParam('user_id');
         $cost = (float) Yii::app()->request->getParam('cost');
-        if(!Users::model()->findByPk($userId)->count()){
+        if(!Users::model()->findByPk($userId)){
             throw new ApiException(Yii::t('Notify', self::EXCEPTION_USER_IS_NOT_EXIST));
         }
         
