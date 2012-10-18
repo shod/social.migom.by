@@ -25,7 +25,7 @@ class LikesController extends ApiController
 
         try {
             /* @var $res Likes */
-            $res = Likes::model($this->_getModelName($entity))->findAll($criteria);
+            $res = Likes::model($entity)->findAll($criteria);
         } catch (Exception $exc) {
             throw new ApiException(Yii::t('Likes', "Entity '{entity}' is not exist", array('{entity}' => $entity)));
         }
@@ -39,7 +39,7 @@ class LikesController extends ApiController
     public function actionGetEntity($entity, $id)
     {
         /* @var $res Likes */
-        $res = Likes::model($this->_getModelName($entity))->findAll(array('entity_id' => $id));
+        $res = Likes::model($entity)->findAll(array('entity_id' => $id));
 
         $content = array(ApiComponent::CONTENT_ITEM => $res);
         $this->render()->sendResponse($content);
@@ -76,19 +76,19 @@ class LikesController extends ApiController
         //assert(is_int($entity_id));
 
         $userId = (int) $_REQUEST['user_id'];
-        $model = $this->_getModelName($entity);
         $criteria = new EMongoCriteria();
         $criteria->entity_id('==', $entity_id);
 
         try { 
              /* @var $likes Likes */
-            if ($likes = $model::model()->find($criteria)) {
+            if ($likes = Likes::model($entity)->find($criteria)) {
                 foreach ($likes->users as $user) {
                     if ($user->id == $userId) {
                         return false;
                     }
                 }
             } else {
+                $model = $this->_getModelName($entity);
                 $likes = new $model();
                 $likes->entity_id = $entity_id;
             }
@@ -102,8 +102,11 @@ class LikesController extends ApiController
 
         $likes->users[] = $user;
         $likes->setWeightInc($weight);
-        $likes->save();
-        return true;
+        if($likes->save()){
+            News::pushLike($entity::model()->findByPk($likes->entity_id));
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -113,8 +116,9 @@ class LikesController extends ApiController
      */
     private function _getModelName($entity)
     {
-        $connection = Yii::app()->cache->get($this->key);
-        return 'Likes_' . $connection['name'] . '_' . $entity;
+//        $connection = Yii::app()->cache->get($this->key);
+//        return 'Likes_' . $connection['name'] . '_' . $entity;
+        return 'Likes_' . $entity;
     }
 
 }

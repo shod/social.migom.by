@@ -90,27 +90,66 @@ class News extends EMongoDocument {
      * @param type $dislikes    - массив дислайков 
      * @return type
      */
-    public static function pushComment($user_id, $entity_id, $name, $text, $create_at, $comment, $likes = null, $dislikes = null){
-        list($news, $entity) = News::_push($user_id, $entity_id, $name);
+    public static function pushComment($comment){
+        $parent = $comment->parent;
+        list($news, $entity) = News::_push($parent->user_id, $parent->id, get_class($parent));
         
         if(!$entity){       // если новая запись на стене
             $entity = new News_Entity();
-            $entity->id = $entity_id;
-            $entity->name = $name;
-            $entity->create_at = $create_at;
+            $entity->id = $parent->id;
+            $entity->name = get_class($parent);
+            $entity->create_at = $parent->create_at;
             $entity->template = 'news';
-            $entity->likes->attributes = $likes;
-            $entity->dislikes->attributes = $dislikes;
+            
+            $likesModel = Likes::model($entity->name)->findByPk($entity->id);
+            $entity->likes->count = $likesModel->likes;
+            $entity->dislikes->count = $likesModel->dislikes;
         }
         // эти параметры следовало бы обновить в любом случае
-        $entity->text = $text;
+        $entity->filter = 'comment';
+        $entity->text = $parent->text;
         $entity->template = 'news';
         $entity->comment->attributes = $comment;
-        if(isset($comment['likes']) && isset($comment['dislikes'])){
-            $entity->comment->likes->attributes = $comment['likes'];
-            $entity->comment->dislikes->attributes = $comment['dislikes'];
-        }
         
+        $likesModel = Likes::model($entity->name)->findByPk($comment->id);
+        $entity->comment->likes->count = $likesModel->likes;
+        $entity->comment->dislikes->count = $likesModel->dislikes;
+        
+        $news->entities[] = $entity;
+        return $news->save();
+    }
+    
+    /**
+     * Смотри News_Entity
+     * @param type $user_id     - Юзер на чью сущночть поставили лайк
+     * @param type $entity_id   - Id объекта сущности, к примеру новость 29
+     * @param type $name        - имя сущности, к примеру news
+     * @param type $text        - текст своего комментария
+     * @param type $create_at   - дата создания лайка
+     * @param type $weight      - вес лайка
+     * @param type $likes       - массив лайков
+     * @param type $dislikes    - массив дислайков 
+     * @return type
+     */
+    public static function pushLike($parent){
+        list($news, $entity) = News::_push($parent->user_id, $parent->id, get_class($parent));
+        
+        if(!$entity){       // если новая запись на стене
+            $entity = new News_Entity();
+            $entity->id = $parent->id;
+            $entity->name = get_class($parent);
+            $entity->create_at = $parent->create_at;
+            $entity->template = 'news';
+            
+            $likesModel = Likes::model($entity->name)->findByPk($entity->id);
+            $entity->likes->count = $likesModel->likes;
+            $entity->dislikes->count = $likesModel->dislikes;
+        }
+        // эти параметры следовало бы обновить в любом случае
+        $entity->filter = 'comment';
+        $entity->text = $parent->text;
+        $entity->template = 'news';
+                
         $news->entities[] = $entity;
         return $news->save();
     }

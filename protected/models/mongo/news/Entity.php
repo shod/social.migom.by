@@ -7,6 +7,7 @@ class News_Entity extends EMongoEmbeddedDocument
     public $text;
     public $create_at;
     public $template;
+    public $filter;
 
     
     public $params;
@@ -17,6 +18,7 @@ class News_Entity extends EMongoEmbeddedDocument
             'comment' => 'News_Entity_Comment',
             'likes' => 'News_Entity_Likes',
             'dislikes' => 'News_Entity_Likes',
+            'like' => 'News_Entity_Like',
         );
     }
     
@@ -24,7 +26,7 @@ class News_Entity extends EMongoEmbeddedDocument
     public function rules()
     {
         return array(
-            array('id, name, template, text', 'required'),
+            array('id, name, template, text, filter', 'required'),
         );
     }
     

@@ -43,23 +43,7 @@ class CommentsController extends Controller
         
         if($model->save()){
             if($model->parent){
-                News::pushComment(
-                    $model->parent->user_id, 
-                    $model->parent->id, 
-                    'comment',
-                    $model->parent->text, 
-                    $model->parent->created_at,
-                    array(
-                        'user_id' => $model->user_id,
-                        'login' => $model->user->login,
-                        'text' => $model->text,
-                        'created_at' => $model->created_at,
-                        'likes' => array('count' => $model->likes),
-                        'dislikes' => array('count' => $model->dislikes),
-                    ),
-                    array('count' => $model->parent->likes),
-                    array('count' => $model->parent->dislikes)      // TODO вытянуть инфу о том кто ставил лайки на пост!!! Сейчас нет еще коллекции такой в монге
-                );
+                News::pushComment($model);
             }
         }
     }
