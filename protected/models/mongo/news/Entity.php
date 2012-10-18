@@ -5,7 +5,7 @@ class News_Entity extends EMongoEmbeddedDocument
     public $id;
     public $name;
     public $text;
-    public $create_at;
+    public $created_at;
     public $template;
     public $filter;
 

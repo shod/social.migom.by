@@ -71,14 +71,17 @@ class LikesController extends ApiController
         $this->render()->sendResponse(array(self::CONTENT_IS_UPDATE => $res));
     }
 
-    private function _likeUpdate($entity_id, $entity, $weight)
+    private function _likeUpdate(int $entity_id, $entity, $weight)
     {
         //assert(is_int($entity_id));
 
         $userId = (int) $_REQUEST['user_id'];
         $criteria = new EMongoCriteria();
         $criteria->entity_id('==', $entity_id);
-
+        $comment = $entity::model()->findByPk($entity_id);
+        if(!$comment){
+            throw new ApiException(Yii::t('Likes', "Have not entity #{id}", array('{id}' => $likes->entity_id)));
+        }
         try { 
              /* @var $likes Likes */
             if ($likes = Likes::model($entity)->find($criteria)) {
@@ -103,8 +106,9 @@ class LikesController extends ApiController
         $likes->users[] = $user;
         $likes->setWeightInc($weight);
         if($likes->save()){
-            News::pushLike($entity::model()->findByPk($likes->entity_id));
-            return true;
+                News::pushLike($comment);
+                return true;
+            
         }  else {
             throw new ApiException(Yii::t('Likes', $likes->getErrors()));
         }
