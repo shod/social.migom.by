@@ -140,8 +140,9 @@ class CommentsController extends ApiController
 
     public function actionPostEntity($entity)
     {
-        $comment = Comments::model($entity);
-        $comment->setScenario('insert');
+        $comment = new Comments_News();//Comments::model($entity);
+//        $comment->setIsNewRecord(true);
+//        $comment->setScenario('insert');
         $comment->attributes = $_POST;
         
         $comment->parent_id = (isset($_POST['parent_id']) && $_POST['parent_id'] > 0) ? $_POST['parent_id'] : 0;
