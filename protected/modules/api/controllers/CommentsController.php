@@ -143,6 +143,8 @@ class CommentsController extends ApiController
         $comment = Comments::model($entity);
         $comment->setScenario('insert');
         $comment->attributes = $_POST;
+        d($_POST);
+        die;
         $comment->parent_id = (isset($_POST['parent_id']) && $_POST['parent_id'] > 0) ? $_POST['parent_id'] : 0;
         if ($comment->save()) {
             $content = array(self::CONTENT_COMMENT => $comment->attributes);
