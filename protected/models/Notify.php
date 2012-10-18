@@ -9,17 +9,15 @@
  * @property integer $provider_id
  * @property integer $soc_id
  */
-class Notify_Product_Cost extends Notify
+class Notify extends CActiveRecord
 {
 
     public $id;
-    public $product_id;
     public $user_id;
-    public $cost;
-
+    
     public function tableName()
     {
-        return 'notify_product_cost';
+        return 'notify';
     }
 
     /**
@@ -27,8 +25,11 @@ class Notify_Product_Cost extends Notify
      * @param string $className active record class name.
      * @return UserProviders the static model class
      */
-    public static function model($className = 'Product_Cost')
+    public static function model($className = __CLASS__)
     {
+        if ($className != __CLASS__) {
+            $className = 'Notify_' . $className;
+        }
         return parent::model($className);
     }
 
@@ -40,7 +41,19 @@ class Notify_Product_Cost extends Notify
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('product_id, cost, user_id', 'required'),
+            array('user_id', 'required'),
+        );
+    }
+
+    /**
+     * @return array relational rules.
+     */
+    public function relations()
+    {
+        // NOTE: you may need to adjust the relation name and the related
+        // class name for the relations automatically generated below.
+        return array(
+            'user' => array(self::BELONGS_TO, 'Users', 'user_id')
         );
     }
 

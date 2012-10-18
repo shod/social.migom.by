@@ -15,7 +15,7 @@ class Likes_Comments_News extends Likes
     /**
      * This method have to be defined in every model, like with normal CActiveRecord
      */
-    public static function model($className = __CLASS__)
+    public static function model($className = 'Comments_News')
     {
         return parent::model($className);
     }
