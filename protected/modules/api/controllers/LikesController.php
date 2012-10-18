@@ -105,6 +105,8 @@ class LikesController extends ApiController
         if($likes->save()){
             News::pushLike($entity::model()->findByPk($likes->entity_id));
             return true;
+        }  else {
+            throw new ApiException(Yii::t('Likes', $likes->getErrors()));
         }
         return false;
     }
