@@ -1,7 +1,7 @@
 <?php
 class Comments_News extends Comments
 {	
-    public static function model($className='News')
+    public static function model($className = 'News')
     {
         return parent::model($className);
     }

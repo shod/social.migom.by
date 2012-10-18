@@ -65,6 +65,8 @@ class Users extends ActiveRecord
 		);
 	}
         
+//        fsockopen("mx1.hotmail.com", 25, $errno , $errstr, 15)
+        
 	/**
 	 * @return array relational rules.
 	 */
