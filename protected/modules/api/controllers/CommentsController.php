@@ -78,7 +78,7 @@ class CommentsController extends ApiController
         $content = array(self::CONTENT_COMMENTS => $res, ApiComponent::CONTENT_COUNT => count($res));
         $this->render()->sendResponse($content);
     }
-    
+
     /**
      * @ignore
      * @param string $entity
@@ -87,13 +87,13 @@ class CommentsController extends ApiController
      */
     public function actionGetEntityUserList($entity, $id)
     {
-        $userId = (int)Yii::app()->request->getParam('user_id');
+        $userId = (int) Yii::app()->request->getParam('user_id');
         $res = array();
         $criteria = new CDbCriteria;
         $criteria->condition = '`t`.`user_id` = :user_id and `t`.`entity_id` = :entity_id and `t`.`status` != :status';
         $criteria->params = array(':entity_id' => $id,
-                                  ':status' => Comments::STATUS_DELETED,
-                                  ':user_id' => $userId);
+            ':status' => Comments::STATUS_DELETED,
+            ':user_id' => $userId);
         $rawData = Comments::model($entity)->with('user')->findAll($criteria);
 
         //TODO Как то не правельно related элименты так получать
@@ -123,15 +123,15 @@ class CommentsController extends ApiController
         $res = array();
         $criteria = new CDbCriteria;
         $criteria->select = 'entity_id, count(*) as cnt';
-        $criteria->addInCondition('entity_id',$_GET['id']);
+        $criteria->addInCondition('entity_id', $_GET['id']);
         $criteria->condition = '`t`.`status` != :status';
         $criteria->params = array(':status' => Comments::STATUS_DELETED,);
-        $criteria->group='`t`.`entity_id`';
+        $criteria->group = '`t`.`entity_id`';
         $rawData = Comments::model($entity)->findAll($criteria);
         foreach ($rawData as $value) {
 
             $res[] = array('id' => $value->entity_id,
-                           'count' => $value->cnt);
+                'count' => $value->cnt);
         }
 
         $content = array(self::CONTENT_COMMENTS => $res);
@@ -140,13 +140,15 @@ class CommentsController extends ApiController
 
     public function actionPostEntity($entity)
     {
-        $class = 'Comments_' . $entity;
-        $comment = new $class(); //Comments::model($entity);//
+        $comment = Comments::model($entity)->setScenario('insert');
         $comment->attributes = $_POST;
         $comment->parent_id = (isset($_POST['parent_id']) && $_POST['parent_id'] > 0) ? $_POST['parent_id'] : 0;
-
-        $content = array(self::CONTENT_COMMENT => $comment->attributes);
-        $this->render()->sendResponse($content);
+        if ($comment->save()) {
+            $content = array(self::CONTENT_COMMENT => $comment->attributes);
+            $this->render()->sendResponse($content);
+        } else {
+            throw new ApiException(Yii::t('Likes', $comment->getErrors()));
+        }
     }
 
     /**
