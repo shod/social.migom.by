@@ -27,4 +27,12 @@ abstract class ActiveRecord extends CActiveRecord
             $event->sender->oldAttributes = $event->sender->attributes;
         });
     }
+    
+    public static function model($className = __CLASS__, $new = false)
+    {
+        if($new){
+            return new $className();
+        }
+        return parent::model($className);
+    }
 }

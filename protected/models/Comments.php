@@ -16,7 +16,7 @@
  * @property integer $created_at
  * @property integer $updated_at
  */
-class Comments extends CActiveRecord
+class Comments extends ActiveRecord
 {
 
     const STATUS_UNMODERATED = 0;
@@ -47,12 +47,12 @@ class Comments extends CActiveRecord
      * @param string $className active record class name.
      * @return NewsComments the static model class
      */
-    public static function model($className = __CLASS__)
+    public static function model($className = __CLASS__, $new = false)
     {
         if ($className != __CLASS__) {
             $className = 'Comments_' . $className;
         }
-        return parent::model($className);
+        return parent::model($className, $new);
     }
     
     /**
