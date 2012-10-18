@@ -11,7 +11,7 @@ class Likes extends EMongoDocument
 
     public function primaryKey()
     {
-        return 'id';
+        return 'entity_id';
     }
 
     public function embeddedDocuments()

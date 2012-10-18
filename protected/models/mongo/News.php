@@ -131,7 +131,7 @@ class News extends EMongoDocument {
      * @param type $dislikes    - массив дислайков 
      * @return type
      */
-    public static function pushLike($parent){
+    public static function pushLike($parent, $likesModel){
         list($news, $entity) = News::_push($parent->user_id, $parent->id, get_class($parent));
         
         if(!$entity){       // если новая запись на стене
@@ -141,7 +141,6 @@ class News extends EMongoDocument {
             $entity->created_at = $parent->created_at;
             $entity->template = 'news';
             
-            $likesModel = Likes::model($entity->name)->findByPk($entity->id);
             $entity->likes->count = $likesModel->likes;
             $entity->dislikes->count = $likesModel->dislikes;
         }
