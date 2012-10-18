@@ -100,6 +100,7 @@ class News extends EMongoDocument {
             $entity->name = get_class($parent);
             $entity->created_at = $parent->created_at;
             $entity->template = 'news';
+            $entity->user_id = $comment->user_id;
             
             $likesModel = Likes::model($entity->name)->findByPk($entity->id);
             if($likesModel){
