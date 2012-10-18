@@ -1,5 +1,5 @@
 <?php
-
+// yiic mail send --actions=10
 class MailCommand extends ConsoleCommand {
 
     public function actionSend($user_id, $template) {

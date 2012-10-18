@@ -54,7 +54,7 @@ class Comments extends CActiveRecord
         }
         return parent::model($className);
     }
-
+    
     /**
      * @return array validation rules for model attributes.
      */

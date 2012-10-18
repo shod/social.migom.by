@@ -7,6 +7,7 @@ class Likes extends EMongoDocument
     public $likes = 0;
     public $dislikes = 0;
     public $users;
+    public $refresh;
 
     public function primaryKey()
     {
@@ -48,7 +49,7 @@ class Likes extends EMongoDocument
     public function rules()
     {
         return array(
-            array('entity_id', 'required'),
+            array('entity_id, refresh', 'required'),
 //            array('id, likes, dislikes', 'integerOnly' => true),
         );
     }
@@ -73,4 +74,11 @@ class Likes extends EMongoDocument
         }
     }
 
+    public function beforeSave() {
+        if($this->getScenario() != 'console'){
+            $this->refresh = 1;
+        }
+        return parent::beforeSave();
+    }
+    
 }

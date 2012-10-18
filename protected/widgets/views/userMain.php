@@ -12,6 +12,9 @@
                     <h1 style="margin: 3px;"><?php echo $model->login . ' (' . $model->profile->full_name . ')'; ?></h1>
                     <?php if (Yii::app()->user->id == $model->id): ?>
                         <?= CHtml::link(Yii::t('Site', 'Edit User Info'), array('/user/edit')); ?>
+                        <?php if(!$model->email): ?>
+                            <b style="color: red;"><?= Yii::t('Site', 'Your email are empty!'); ?></b>
+                        <?php endif;  ?>
                     <?php endif; ?>
                 </td>
             </tr></table>

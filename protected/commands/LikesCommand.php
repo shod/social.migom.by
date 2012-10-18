@@ -1,24 +1,39 @@
 <?php
-
+// yiic mail updatestatistics --models=comments_news --models=comments_news2...
 class LikesCommand extends ConsoleCommand {
     
-    public function actionUpdateStatistics() {
-        
-        foreach ($this->params as $server => $model) {
-            if(is_array($model)){
-                foreach($model as $modelName){
-                    $this->workUpdateStatistics($server, $modelName);
-                }
-            } else {
-                $this->workUpdateStatistics($server, $model);
-            }
+    public $fromQueue = false;
+    
+    public function actionUpdateStatistics(array $models) {
+        foreach ($models as $model) {
+                $this->_workUpdateStatistics($model);
         }
-        print_r($this->params);
-        sleep(10);
     }
     
-    protected function workUpdateStatistics($server, $model){
-        $model = Likes::model($server.'_'.$model);
-        var_dump($model);
+    protected function _workUpdateStatistics($model){
+        $obj = $this->_getLikeModel($model);
+        $criteria = new EMongoCriteria();
+        $criteria->refresh = 1;
+        
+        foreach ($obj->findAll($criteria) as $like) {
+            $mysqlModel = $this->_getModel($model);
+            $mysqlRes = $mysqlModel->findByPk($like->entity_id);
+            if($mysqlRes){
+                $mysqlRes->likes = $like->likes;
+                $mysqlRes->dislikes = $like->dislikes;
+                $mysqlRes->save();
+            }
+            $like->setScenario('console');
+            $like->refresh = 0;
+            $like->save();
+        }
+    }
+    
+    protected function _getLikeModel($modelName){
+        return Likes::model($modelName);
+    }
+    
+    protected function _getModel($model){
+        return $model::model();
     }
 }

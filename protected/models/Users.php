@@ -12,7 +12,7 @@
  * @property integer $date_add
  * @property integer $date_edit
  */
-class Users extends CActiveRecord
+class Users extends ActiveRecord
 {
         const AVATAR_PATH = '/images/users';
     
@@ -47,10 +47,10 @@ class Users extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('login, password, email, status, date_add, date_edit, role', 'required', 'except' => array('regByApi', 'simpleRegistration')),
+			array('login, password, email, status, date_add, date_edit, role', 'required', 'except' => array('regByApi', 'simpleRegistration', 'general_update')),
                         array('login', 'required', 'on' => array('regByApi')),
                         array('email', 'required', 'on' => array('simpleRegistration')),
-                        array('password', 'required', 'on' => array('general_update')),
+//                        array('password', 'required', 'on' => array('general_update')),
                         array('email', 'email'),
                         array('email', 'unique'),
 			array('status, date_add, date_edit', 'numerical', 'integerOnly'=>true),
@@ -61,10 +61,10 @@ class Users extends CActiveRecord
 			// Please remove those attributes that should not be searched.
 			array('id, login, password, email, status, date_add, date_edit, role', 'safe', 'on'=>'search'),
                         array('login, email', 'safe', 'on'=>'regByApi'),
-                        array('password', 'safe', 'on'=>'general_update'),
+                        array('password, email', 'safe', 'on'=>'general_update'),
 		);
 	}
-
+        
 	/**
 	 * @return array relational rules.
 	 */
@@ -139,8 +139,14 @@ class Users extends CActiveRecord
                     $this->login = $name[0];
                 }
             } else {
-                if($this->scenario == 'general_update'){
+                if($this->scenario == 'general_update' && $this->password){
                     $this->password = md5($this->password);
+                }
+                if(!$this->password){
+                    $this->password = $this->oldAttributes['password'];
+                }
+                if($this->oldAttributes['email']){
+                    $this->email = $this->oldAttributes['email'];
                 }
             }
             $this->email = strtolower($this->email);

@@ -9,6 +9,17 @@
 )); ?>
 
         <table width="100%">
+            <?php if(!$model->email): ?>
+                <tr>
+                    <td>
+                        <div class="row">
+                            <b style="color: red;"><?php echo $form->label($model,'email', array(), true, true); ?></b>
+                            <?php $model->email = ''; echo $form->textField($model,'email', array(), true, true); ?>
+                            <?php echo $form->error($model,'email', array(), true, true); ?>
+                        </div>
+                    </td>
+                </tr>
+            <?php endif; ?>
             <tr>
                 <td>
                     <h4><?= $model->getAttributeLabel('password') ?>:<span id="error_pswd"><?php echo $form->error($model,'password', array(), true, true); ?></span></h4>
