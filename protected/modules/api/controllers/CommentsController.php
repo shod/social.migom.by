@@ -140,7 +140,8 @@ class CommentsController extends ApiController
 
     public function actionPostEntity($entity)
     {
-        $comment = Comments::model($entity)->setScenario('insert');
+        $comment = Comments::model($entity);
+        $comment->setScenario('insert');
         dd($comment);
         die;
         $comment->attributes = $_POST;
