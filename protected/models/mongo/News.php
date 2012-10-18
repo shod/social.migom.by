@@ -102,8 +102,10 @@ class News extends EMongoDocument {
             $entity->template = 'news';
             
             $likesModel = Likes::model($entity->name)->findByPk($entity->id);
-            $entity->likes->count = $likesModel->likes;
-            $entity->dislikes->count = $likesModel->dislikes;
+            if($likesModel){
+                $entity->likes->count = $likesModel->likes;
+                $entity->dislikes->count = $likesModel->dislikes;
+            }
         }
         // эти параметры следовало бы обновить в любом случае
         $entity->filter = 'comment';
@@ -112,8 +114,11 @@ class News extends EMongoDocument {
         $entity->comment->attributes = $comment;
         
         $likesModel = Likes::model($entity->name)->findByPk($comment->id);
-        $entity->comment->likes->count = $likesModel->likes;
-        $entity->comment->dislikes->count = $likesModel->dislikes;
+        if($likesModel){
+            $entity->comment->likes->count = $likesModel->likes;
+            $entity->comment->dislikes->count = $likesModel->dislikes;
+        }
+        
         
         $news->entities[] = $entity;
         return $news->save();
