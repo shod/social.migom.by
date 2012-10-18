@@ -71,7 +71,7 @@ class LikesController extends ApiController
         $this->render()->sendResponse(array(self::CONTENT_IS_UPDATE => $res));
     }
 
-    private function _likeUpdate(int $entity_id, $entity, $weight)
+    private function _likeUpdate($entity_id, $entity, $weight)
     {
         //assert(is_int($entity_id));
 
