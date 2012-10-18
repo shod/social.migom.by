@@ -80,7 +80,7 @@ class LikesController extends ApiController
         $criteria->entity_id('==', $entity_id);
         $comment = $entity::model()->findByPk($entity_id);
         if(!$comment){
-            throw new ApiException(Yii::t('Likes', "Have not entity #{id}", array('{id}' => $likes->entity_id)));
+            throw new ApiException(Yii::t('Likes', "Have not entity #{id}", array('{id}' => $entity_id)));
         }
         try { 
              /* @var $likes Likes */
