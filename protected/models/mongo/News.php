@@ -54,7 +54,7 @@ class News extends EMongoDocument {
         return parent::beforeSave();
     }
     
-    protected static function push($user_id, $entity_id, $name){
+    protected static function _push($user_id, $entity_id, $name){
         $criteria = new EMongoCriteria();
         $criteria->addCond('user_id', '==', $user_id);
         
@@ -78,8 +78,20 @@ class News extends EMongoDocument {
         return array($news, $entity);
     }
     
+    /**
+     * Смотри News_Entity
+     * @param type $user_id     - Юзер чей коммент
+     * @param type $entity_id   - Id объекта сущности, к примеру новость 29
+     * @param type $name        - имя сущности, к примеру news
+     * @param type $text        - текст своего комментария
+     * @param type $create_at   - дата создания коммента
+     * @param type $comment     - комментарий на комментарий пользователя
+     * @param type $likes       - массив лайков
+     * @param type $dislikes    - массив дислайков 
+     * @return type
+     */
     public static function pushComment($user_id, $entity_id, $name, $text, $create_at, $comment, $likes = null, $dislikes = null){
-        list($news, $entity) = News::push($user_id, $entity_id, $name);
+        list($news, $entity) = News::_push($user_id, $entity_id, $name);
         
         if(!$entity){       // если новая запись на стене
             $entity = new News_Entity();

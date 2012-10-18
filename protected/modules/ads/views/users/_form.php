@@ -28,12 +28,10 @@
 	</div>
         
         <div class="row">
-            <?php if($model->profile->avatar): ?>
 		<?php echo $form->labelEx($model->profile,'avatar'); ?>
                 <?php echo CHtml::image(Yii::app()->getBaseUrl() . Users::AVATAR_PATH . DIRECTORY_SEPARATOR . $model->id . DIRECTORY_SEPARATOR . 'avatar.jpg'); ?>
-                <?php echo CHtml::checkBox('Profile[delImage]', false); ?>
+                <?php echo CHtml::checkBox('Users_Profile[delImage]', false); ?>
                 <?php echo 'Удалить'; ?>
-            <?php endif; ?>
 	</div>
         
         <div class="row">
