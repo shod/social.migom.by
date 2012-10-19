@@ -24,3 +24,4 @@
         
 ?>
 <div class="fatalError"><?php echo $code; ?></div>
+<div class="clear"><?php echo $message; ?></div>
