@@ -54,12 +54,7 @@ class LikesController extends ApiController
      */
     public function actionPostLike($entity)
     {
-        try {
-            $res = $this->_likeUpdate($_REQUEST['id'], $entity, 1);
-        } catch (Exception $exc) {
-            echo $exc->getTraceAsString();
-        }
-        
+        $res = $this->_likeUpdate($_REQUEST['id'], $entity, 1);
         $this->render()->sendResponse(array(self::CONTENT_IS_UPDATE => $res));
     }
     
@@ -113,6 +108,7 @@ class LikesController extends ApiController
                     'likes' => $likes->likes,
                     'dislikes' => $likes->dislikes,
                     'weight' => $weight);
+                d($like);
                 News::pushLike($comment, $like);
                 return true;
         }  else {
