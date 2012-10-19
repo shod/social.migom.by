@@ -4,7 +4,7 @@ class News_Entity_Comment extends EMongoEmbeddedDocument
     
     public $user_id;
     public $text;
-    public $create_at;
+    public $created_at;
     public $login;
     
     public function embeddedDocuments() {  // встроенные, суб массивы!
@@ -19,7 +19,7 @@ class News_Entity_Comment extends EMongoEmbeddedDocument
     public function rules()
     {
         return array(
-            array('user_id, create_at, text, login', 'required'),
+            array('user_id, created_at, text, login', 'required'),
         );
     }
 }

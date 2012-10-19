@@ -100,7 +100,6 @@ class News extends EMongoDocument {
             $entity->name = get_class($parent);
             $entity->created_at = $parent->created_at;
             $entity->template = 'news';
-            $entity->user_id = $comment->user_id;
             
             $likesModel = Likes::model($entity->name)->findByPk($entity->id);
             if($likesModel){
@@ -112,7 +111,8 @@ class News extends EMongoDocument {
         $entity->filter = 'comment';
         $entity->text = $parent->text;
         $entity->template = 'news';
-        $entity->comment->attributes = $comment;
+        $entity->comment->attributes = $comment->attributes;
+        $entity->comment->login = $comment->user->login;
         
         $likesModel = Likes::model($entity->name)->findByPk($comment->id);
         if($likesModel){

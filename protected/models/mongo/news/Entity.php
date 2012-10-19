@@ -3,7 +3,6 @@ class News_Entity extends EMongoEmbeddedDocument
 {
     
     public $id;
-    public $user_id;
     public $name;
     public $text;
     public $created_at;
