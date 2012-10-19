@@ -22,10 +22,10 @@ class CustomFacebookOAuthService extends FacebookOAuthService {
 		$this->attributes['full_name'] = $info->name;
                 $this->attributes['email'] = $info->email;
                 $this->attributes['avatar'] = 'https://graph.facebook.com/' . $info->id . '/picture';
-                if($info->username){
+                if(isset($info->username)){
                     $this->attributes['login'] = $info->username;
                 }
-                if($info->gender){
+                if(isset($info->gender)){
                     $this->attributes['sex'] = ($info->gender == 'male') ? 1 : 2;
                 }
 	}
