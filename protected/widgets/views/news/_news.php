@@ -10,6 +10,16 @@
         </div>
         <div style="float: left;">
                 <?= $model->text ?>
+            <div class="clear">
+                <?php if(is_array($model->likes->users)) foreach($model->likes->users as $lUser):?> 
+                    <?= UserService::printAvatar($lUser['id'], $lUser['login']); ?>
+                <?php endforeach; ?>
+                <?= $model->likes->count ?> :)
+                <?php if(is_array($model->dislikes->users)) foreach($model->dislikes->users as $lUser):?> 
+                    <?= UserService::printAvatar($lUser['id'], $lUser['login']); ?>
+                <?php endforeach; ?>
+                <?= $model->dislikes->count ?> :(
+            </div>
         </div>
             <div class="clear"></div>
                 <div style="margin-left: 70px; width: 100%">
