@@ -29,7 +29,7 @@ class WebUser extends CWebUser {
 			if(isset($_SERVER['HTTP_REFERER'])){
 				$referer = $_SERVER['HTTP_REFERER'];
 			} else {
-				$referer '/user/';
+				$referer = '/user/';
 			}
             return $this->getState('__returnUrl', $defaultUrl===null ? $_SERVER['HTTP_REFERER'] : CHtml::normalizeUrl($defaultUrl));
     }
