@@ -98,7 +98,7 @@ class SiteController extends Controller {
         if (!Yii::app()->user->getIsGuest()) {
             $this->redirect('/user/index');
         }
-        if(isset($_SERVER['HTTP_REFERER']) && !Yii::app()->request->isAjaxRequest && !Yii::app()->request->isPostRequest){
+        if(isset($_SERVER['HTTP_REFERER']) && !Yii::app()->request->isAjaxRequest && !Yii::app()->request->isPostRequest && !Yii::app()->request->getQuery('service')){
             Yii::app()->user->setReturnUrl($_SERVER['HTTP_REFERER']);
         }
         $this->layout = 'login';
