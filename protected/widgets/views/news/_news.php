@@ -22,7 +22,7 @@
             </div>
         </div>
             <div class="clear"></div>
-            <?php if($model->comment): ?>
+            <?php var_dump($model->comment); if($model->comment): ?>
                 <div style="margin-left: 70px; width: 100%">
                     <div style="background: gray"><?= Yii::t('User', 'Comments'); ?></div>
                     <div style="float: left;">
