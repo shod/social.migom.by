@@ -48,7 +48,6 @@ class Users extends ActiveRecord
 		// will receive user inputs.
 		return array(
 			array('login, password, email, status, date_add, date_edit, role', 'required', 'except' => array('regByApi', 'simpleRegistration', 'general_update')),
-                        array('login', 'required', 'on' => array('regByApi')),
                         array('email', 'required', 'on' => array('simpleRegistration')),
 //                        array('password', 'required', 'on' => array('general_update')),
                         array('email', 'email'),
