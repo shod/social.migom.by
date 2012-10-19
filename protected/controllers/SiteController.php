@@ -96,20 +96,18 @@ class SiteController extends Controller {
      */
     public function actionLogin() {
         if (!Yii::app()->user->getIsGuest()) {
-            $this->redirect(array('/user/index'));
+            $this->redirect('/user/index');
         }
-       if(!isset(Yii::app()->session['referal'])){
-           Yii::app()->session['referal'] = Yii::app()->user->returnUrl;
-       }
-
-        
+        if(isset($_SERVER['HTTP_REFERER']) && !Yii::app()->request->isAjaxRequest && !Yii::app()->request->isPostRequest){
+            Yii::app()->user->setReturnUrl($_SERVER['HTTP_REFERER']);
+        }
         $this->layout = 'login';
 
         $service = Yii::app()->request->getQuery('service');
         if (isset($service)) {
 
             $authIdentity = Yii::app()->eauth->getIdentity($service);
-            $authIdentity->redirectUrl = Yii::app()->session['referal'];
+            $authIdentity->redirectUrl = Yii::app()->user->returnUrl;
 //            $authIdentity->redirectUrl = $this->createUrl('/user/index');
             $authIdentity->cancelUrl = $this->createAbsoluteUrl('/site/login');
 
@@ -121,7 +119,6 @@ class SiteController extends Controller {
                     Yii::app()->user->login($identity, 3600*24*30);
 
                     // special redirect with closing popup window
-					unset(Yii::app()->session['referal']);
                     $authIdentity->redirect();
                 } elseif ($identity->errorCode == EAuthUserIdentity::ERROR_USER_NOT_REGISTERED) {
                     if(!Yii::app()->request->getParam('reg_ask')){
@@ -146,7 +143,6 @@ class SiteController extends Controller {
                     }
 
                     // special redirect with closing popup window
-					unset(Yii::app()->session['referal']);
                     $authIdentity->redirect();
                 } else {
                     // close popup window and redirect to cancelUrl
@@ -158,7 +154,7 @@ class SiteController extends Controller {
             $this->redirect(array('/site/login'));
         }
 
-        $model = $this->_preLogin(true);
+        $model = $this->_preLogin();
         $getErrors = (isset($_GET['mailError'])) ? $_GET['mailError'] : '';
 
         $regModel = new Form_Registration();
@@ -179,13 +175,8 @@ class SiteController extends Controller {
             $model->attributes = $_POST['Form_Login'];
             // validate user input and redirect to the previous page if valid
             if ($model->validate() && $model->login() && $redirect){
-				$referal = $this->redirect(Yii::app()->session['referal']);
-                unset(Yii::app()->session['referal']);
-                $this->redirect($referal);
-			}
-
-                $this->redirect('/user/index');
-
+                $this->redirect(Yii::app()->user->returnUrl);
+            }
         }
         return $model;
     }
@@ -195,7 +186,7 @@ class SiteController extends Controller {
      */
     public function actionLogout() {
         Yii::app()->user->logout();
-        $this->redirect(Yii::app()->homeUrl);
+        $this->redirect(Yii::app()->user->returnUrl);
     }
 
     public function actionRegistration() {
@@ -214,7 +205,7 @@ class SiteController extends Controller {
             if ($model->validate()){
                 $identity = $model->registration();
                 Yii::app()->user->login($identity, 3600*24*30);
-                $this->redirect('/user/index');
+                $this->redirect(Yii::app()->user->returnUrl);
             }
         }
         $this->redirect('/site/login');
