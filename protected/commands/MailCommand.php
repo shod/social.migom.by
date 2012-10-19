@@ -5,7 +5,7 @@ class MailCommand extends ConsoleCommand {
     public function actionSend($user_id, $template) {
         $user = Users::model()->findByPk($user_id);
         if(!$user || !$user->email){
-            throw new Exception(Yii::t('Console', 'User not found or empty email'), 404);
+//            throw new Exception(Yii::t('Console', 'User not found or empty email'), 404);
         }
         $mailer = Yii::app()->mailer;
 //        if($mailer->Host){
