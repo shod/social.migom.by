@@ -104,7 +104,11 @@ class LikesController extends ApiController
         $likes->users[] = $user;
         $likes->setWeightInc($weight);
         if($likes->save()){
-                News::pushLike($comment, $likes);
+                $like = array('user' => $userId,
+                    'likes' => $likes->likes,
+                    'dislikes' => $likes->dislikes,
+                    'weight' => $weight);
+                News::pushLike($comment, $like);
                 return true;
         }  else {
             throw new ApiException(Yii::t('Likes', $likes->getErrors()));

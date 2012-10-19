@@ -137,7 +137,7 @@ class News extends EMongoDocument {
      * @param type $dislikes    - массив дислайков 
      * @return type
      */
-    public static function pushLike($parent, $likesModel){
+    public static function pushLike($parent, $like){
         list($news, $entity) = News::_push($parent->user_id, $parent->id, get_class($parent));
         
         if(!$entity){       // если новая запись на стене
@@ -147,8 +147,17 @@ class News extends EMongoDocument {
             $entity->created_at = $parent->created_at;
             $entity->template = 'news';
             
-            $entity->likes->count = $likesModel->likes;
-            $entity->dislikes->count = $likesModel->dislikes;
+            $userModel = Users::model()->findByPk($like['user']);
+            $newUser = array($like['user'] => $userModel->id);
+            
+            if($like['weight'] > 0){
+                $entity->likes->users[] = $newUser;
+                $entity->likes->count = $like['likes'];
+            }else{
+                $entity->dislikes->users[] = $newUser;
+                $entity->dislikes->count = $like['dislikes'];
+            }
+            
         }
         // эти параметры следовало бы обновить в любом случае
         $entity->filter = 'comment';
