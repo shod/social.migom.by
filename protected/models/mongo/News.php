@@ -146,24 +146,20 @@ class News extends EMongoDocument {
             $entity->name = get_class($parent);
             $entity->created_at = $parent->created_at;
             $entity->template = 'news';
-            
-            $userModel = Users::model()->findByPk($like['user']);
-            $newUser = array($like['user'] => $userModel->login);
-            d($userModel);
-            if($like['weight'] > 0){
-                $entity->likes->users[] = $newUser;
-                $entity->likes->count = $like['likes'];
-            }else{
-                $entity->dislikes->users[] = $newUser;
-                $entity->dislikes->count = $like['dislikes'];
-            }
-            
+        }
+        $userModel = Users::model()->findByPk($like['user']);
+        $newUser = array($like['user'] => $userModel->login);
+        if($like['weight'] > 0){
+            $entity->likes->users[] = $newUser;
+            $entity->likes->count = $like['likes'];
+        }else{
+            $entity->dislikes->users[] = $newUser;
+            $entity->dislikes->count = $like['dislikes'];
         }
         // эти параметры следовало бы обновить в любом случае
         $entity->filter = 'comment';
         $entity->text = $parent->text;
         $entity->template = 'news';
-        d($entity);        
         $news->entities[] = $entity;
         return $news->save();
     }

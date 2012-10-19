@@ -108,7 +108,6 @@ class LikesController extends ApiController
                     'likes' => $likes->likes,
                     'dislikes' => $likes->dislikes,
                     'weight' => $weight);
-                d($like);
                 News::pushLike($comment, $like);
                 return true;
         }  else {
