@@ -5,6 +5,7 @@
 return array(
             'import'=>array(
 		'application.models.*',
+                'application.components.*',
                 'application.models.mongo.*',
                 'application.components.ConsoleCommand',
                 'ext.YiiMongoDbSuite.*',
