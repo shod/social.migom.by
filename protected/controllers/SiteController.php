@@ -98,9 +98,9 @@ class SiteController extends Controller {
         if (!Yii::app()->user->getIsGuest()) {
             $this->redirect(array('/user/index'));
         }
-+       if(!isset(Yii::app()->session['referal'])){
-+           Yii::app()->session['referal'] = Yii::app()->user->returnUrl;
-+       }
+       if(!isset(Yii::app()->session['referal'])){
+           Yii::app()->session['referal'] = Yii::app()->user->returnUrl;
+       }
 
         
         $this->layout = 'login';
@@ -179,9 +179,9 @@ class SiteController extends Controller {
             $model->attributes = $_POST['Form_Login'];
             // validate user input and redirect to the previous page if valid
             if ($model->validate() && $model->login() && $redirect){
-				+$referal = $this->redirect(Yii::app()->session['referal']);
-+                unset(Yii::app()->session['referal']);
-+                $this->redirect($referal);
+				$referal = $this->redirect(Yii::app()->session['referal']);
+                unset(Yii::app()->session['referal']);
+                $this->redirect($referal);
 			}
 
                 $this->redirect('/user/index');
