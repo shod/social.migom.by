@@ -23,9 +23,4 @@ class WebUser extends CWebUser {
 
         parent::login($identity, $duration);
     }
-    
-    public function getReturnUrl($defaultUrl=null)
-    {
-            return $this->getState('__returnUrl', $defaultUrl===null ? $_SERVER['HTTP_REFERER'] : CHtml::normalizeUrl($defaultUrl));
-    }
 }

@@ -125,26 +125,26 @@ return array(
 			'password' => 'ET7jS8zcoAKT',
 			'charset' => 'utf8',
 		),
-//                'session' => array(
-////            'sessionName' => 'migom.by',
-//                    'class' => 'CCacheHttpSession',
-//                    'cacheID' => 'cache',
-//                    'cookieParams' => array('domain' => '.migom.by'),
-//                    'timeout' => 60*60*8,
-//                    'autoStart' => true,
-//                    'cookieMode' => 'only',
-//                ),
-//                'cache' => array(
-//                    'class' => 'system.caching.CMemCache',
-//        //                    'useMemcached' => false,
-//                    'keyPrefix' => 'a1e7e8ff',
-//                    'servers' => array(
-//                        array(
-//                            'host' => '178.172.181.139',
-//                            'port' => 11211,
-//                        ),
-//                    ),
-//                ),
+                'session' => array(
+//            'sessionName' => 'migom.by',
+                    'class' => 'CCacheHttpSession',
+                    'cacheID' => 'cache',
+                    'cookieParams' => array('domain' => '.migom.by'),
+                    'timeout' => 60*60*8,
+                    'autoStart' => true,
+                    'cookieMode' => 'only',
+                ),
+                'cache' => array(
+                    'class' => 'system.caching.CMemCache',
+        //                    'useMemcached' => false,
+                    'keyPrefix' => 'a1e7e8ff',
+                    'servers' => array(
+                        array(
+                            'host' => '178.172.181.139',
+                            'port' => 11211,
+                        ),
+                    ),
+                ),
 		'errorHandler'=>array(
 			// use 'site/error' action to display errors
 			'errorAction'=>'site/error',
