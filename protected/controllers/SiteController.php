@@ -98,6 +98,10 @@ class SiteController extends Controller {
         if (!Yii::app()->user->getIsGuest()) {
             $this->redirect(array('/user/index'));
         }
++       if(!isset(Yii::app()->session['referal'])){
++           Yii::app()->session['referal'] = Yii::app()->user->returnUrl;
++       }
+
         
         $this->layout = 'login';
 
@@ -105,7 +109,7 @@ class SiteController extends Controller {
         if (isset($service)) {
 
             $authIdentity = Yii::app()->eauth->getIdentity($service);
-            $authIdentity->redirectUrl = Yii::app()->user->returnUrl;
+            $authIdentity->redirectUrl = Yii::app()->session['referal'];
 //            $authIdentity->redirectUrl = $this->createUrl('/user/index');
             $authIdentity->cancelUrl = $this->createAbsoluteUrl('/site/login');
 
@@ -117,6 +121,7 @@ class SiteController extends Controller {
                     Yii::app()->user->login($identity, 3600*24*30);
 
                     // special redirect with closing popup window
+					unset(Yii::app()->session['referal']);
                     $authIdentity->redirect();
                 } elseif ($identity->errorCode == EAuthUserIdentity::ERROR_USER_NOT_REGISTERED) {
                     if(!Yii::app()->request->getParam('reg_ask')){
@@ -141,6 +146,7 @@ class SiteController extends Controller {
                     }
 
                     // special redirect with closing popup window
+					unset(Yii::app()->session['referal']);
                     $authIdentity->redirect();
                 } else {
                     // close popup window and redirect to cancelUrl
@@ -152,7 +158,7 @@ class SiteController extends Controller {
             $this->redirect(array('/site/login'));
         }
 
-        $model = $this->_preLogin();
+        $model = $this->_preLogin(true);
         $getErrors = (isset($_GET['mailError'])) ? $_GET['mailError'] : '';
 
         $regModel = new Form_Registration();
@@ -172,8 +178,12 @@ class SiteController extends Controller {
         if (isset($_POST['Form_Login'])) {
             $model->attributes = $_POST['Form_Login'];
             // validate user input and redirect to the previous page if valid
-            if ($model->validate() && $model->login() && $redirect)
-//                            $this->redirect(Yii::app()->user->returnUrl);
+            if ($model->validate() && $model->login() && $redirect){
+				+$referal = $this->redirect(Yii::app()->session['referal']);
++                unset(Yii::app()->session['referal']);
++                $this->redirect($referal);
+			}
+
                 $this->redirect('/user/index');
 
         }
