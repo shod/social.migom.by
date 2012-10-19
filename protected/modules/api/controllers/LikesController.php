@@ -76,10 +76,6 @@ class LikesController extends ApiController
         //assert(is_int($entity_id));
 
         $userId = (int) $_REQUEST['user_id'];
-        d($entity_id);
-        d($entity);
-        d($weight);
-        die;
         $comment = $entity::model()->findByPk($entity_id);
         if(!$comment){
             throw new ApiException(Yii::t('Likes', "Have not entity #{id}", array('{id}' => $entity_id)));
@@ -107,8 +103,6 @@ class LikesController extends ApiController
 
         $likes->users[] = $user;
         $likes->setWeightInc($weight);
-        d($likes);
-        die();
         if($likes->save()){
                 $like = array('user' => $userId,
                     'likes' => $likes->likes,
