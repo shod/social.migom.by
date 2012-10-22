@@ -80,7 +80,7 @@ class EAuthUserIdentity extends CUserIdentity {
                     if($provider){
                         $user = $provider->user;
                     } elseif($this->service->getAttribute('email')) {
-                        $user = Users::model()->limit(1)->find(array('email' => $this->service->getAttribute('email')));
+                        $user = Users::model()->find(array('email' => $this->service->getAttribute('email')));
                         if($user){
                             $this->addNewSocial = true;
                         }
