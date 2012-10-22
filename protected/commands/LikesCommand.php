@@ -1,5 +1,5 @@
 <?php
-// yiic mail updatestatistics --models=comments_news --models=comments_news2...
+// yiic likes updatestatistics --models=comments_news --models=comments_news2...
 class LikesCommand extends ConsoleCommand {
     
     public $fromQueue = false;

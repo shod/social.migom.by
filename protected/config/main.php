@@ -94,6 +94,7 @@ return array(
                     'allowAutoLogin'=>true,
                     'class' => 'WebUser',
                     'loginUrl'=>array('site/login'),
+                    'defaultRole'=>'guest',
 		),
                 'authManager' => array(
                     // Будем использовать свой менеджер авторизации
@@ -130,7 +131,7 @@ return array(
                     'class' => 'CCacheHttpSession',
                     'cacheID' => 'cache',
                     'cookieParams' => array('domain' => '.migom.by'),
-                    'timeout' => 60*60*8,
+                    'timeout' => 3600*24*30,
                     'autoStart' => true,
                     'cookieMode' => 'only',
                 ),
