@@ -117,14 +117,12 @@ class SiteController extends Controller {
                 // successful authentication
                 if ($identity->authenticate()) {
                     Yii::app()->user->login($identity, 3600*24*30);
-
+                    if($identity->addNewSocial){
+                        Users_Providers::addSocialToUser($identity, Yii::app()->user->getId());
+                    }
                     // special redirect with closing popup window
                     $authIdentity->redirect();
-                } elseif($identity->addNewSocial){
-                    $user = $this->_preLogin(false);
-                    Users_Providers::addSocialToUser($identity, Yii::app()->user->getId());
-                    $authIdentity->redirect();
-                }elseif ($identity->errorCode == EAuthUserIdentity::ERROR_USER_NOT_REGISTERED) {
+                } elseif ($identity->errorCode == EAuthUserIdentity::ERROR_USER_NOT_REGISTERED) {
                     if(!Yii::app()->request->getParam('reg_ask')){
                         $this->layout = 'popup';
                         $this->render('login/new_user_ask', array('service' => $service));
