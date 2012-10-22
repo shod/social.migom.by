@@ -13,8 +13,8 @@
  */
 class EAuthUserIdentity extends CUserIdentity {
 
-	const ERROR_NOT_AUTHENTICATED = 3;
-        const ERROR_USER_NOT_REGISTERED=4;
+	const ERROR_NOT_AUTHENTICATED           = 3;
+        const ERROR_USER_NOT_REGISTERED         = 4;
 
 	/**
 	 * @var EAuthServiceBase the authorization service instance.
@@ -34,6 +34,8 @@ class EAuthUserIdentity extends CUserIdentity {
         protected $attributes;
         
         protected $soc_id;
+        
+        public $addNewSocial = false;
 
 	/**
 	 * Constructor.
@@ -77,6 +79,11 @@ class EAuthUserIdentity extends CUserIdentity {
                     $provider = $provider->find($criteria);
                     if($provider){
                         $user = $provider->user;
+                    } elseif($this->service->getAttribute('email')) {
+                        $user = Users::model()->limit(1)->find(array('email' => $this->service->getAttribute('email')));
+                        if($user){
+                            $this->addNewSocial = true;
+                        }
                     }
                     if(!$user){
                         $this->errorCode = self::ERROR_USER_NOT_REGISTERED;

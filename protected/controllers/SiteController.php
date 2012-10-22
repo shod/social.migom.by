@@ -120,7 +120,11 @@ class SiteController extends Controller {
 
                     // special redirect with closing popup window
                     $authIdentity->redirect();
-                } elseif ($identity->errorCode == EAuthUserIdentity::ERROR_USER_NOT_REGISTERED) {
+                } elseif($identity->addNewSocial){
+                    $user = $this->_preLogin(false);
+                    Users_Providers::addSocialToUser($identity, Yii::app()->user->getId());
+                    $authIdentity->redirect();
+                }elseif ($identity->errorCode == EAuthUserIdentity::ERROR_USER_NOT_REGISTERED) {
                     if(!Yii::app()->request->getParam('reg_ask')){
                         $this->layout = 'popup';
                         $this->render('login/new_user_ask', array('service' => $service));
@@ -139,7 +143,9 @@ class SiteController extends Controller {
                             Yii::app()->end();
                         }
                         $user = $this->_preLogin(false);
-                        Users_Providers::addSocialToUser($identity, Yii::app()->user->getId());
+                        if($user->validate()){
+                            Users_Providers::addSocialToUser($identity, Yii::app()->user->getId());
+                        }
                     }
 
                     // special redirect with closing popup window
