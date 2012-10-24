@@ -13,7 +13,7 @@ return array(
 	'preload'=>array('log'),
         'defaultController' => 'site',
         'sourceLanguage'    =>'ru_RU',
-        'language'          =>'ru_RU',
+        'language'          =>'ru',
 
 	// autoloading model and component classes
 	'import'=>array(
@@ -76,11 +76,11 @@ return array(
                     'class' => 'application.extensions.RESTClient.RESTClient',
                     'servers' => array(
                         'migom' => array(
-                            'server' => 'http://test3.migom.by/api/api',
+                            'server' => 'http://test4.migom.by/api',
 //                            'http_auth' => true,
 //                            'http_user' => true,
 //                            'http_pass' => true,
-                            'key' => 'social',
+                            'key' => 'devel',
                         ),
                     ),
                 ),

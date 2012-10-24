@@ -78,6 +78,16 @@ class News extends EMongoDocument {
         return array($news, $entity);
     }
     
+    protected function _setLikes(Likes $likes){
+        $total = $likes->likes + $likes->dislikes;
+        $plus = $likes->likes * 100 / $total;
+        
+        return array(
+                'likesUsers' => array('id' => 'login'), 
+                'dislikesUsers' => array('id' => 'login'),
+            );
+    }
+    
     /**
      * Смотри News_Entity
      * @param type $user_id     - Юзер чей коммент
@@ -163,7 +173,7 @@ class News extends EMongoDocument {
         $news->entities[] = $entity;
         return $news->save();
     }
-    
+
 //    public static function pushLikeDislike($user_id, $entity_id, $name){
 //        list($news, $entity) = News::push($user_id, $entity_id, $name);
 //    }
