@@ -212,11 +212,11 @@ class EMailer
       $viewFile = dirname(__FILE__).'/views/'.$view.'.php';
       $body = CController::renderInternal($viewFile, array_merge($vars, array('content'=>$this->_myMailer)), true);
       if ($layout === null) {
-         $this->_myMailer->Body = $body;
+         $this->_myMailer->MsgHTML($body);
       }
       else {
             $layoutFile = dirname(__FILE__).'/views/layouts/'.$layout.'.php';
-            $this->_myMailer->Body = CController::renderInternal($layoutFile, array('content'=>$body), true);
+            $this->_myMailer->MsgHTML(CController::renderInternal($layoutFile, array('content'=>$body), true));
       }
    }
 }
