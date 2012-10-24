@@ -147,8 +147,8 @@ class News extends EMongoDocument {
             $entity->created_at = $parent->created_at;
             $entity->template = 'news';
         }
-        $userModel = Users::model()->findByPk($like['user']);
-        $newUser = array($like['user'] => $userModel->login);
+        
+        $newUser = array($like['user_id'] => $like['login']);
         if($like['weight'] > 0){
             $entity->likes->users[] = $newUser;
             $entity->likes->count = $like['likes'];

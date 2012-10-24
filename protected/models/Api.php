@@ -46,14 +46,16 @@ abstract class Api extends CModel
                 $id = $arg;
             }
         }
-        $controller = substr(get_class($this), 0, -3);
+        $class = explode('_', get_class($this));
+        $controller = array_pop($class);
         return $this->query($controller, $function, $id, $method, $params);
     }
 
     public function query($controller, $function = '', $id = null, $method = 'get', $params = array())
     {
         $this->_rest->initialize($this->getApiTitle());
-        $suid = $this->_getSuid();
+        $params['key'] = $this->_getSuid();
+        
         $uri = $this->_createUri($controller, $function, $id);
         Yii::trace(get_class($this) . '.query()', 'RESTClient');
         $responce = $this->_rest->{$method}($uri, $params, 'json');

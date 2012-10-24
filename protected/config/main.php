@@ -76,11 +76,11 @@ return array(
                     'class' => 'application.extensions.RESTClient.RESTClient',
                     'servers' => array(
                         'migom' => array(
-                            'server' => 'http://test4.migom.by/api',
+                            'server' => 'http://test3.migom.by/api/api',
 //                            'http_auth' => true,
 //                            'http_user' => true,
 //                            'http_pass' => true,
-                            'key' => 'devel',
+                            'key' => 'social',
                         ),
                     ),
                 ),

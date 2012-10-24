@@ -11,7 +11,7 @@ class NotifyCommand extends ConsoleCommand {
             $aProductId[$subscriber->product_id] = $subscriber->product_id;
         }
         
-        $apiModel = new Api_Migom_Product();
+        $apiModel = new Api_Product();
         $minPriceResponce = $apiModel->getCosts('min', $aProductId);
         $aProductCosts = $minPriceResponce->content->products;
         foreach ($aProductCosts as $product) {

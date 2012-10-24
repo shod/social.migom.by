@@ -96,15 +96,18 @@ class LikesController extends ApiController
         } catch (Exception $exc) {
             throw new ApiException(Yii::t('Likes', "Entity '{entity}' is not exist", array('{entity}' => $model)));
         }
-
+        $userModel = Users::model()->findByPk($userId);
         $user = new Likes_Embidded_Users();
         $user->id = $userId;
+        $user->login = $userModel->login;
         $user->weight = $weight;
 
         $likes->users[] = $user;
         $likes->setWeightInc($weight);
         if($likes->save()){
-                $like = array('user' => $userId,
+                
+                $like = array('user_id' => $userId,
+                    'user_login' => $userModel->login,
                     'likes' => $likes->likes,
                     'dislikes' => $likes->dislikes,
                     'weight' => $weight);
