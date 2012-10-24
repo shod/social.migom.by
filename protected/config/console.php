@@ -5,8 +5,8 @@
 return array(
     'import' => array(
         'application.models.*',
-        'application.components.*',
         'application.models.mongo.*',
+        'application.components.*',
         'application.components.ConsoleCommand',
         'application.modules.api.components.*',
         'application.extensions.RESTClient.*',
@@ -18,7 +18,7 @@ return array(
     'modules' => array(
         'api' => array(
             'keys' => array('devel' => '86.57.245.247',
-                'test3migomby' => '178.172.181.139',
+                'social' => '178.172.181.139',
                 'migom' => '178.172.181.139',
 //                                    'test' => '127.0.0.1'
             )
@@ -28,8 +28,8 @@ return array(
         'db' => array(
             'connectionString' => 'mysql:host=localhost;dbname=test4migomby',
             'emulatePrepare' => true,
-            'username' => 'root',
-            'password' => '',
+            'username' => 'test4migomby',
+            'password' => 'ET7jS8zcoAKT',
             'charset' => 'utf8',
         ),
         'mailer' => array(
@@ -58,7 +58,7 @@ return array(
 //                            'http_auth' => true,
 //                            'http_user' => true,
 //                            'http_pass' => true,
-                    'key' => 'devel',//'social',
+                    'key' => 'social',//'devel',
                 ),
             ),
         ),
