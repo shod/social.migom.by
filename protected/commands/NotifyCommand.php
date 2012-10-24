@@ -55,7 +55,7 @@ class NotifyCommand extends ConsoleCommand {
                                                               'cost' => $product['cost'], 
                                                               'productId' => $product['product_id'],
                                                               'productName' => $productTitles[$product['product_id']]));
-//                Notify::model('Product_Cost')->deleteByPk($product['subscriber_id']);
+                Notify::model('Product_Cost')->deleteByPk($product['subscriber_id']);
             }
         }
     }
