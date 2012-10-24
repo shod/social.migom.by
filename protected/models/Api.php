@@ -53,9 +53,9 @@ abstract class Api extends CModel
 
     public function query($controller, $function = '', $id = null, $method = 'get', $params = array())
     {
-        $this->_rest->initialize($this->getApiTitle());
-        $params['key'] = $this->_getSuid();
-        
+        $server = $this->getApiTitle();
+        $this->_rest->initialize($server);
+        $params['key'] = $this->_getSuid($server);
         $uri = $this->_createUri($controller, $function, $id);
         Yii::trace(get_class($this) . '.query()', 'RESTClient');
         $responce = $this->_rest->{$method}($uri, $params, 'json');
@@ -64,11 +64,11 @@ abstract class Api extends CModel
         return $responce;
     }
 
-    private function _getSuid()
+    private function _getSuid($server)
     {
-        $suid = yii::app()->cache->get('suid');
+        $suid = yii::app()->cache->get($server . '_suid');
         if (!$suid) {
-            $servers = $this->_rest->servers[$this->getApiTitle()];
+            $servers = $this->_rest->servers[$server];
             $key = $servers['key'];
             $params = null;
             $type = ApiComponent::TYPE_JSON;
@@ -82,13 +82,12 @@ abstract class Api extends CModel
                 Yii::app()->end();
             }
             $suid = $responce->content->suid;
-            yii::app()->cache->set('suid', $suid);
+            yii::app()->cache->set($server . '_suid', $suid);
         }
         return $suid;
     }
 
-    protected function _createUri($controller, $function = '', $id = null)
-    {
+    protected function _createUri($controller, $function = '', $id = null) {
         $uri = $controller;
         if ($function) {
             $uri .= '/' . $function;
@@ -96,7 +95,7 @@ abstract class Api extends CModel
         if ($id) {
             $uri .= '/' . $id;
         }
-        return $uri;
+        return strtolower($uri);
     }
 
 }

@@ -132,7 +132,7 @@ class RESTClient extends CComponent {
 
         // Initialize cURL session
         if($uri){
-            $this->rest_server .= '/';
+            $uri = '/' . $uri;
         }
         $this->_curl->create($this->rest_server . $uri);
 //        $this->_curl->create('http://api.vk.com/api.php');

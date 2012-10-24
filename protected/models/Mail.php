@@ -14,7 +14,7 @@ class Mail extends CModel{
     public function send(Users $user, $template, $params = array(), $fast = false){
         $criteria = new EMongoCriteria();
         $criteria->addCond('what', '==', self::WORKER);
-        $criteria->addCond('user_id', '==', Yii::app()->user->id);
+        $criteria->addCond('user_id', '==', $user->id);
         
         $queue = Queue::model()->find($criteria);
         if(!$queue){
