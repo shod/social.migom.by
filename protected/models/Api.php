@@ -59,7 +59,9 @@ abstract class Api extends CModel
         $uri = $this->_createUri($controller, $function, $id);
         Yii::trace(get_class($this) . '.query()', 'RESTClient');
         $responce = $this->_rest->{$method}($uri, $params, 'json');
-
+        if($responce->content->success !== true){
+            Yii::log($responce->content->message, CLogger::LEVEL_ERROR, 'api_client');
+        }
 //        $this->_rest->debug();
         return $responce;
     }

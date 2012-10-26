@@ -107,7 +107,7 @@ class LikesController extends ApiController
         if($likes->save()){
                 
                 $like = array('user_id' => $userId,
-                    'user_login' => $userModel->login,
+                    'login' => $userModel->login,
                     'likes' => $likes->likes,
                     'dislikes' => $likes->dislikes,
                     'weight' => $weight);
