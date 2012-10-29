@@ -4,7 +4,7 @@ class UserController extends Controller
 {
         public $layout = 'user';
         public $title = 'User Controller Param(change in action)';
-        
+
         public function filters()
 	{
 		return array(
@@ -40,14 +40,19 @@ class UserController extends Controller
 	 */
 	public function actionIndex()
 	{
+
+//        $model = new Api_News();
+//        dd($model->getTitle(4411));
+//        die;
+
             $id = Yii::app()->request->getParam('id', Yii::app()->user->id);
             if(!$id){
                 $this->redirect('/site/login');
             }
-            
+
 //            $criterea = new EMongoCriteria();
 //            $criterea->addCond('user_id', '==', Yii::app()->user->id);
-//            
+//
 //            $news = News::model()->find($criterea);
 //            if(!$news){
 //                $news = new News();
@@ -62,28 +67,16 @@ class UserController extends Controller
 //                $entity->params['param2'] = 'Notification: '.$i;
 //                $news->entities[] = $entity;
 //            }
-//            
+//
 //            $news->save();
-            
+
             $model = $this->loadModel($id);
             $criterea = new EMongoCriteria();
             $criterea->addCond('user_id', '==', Yii::app()->user->id);
             $news = News::model()->find($criterea);
-            $this->render('profile', array('model' => $model, 'news' => $news));
+            $this->render('index', array('model' => $model, 'news' => $news));
 	}
-        
-        public function actionDeleteNew($entity, $id){
-            $criteria = new EMongoCriteria;
-            $criteria->addCond('user_id', 'equals', Yii::app()->user->id);
-            $news = News::model()->find($criteria);
-            foreach($news->entities as $key => $en){
-                if($en->name == $entity && $en->id == $id){
-                    unset($news->entities[$key]);
-                }
-            }
-            return $news->save();
-        }
-        
+
         public function actionEdit()
 	{
             if(Yii::app()->user->getIsGuest()){
@@ -92,21 +85,21 @@ class UserController extends Controller
             $id = Yii::app()->user->id;
             $model = $this->loadModel($id);
             $model->setScenario('general_update');
-            
+
             if (Yii::app()->getRequest()->isAjaxRequest && Yii::app()->getRequest()->getParam('ajax') == 'generalForm') {
                 echo CActiveForm::validate($model);
                 Yii::app()->end();
             }
-            
+
             if (Yii::app()->getRequest()->isAjaxRequest && Yii::app()->getRequest()->getParam('ajax') == 'profileForm') {
                 $model->profile->setScenario('update');
                 echo CActiveForm::validate($model->profile);
                 Yii::app()->end();
             }
-            
+
             $redirect = false;
             $success = true;
-            
+
             if(isset($_POST['Users_Profile'])){
                 if(isset($_FILES['Users_Profile']['tmp_name']) && $_FILES['Users_Profile']['tmp_name']['avatar']){
                     $upRes = UserService::uploadAvatar($id, $_FILES['Users_Profile']['tmp_name']);
@@ -134,14 +127,14 @@ class UserController extends Controller
                     $redirect = false;
                 }
             }
-            
+
             if($redirect){
                 $this->redirect('/user/index');
             }
-            
+
             $this->render('edit', array('model' => $model));
 	}
-        
+
         public function loadModel($id)
 	{
 		$model=Users::model()->findByPk($id);
@@ -149,7 +142,7 @@ class UserController extends Controller
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
 	}
-        
+
         public function actionCreateUserAvatar($id){
             $user = Users::model()->findByPk($id);
             $file = Yii::app()->basePath.'/../images/users/'.$id.'/avatar.jpg';
