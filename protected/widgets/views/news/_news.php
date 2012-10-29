@@ -47,8 +47,9 @@
 
         <?php if($model->comment->count): ?>
         <div class="comments">
+            <?php if($model->comment->count > 1): ?>
             <div id="<?= $model->name . '_' . $model->id . '_' . $model->template ?>" class="show-more ajaxShowMore"><span><?= Yii::t('Site', 'Показать все {count} ', array('{count}' => $model->comment->count)); ?><?= SiteService::getCorectWordsT('Site', 'comments', $model->comment->count); ?></span></div>
-
+            <?php endif; ?>
                 <div class="comment">
                     <?php $this->render('application.widgets.views.news.comment._comment', array(
                             'user_id' => $model->comment->user_id,
