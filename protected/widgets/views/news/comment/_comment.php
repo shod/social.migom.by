@@ -17,7 +17,7 @@
     <?php endif; ?>
 <?php endif; ?>
 <div class="actions">
-        <a href="<?= $link ?><?= $entity_id ?>#<?= $id ?>" class="reply"><?= Yii::t('Site', 'Ответить'); ?></a>
+        <a href="<?= $link ?><?= $entity_id ?>#comment_<?= $id ?>" class="reply"><?= Yii::t('Site', 'Ответить'); ?></a>
         <div class="feedback">
                 <?= Yii::t('Site', 'Комментарий полезен?'); ?>
                 <span id="<?= $name . '_' . $comment_id . '_like' ?>" class="like ajaxLikeButton"><?= ($likes) ? $likes : 0 ?></span>
