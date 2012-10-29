@@ -1,1 +1,1 @@
-<?php $this->widget('UserNews', array('user_id' => Yii::app()->user->id, 'news' => $news)); ?>
+<?php $this->widget('UserNews', array('user_id' => Yii::app()->user->id, 'news' => $news, 'offset' => $offset)); ?>

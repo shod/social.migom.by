@@ -1,51 +1,29 @@
-<div class="main" style="float: left;">
-    <div class="header">
-        <table><tr>
-                <td>
-                    <?php //if ($model->profile->avatar): ?>
-                        <?= UserService::printAvatar($model->id, $model->login) ?>
-                    <?php //else: ?>
-                        <?php //echo CHtml::image('/images/users/default_avatar.png', 'default avatar', array('style' => 'width:50px; height:50px; border: 1px solid black', 'class' => 'avatar', 'border' => 0)); ?>
-                    <?php //endif; ?>
-                </td>
-                <td style="border-bottom: 2px solid black">
-                    <h1 style="margin: 3px;"><?php echo $model->login . ' (' . $model->profile->full_name . ')'; ?></h1>
-                    <?php if (Yii::app()->user->id == $model->id): ?>
-                        <?= CHtml::link(Yii::t('Site', 'Edit User Info'), array('/user/edit')); ?>
-                        <?php if(!$model->email): ?>
-                            <b style="color: red;"><?= Yii::t('Site', 'Your email are empty!'); ?></b>
-                        <?php endif;  ?>
-                    <?php endif; ?>
-                </td>
-            </tr></table>
-    </div>
+<div class="navigation">
+	<div class="category <?php if($this->active == 'news'): ?>current<?php endif; ?>">
+		<div class="heading">
+			<a href="lenta.html" class="title"><?= Yii::t('Site', 'Лента'); ?></a>
+			<div class="count">??</div>
+		</div>
+		<div class="options">
+                        <label><?= CHtml::checkBox('comment', !in_array('comment', ($news)?$news->disable_entities:array()), array('class' => 'newsFilter')) ?> <span><?= Yii::t('User', 'Комментарии'); ?></span></label>
+                        <label><?= CHtml::checkBox('reviews', !in_array('reviews', ($news)?$news->disable_entities:array()), array('class' => 'newsFilter')) ?> <span><?= Yii::t('User', 'Отзывы'); ?></span></label>
+                        <label><?= CHtml::checkBox('prices', !in_array('prices', ($news)?$news->disable_entities:array()), array('class' => 'newsFilter')) ?> <span><?= Yii::t('User', 'Снижение цены'); ?></span></label>
+                        <label><?= CHtml::checkBox('inSale', !in_array('inSale', ($news)?$news->disable_entities:array()), array('class' => 'newsFilter')) ?> <span><?= Yii::t('User', 'Появление в продаже'); ?></span></label>
+		</div>
+	</div>
 
-    <div class="outer">
-
-        <div class="container">
-            <div class="content">
-                <div class="intend"></div>
-            </div><!--/content-->
-        </div><!--/container-->
-
-        <?php if($model->id == Yii::app()->user->id): ?>
-            <div class="sidebar">
-                <ul>
-                    <li>
-                        <?= CHtml::link(Yii::t('Site', '<b>News</b>'), array('user/index')); ?>
-                        <?php if($this->active == 'news'): ?>
-                        <ul>
-                            <li><?= CHtml::checkBox('comment', !in_array('comment', ($news)?$news->disable_entities:array()), array('class' => 'newsFilter')) ?> <?= Yii::t('User', 'Comments'); ?></li>
-                            <li><?= CHtml::checkBox('like', !in_array('like', ($news)?$news->disable_entities:array()), array('class' => 'newsFilter')) ?> <?= Yii::t('User', 'Likes'); ?></li>
-                        </ul>
-                        <?php endif; ?>
-                    </li>
-                    <li><?= CHtml::link(Yii::t('Site', 'Exit'), array('site/logout')); ?></li>
-                </ul>        
-            </div><!--/sidebar-->
-        <?php endif; ?>
-
-    </div><!--/outer-->
+<!--	<div class="category">
+		<div class="heading">
+			<a href="lenta-things.html" class="title">Мои вещи</a>
+			<div class="count">4</div>
+		</div>
+		<div class="options">
+			<label><input type="checkbox" checked="checked"><span>Комментарии</span></label>
+			<label><input type="checkbox" checked="checked"><span>Отзывы</span></label>
+			<label><input type="checkbox" checked="checked"><span>Снижение цены</span></label>
+			<label><input type="checkbox" checked="checked"><span>Появление в продаже</span></label>
+		</div>
+	</div>-->
 </div>
 
 <?php 

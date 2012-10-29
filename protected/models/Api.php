@@ -5,6 +5,7 @@ abstract class Api extends CModel
 
     protected $_rest;
     protected $_config;
+    protected $_responce;
     private $methods = array('get' => 3, 'post' => 4, 'put' => 3, 'delete' => 6);
 
     /**
@@ -62,9 +63,30 @@ abstract class Api extends CModel
         if($responce->content->success !== true){
             Yii::log($responce->content->message, CLogger::LEVEL_ERROR, 'api_client');
         }
+        $this->_responce = $responce;
 //        $this->_rest->debug();
+        return $this->_format($responce);
+    }
+
+    private function _format($responce){
+        $param = ApiComponent::CONTENT_RESPONCE;
+        $success = ApiComponent::CONTENT_SUCCESS;
+        if(isset($responce->content->$success) && $responce->content->$success === false){
+            return false;
+        }
+        if(isset($responce->content->$param)){
+            return $responce->content->$param;
+        }
         return $responce;
     }
+
+//    public function getErrors(){
+//        $param = ApiComponent::CONTENT_MESSAGE;
+//        if(isset($this->_responce->content->$param)){
+//            return $this->_responce->content->$param;
+//        }
+//        return false;
+//    }
 
     private function _getSuid($server)
     {

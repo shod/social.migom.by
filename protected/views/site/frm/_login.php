@@ -27,7 +27,9 @@
                         <td valign="middle">
                                 <div class="idle"><label><?php echo $form->checkBox($model,'rememberMe', array('name' => 'idle', 'value' => 1)); ?> <?= $model->getAttributeLabel('rememberMe') ?></label></div>
                         </td>
-                        <td valign="middle"><a href="$vars[href_forget]" style="font-size:11px"><?= Yii::t('Site', 'Remind pasword'); ?></a></td>
+<!--                        <td valign="middle">
+                            <?= CHtml::ajaxSubmitButton(Yii::t('Site', 'Восстановаить пароль'), CController::createUrl('/site/remindPass'), array('success' => 'function(data){var json = jQuery.parseJSON(data); if(json.success){$("#Form_Login_email_em_").show().html( "" + json.message);} else { $("#Form_Login_email_em_").show().html("" + json.Form_Login_email); }  return false;}')) ?>
+                        </td>-->
                 </table>
         </div>		
 

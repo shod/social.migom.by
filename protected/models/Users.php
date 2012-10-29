@@ -155,4 +155,16 @@ class Users extends ActiveRecord
             $this->date_edit = time();
             return true;
         }
+        
+        public function remindPassword(){
+            if(!$this->email){
+                return false;
+            }
+            $mail = new Mail();
+            $pass = substr(md5(time() . $this->email . 'remind migom pass'), 6, 8);
+            $mail->send($this, 'remindPassword', array('password' => $pass), true);
+            $this->password = md5($pass);
+            $this->save();
+            return true;
+        }
 }

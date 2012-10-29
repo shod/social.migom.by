@@ -10,6 +10,7 @@ class Form_Login extends CFormModel
 	public $email;
 	public $password;
 	public $rememberMe;
+        public $userModel;
 
 	private $_identity;
 
@@ -21,11 +22,12 @@ class Form_Login extends CFormModel
 	public function rules()
 	{
 		return array(
-			array('email, password', 'required', 'message' => Yii::t('Site', 'Cannot be blank')),
+			array('email, password', 'required', 'message' => Yii::t('Site', 'Cannot be blank'), 'except' => 'remindPassword'),
                         array('email', 'email', 'message' => Yii::t('Site', 'write right')),
+                        array('email', 'remindEmailCheck', 'message' => Yii::t('Site', 'Write right'), 'on' => 'remindPassword'),
 			array('rememberMe', 'boolean'),
 			// password needs to be authenticated
-			array('password', 'authenticate'),
+			array('password', 'authenticate', 'except' => 'remindPassword'),
 		);
 	}
 
@@ -40,6 +42,13 @@ class Form_Login extends CFormModel
 			'rememberMe'=>Yii::t('Site', 'Stay signed in'),
 		);
 	}
+        
+        public function remindEmailCheck($attribute, $params){
+            $this->userModel = Users::model()->findByAttributes(array('email'=>$this->email));
+            if(!$this->userModel){
+                $this->addError('email', Yii::t('Site', 'Incorrect email or password.'));
+            }
+        }
 
 	/**
 	 * Authenticates the password.
@@ -57,7 +66,6 @@ class Form_Login extends CFormModel
                                 $this->addError('password', Yii::t('Site', 'Incorrect email or password.'));
                             }
                         }
-				
 		}
 	}
 

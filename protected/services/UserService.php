@@ -46,10 +46,10 @@ class UserService {
         return $result;
     }
     
-    public static function printAvatar($id, $login){
+    public static function printAvatar($id, $login, $size = 50){
         return CHtml::link(
-            CHtml::image(Yii::app()->getBaseUrl().'/images/users/'.$id.'/avatar.jpg', $login, array('style' => 'width:50px; height:50px; border: 1px solid black', 'class' => 'avatar', 'border' => 0)),
-            ($id != Yii::app()->user->id) ? array('/user/index', 'id' => $id) : array('/user/index')
+            CHtml::image(Yii::app()->getBaseUrl().'/images/users/'.$id.'/avatar.jpg', $login, array('style' => 'width:'.$size.'px; height:'.$size.'px;')),
+                ($id != Yii::app()->user->id) ? array('/user/index', 'id' => $id) : array('/user/index')
             
         );
     }

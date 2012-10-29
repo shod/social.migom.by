@@ -3,5 +3,4 @@
     <?php if(isset($param['password'])): ?>
         <?= Yii::t('Mail', 'Youre password: <b>{pass}</b>', array('{pass}' => $param['password'])); ?>
     <?php endif; ?>
-    
 </div>

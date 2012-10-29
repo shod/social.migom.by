@@ -30,7 +30,7 @@ class SiteController extends Controller {
     public function accessRules() {
         return array(
             array('allow', // allow readers only access to the view file
-                'actions' => array('index', 'error', 'login', 'test', 'logout', 'registration', 'info'),
+                'actions' => array('index', 'error', 'login', 'test', 'logout', 'registration', 'info', 'remindPass'),
                 'users' => array('*')
             ),
             array('deny', // deny everybody else
@@ -215,7 +215,32 @@ class SiteController extends Controller {
         $this->redirect('/site/login');
     }
     
-    public function actionSocialReg(){
+    public function actionRemindPass(){
+        if(!Yii::app()->user->getIsGuest()){
+            Yii::app()->end();
+        }
+        $form = new Form_Login('remindPassword');
+        if (isset($_POST['Form_Login']) && Yii::app()->getRequest()->isAjaxRequest) {
+            $form->attributes = $_POST['Form_Login'];
+            if($form->validate() && $form->userModel->remindPassword()){
+                echo json_encode(array('success' => true, 'message' => Yii::t('Site', 'Новый пароль был выслан на почту')));
+                Yii::app()->end();
+            }
+            echo CActiveForm::validate($form);
+            Yii::app()->end();
+            // validate user input and redirect to the previous page if valid
+            
+//            if ($model->validate() && $model->login() && $redirect){
+//                $this->redirect(Yii::app()->user->returnUrl);
+//            }
+        }
         
+        die;
+        
+        $user = Users::model()->findByPk(Yii::app()->user->id);
+        if(!$user){
+            echo json_encode(array('error' => 'email not found', 'success' => false));
+            return false;
+        }
     }
 }

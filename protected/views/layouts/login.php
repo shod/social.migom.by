@@ -6,7 +6,7 @@
 		<meta http-equiv="Content-Language" content="ru" />
 	
 		<link rel="stylesheet" href="/css/reset.css" type="text/css" />
-		<link rel="stylesheet" href="/css/default.css" type="text/css" />
+		<link rel="stylesheet" href="/css/oldDefault.css" type="text/css" />
 		<link rel="stylesheet" href="/css/login.css" type="text/css" />
 	</head>
 

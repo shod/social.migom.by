@@ -27,7 +27,7 @@ return array(
         'class' => 'application.extensions.RESTClient.RESTClient',
         'servers' => array(
             'migom' => array(
-                'server' => 'http://test4.migom.by/api',
+                'server' => 'http://test3.migom.by/api/api',
 //                            'http_auth' => true,
 //                            'http_user' => true,
 //                            'http_pass' => true,
@@ -62,7 +62,7 @@ return array(
             '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
         ),
     ),
-    
+
     'session' => array(
         'class' => 'CCacheHttpSession',
         'cacheID' => 'cache',
@@ -102,7 +102,7 @@ return array(
 //                        'class' => 'CProfileLogRoute',
 //                        'levels' => 'error, warning',
 //                        'enabled' => true,
-//                ), 
+//                ),
 //                                array( // configuration for the toolbar
 //                                        'class' => 'XWebDebugRouter',
 //                                        'config' => 'alignLeft, opaque, runInDebug, fixedPos, collapsed, yamlStyle',

@@ -1,65 +1,79 @@
 <?php
 
-class UserService {
+class SiteService {
     
-    public static $images_mime = array('image/jpeg' => 'jpg', 'image/png' => 'png');
-    
-    public static function uploadAvatarFromService($user_id, $file_url){
-        $imageSize = getimagesize($file_url);
-        if($imageSize){
-            $path = Yii::app()->getBasePath() . DIRECTORY_SEPARATOR . '..';
-            $destination = $path . Users::AVATAR_PATH . DIRECTORY_SEPARATOR . $user_id;
-            @mkdir($destination, 0777, true);
-            if(UserService::$images_mime[$imageSize['mime']] == 'png'){
-                if(UserService::png2jpg($file_url, $destination . DIRECTORY_SEPARATOR . 'avatar.jpg', 75)){
-                    return Users::AVATAR_PATH . DIRECTORY_SEPARATOR . $user_id . DIRECTORY_SEPARATOR . 'avatar.jpg';
-                }
-            } else {
-                if(copy($file_url, $destination . DIRECTORY_SEPARATOR . 'avatar.jpg')){
-                    return Users::AVATAR_PATH . DIRECTORY_SEPARATOR . $user_id . DIRECTORY_SEPARATOR . 'avatar.jpg';
-                }
-            }
-            return false;
-        }
+    public static function timeToDate($time)
+    {
+        $result = date("Y-m-d H:i", $time);
+        return $result;
     }
     
-    public static function png2jpg($originalFile, $outputFile, $quality) {
-        $image = imagecreatefrompng($originalFile);
-        imagejpeg($image, $outputFile, $quality);
-        imagedestroy($image);
-        return true;
-    }
-    
-    public static function uploadAvatar($user_id, $file){
-        $result = array('success' => false, 'error' => 'undefined');
-        try {
-            $image = Yii::app()->image->load($file['avatar']);
-            $image->resize(50, 50, Image::NONE)->quality(75);
-            $path = Yii::app()->getBasePath() . DIRECTORY_SEPARATOR . '..';
-            $destination = $path . Users::AVATAR_PATH . DIRECTORY_SEPARATOR . $user_id;
-            @mkdir($destination, 0777, true);
-            $image->save($destination . DIRECTORY_SEPARATOR. 'avatar.jpg');
-            $result = array('success' => true, 'error' => 'undefined');
-        } catch (Exception $exc) {
-            $result = array('success' => false, 'error' => $exc->getMessage());
+    public static function arrayTranslate($template, &$array)
+    {
+        $result = array();
+        foreach($array as $key => $val)
+        {
+            $result[$key] = Yii::t($template, $val);
         }
         return $result;
     }
     
-    public static function printAvatar($id, $login){
-        return CHtml::link(
-            CHtml::image(Yii::app()->getBaseUrl().'/images/users/'.$id.'/avatar.jpg', $login, array('style' => 'width:50px; height:50px; border: 1px solid black', 'class' => 'avatar', 'border' => 0)),
-            ($id != Yii::app()->user->id) ? array('/user/index', 'id' => $id) : array('/user/index')
-            
-        );
+    public static function subStrEx($str, $len)
+    {
+        if(strlen($str) <= $len){
+            return $str;
+        }
+        return mb_substr($str, 0, $len, 'utf8').'&hellip;';
     }
     
-    public static function uploadAvatarFromEmail($user_id, $email = null){
-        $gravatarHash = (!empty($email))? $email:  rand(0, 99999999);
-        $gravatarHash = md5( strtolower( trim( $gravatarHash ) ) );
+    public static function getCorectWordsT($template, $word, $number) 
+    {
+        $words = Yii::t($template, $word);
+        $wArr = explode('|', $words);
+        
+//        $number = substr((string)$number, -2);
+        
+        $c = $number % 10;
+        if ($number > 10 && $number < 20)
+            return $wArr[1];
+        if ($c == 1)
+            return $wArr[0];
+        if ($c > 1 && $c <= 4)
+            return $wArr[2];
+        if ($c > 4 || $c == 0)
+            return $wArr[1];
+    }
+    
+    public static function timeRange($from, $to) {
+        $differenceFull  = $to - $from;
+        $differenceYear  = floor(($differenceFull) /32140800);
+        $differenceMonth = floor(($differenceFull) /2678400);
+        $differenceDay   = floor(($differenceFull) /86400);
+        $differenceHour  = floor(($differenceFull) /3600);
+        $differenceMin   = floor(($differenceFull) /60);
+        $differenceSec   = $differenceFull;
 
-        $result = UserService::uploadAvatarFromService($user_id, 
-                                'http://www.gravatar.com/avatar/'. $gravatarHash .'.jpg?d=identicon');
-        return $result;
+        if($differenceFull <= 10){
+            $differenceSec = 1;
+        }
+        if ($differenceYear >= 1){
+            return $differenceYear . ' ' . self::getCorectWordsT('Site', 'yaer', $differenceYear);
+        }
+        if ($differenceMonth >= 1){
+            return $differenceMonth . ' ' . self::getCorectWordsT('Site', "month", $differenceMonth);
+        }
+        if ($differenceDay >= 1){
+            return $differenceDay . ' ' . self::getCorectWordsT('Site', "day", $differenceDay);
+        }
+        if ($differenceHour >= 1){
+            return $differenceHour . ' ' . self::getCorectWordsT('Site', "hour", $differenceHour);
+        }
+        if ($differenceMin >= 1){
+            return $differenceMin . ' ' . self::getCorectWordsT('Site', "minute", $differenceMin);
+        }
+        if ($differenceSec < 60){
+            return $differenceSec . ' ' . self::getCorectWordsT('Site', "second", $differenceSec);
+        }
+    return $from;
     }
 }

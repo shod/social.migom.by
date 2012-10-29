@@ -14,7 +14,7 @@ class ApiComponent extends CComponent {
     const STATUS_NOT_FOUND = 404;
     const STATUS_INTERNAL_SERVER_ERROR = 500;
     const STATUS_NOT_IMPLEMENTED = 501;
-    
+
     const CONTENT_MESSAGE = 'message';
     const CONTENT_SUID = 'suid';
     const CONTENT_PUID = 'puid';
@@ -23,5 +23,6 @@ class ApiComponent extends CComponent {
     const CONTENT_COUNT = 'count';
     const CONTENT_ITEMS = 'items';
     const CONTENT_ITEM = 'item';
-    
+    const CONTENT_RESPONCE = 'result';
+
 }
