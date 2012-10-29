@@ -5,6 +5,7 @@ class MailCommand extends ConsoleCommand {
     public function actionSend($user_id, $template) {
         $user = Users::model()->findByPk($user_id);
         if(!$user || !$user->email){
+            echo 'User not found or empty email';
 //            throw new Exception(Yii::t('Console', 'User not found or empty email'), 404);
         }
         $mailer = Yii::app()->mailer;
@@ -19,6 +20,7 @@ class MailCommand extends ConsoleCommand {
         $mailer->Subject = Yii::t('Mail', 'Social.Migom.By');
         $this->params['user'] = $user;
         $mailer->getView($template, $this->params);
+        echo 'mail send Email: '.$user->email . '<br/>';
         return $mailer->Send();
     }
 }
