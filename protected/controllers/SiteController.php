@@ -47,7 +47,7 @@ class SiteController extends Controller {
      * when an action is not explicitly requested by users.
      */
     public function actionIndex() {
-        
+
 //        $queue = new Queue();
 //        $queue->what = 'mail send';
 //        $queue->user_id = 14;
@@ -70,13 +70,13 @@ class SiteController extends Controller {
     }
 
     public function actionTest() {
-        
-        $criteria = new CDbCriteria;
-        $criteria->compare('soc_id', '105844357378365018543');
-        $criteria->limit = 1;
-        $provider = Users_Providers::model('g----------------------oogle_oauth');
-        d($provider->find($criteria)->user->email);
-        
+        d($_SESSION);
+//        $criteria = new CDbCriteria;
+//        $criteria->compare('soc_id', '105844357378365018543');
+//        $criteria->limit = 1;
+//        $provider = Users_Providers::model('g----------------------oogle_oauth');
+//        d($provider->find($criteria)->user->email);
+
     }
 
     /**
@@ -164,7 +164,7 @@ class SiteController extends Controller {
         $regModel = new Form_Registration();
         $this->render('login', array('model' => $model, 'regModel' => $regModel, 'getErrors' => $getErrors));
     }
-    
+
     protected function _preLogin($redirect = true){
         $model = new Form_Login;
 
@@ -214,7 +214,7 @@ class SiteController extends Controller {
         }
         $this->redirect('/site/login');
     }
-    
+
     public function actionRemindPass(){
         if(!Yii::app()->user->getIsGuest()){
             Yii::app()->end();
@@ -229,14 +229,14 @@ class SiteController extends Controller {
             echo CActiveForm::validate($form);
             Yii::app()->end();
             // validate user input and redirect to the previous page if valid
-            
+
 //            if ($model->validate() && $model->login() && $redirect){
 //                $this->redirect(Yii::app()->user->returnUrl);
 //            }
         }
-        
+
         die;
-        
+
         $user = Users::model()->findByPk(Yii::app()->user->id);
         if(!$user){
             echo json_encode(array('error' => 'email not found', 'success' => false));
