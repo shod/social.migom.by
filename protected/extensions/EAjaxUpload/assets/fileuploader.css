@@ -24,7 +24,16 @@
 }
 .qq-upload-drop-area-active {background:#CACACA;}
 
-.qq-upload-list {margin:15px 35px; padding:0; list-style:disc;}
+.qq-upload-list {
+    /*margin:15px 35px; padding:0; list-style:disc;*/
+    padding: 0;
+    position: absolute;
+    width: 264px;
+    top: 50px;
+    right: -263px;
+    list-style: none;
+
+}
 .qq-upload-list li { margin:0; padding:0; line-height:15px; font-size:12px;}
 .qq-upload-file, .qq-upload-spinner, .qq-upload-size, .qq-upload-cancel, .qq-upload-failed-text {
     margin-right: 7px;
