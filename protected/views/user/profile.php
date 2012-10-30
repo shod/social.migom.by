@@ -1,16 +1,62 @@
-<div class="darker png_scale" style="display: none;"></div>
+<div class="lenta">
 
-<?php $this->widget('UserMain', array('model' => $model, 'news' => $news, 'active' => 'news')); ?>
+    <?php $this->widget('UserMain', array('model' => $model, 'active' => 'profile')); ?>
 
-<div style="float: left; border: 2px solid black; width: 600px;">
-    <?php if(Yii::app()->user->id == $model->id): ?>
-        <?php $this->widget('UserNews', array('user_id' => Yii::app()->user->id, 'news' => $news)); ?>
-    <?php else: ?>
-        
-    <?php endif; ?>
-</div>
-<div class="clear"></div>
+    <div class="main profile">
+        <div class="summary">
+            <div class="avatar"><?= UserService::printAvatar($model->id, $model->login, 96); ?></div>
+            <div class="name">
+                <strong><?= $model->login; ?></strong>
+                <?php if($model->id == Yii::app()->user->id): ?>
+                    <?= CHtml::link(Yii::t('Profile', 'Редактировать профиль'), array('/profile/edit')) ?>
+                <?php endif; ?>
+            </div>
+            <div class="info"><?= Yii::t('Profile', 'Дата регистрации'); ?><strong><?= SiteService::timeToDate($model->date_add, true) ?></strong></div>
+            <!--<div class="info"><?= Yii::t('Profile', 'Просмотров профиля'); ?><strong>326</strong></div>-->
+        </div>
+        <table>
+            <caption><?= Yii::t('Profile', 'Общая информация'); ?></caption>
+            <tr>
+                <th><?= $model->profile->getAttributeLabel('name') ?>:</th>
+                <td><?= $model->profile->name; ?></td>
+            </tr>
+            <tr>
+                <th><?= $model->profile->getAttributeLabel('surname') ?>:</th>
+                <td><?= $model->profile->surname; ?></td>
+            </tr>
+            <tr>
+                <th><?= $model->profile->getAttributeLabel('sex') ?>:</th>
+                <td><?= Yii::t('Profile', Users_Profile::$sexs[$model->profile->sex]); ?></td>
+            </tr>
+            <tr>
+                <th><?= $model->profile->getAttributeLabel('birthday') ?>:</th>
+                <td><?= $model->profile->birthday ?></td>
+            </tr>
+            <tr>
+                <th><?= $model->profile->getAttributeLabel('country') ?>:</th>
+                <td><?= $model->profile->country ?></td>
+            </tr>
+            <tr>
+                <th><?= $model->profile->getAttributeLabel('city_id') ?>:</th>
+                <td><?= $model->profile->city_id ?></td>
+            </tr>
+        </table>
 
-<div class="footer">
-    <div class="copy">&copy; 2006&mdash;2012 Migom.by&nbsp;<strong>Минск</strong>, <strong>Беларусь</strong>&nbsp;&nbsp;</div>
+        <table>
+            <caption><?= Yii::t('Profile', 'Активность на сайте'); ?></caption>
+            <tr>
+                <th><a href="#"><?= $model->getCountComments() ?></a></th>
+                <td><?= SiteService::getCorectWordsT('Site', 'comments', $model->getCountComments()) ?></td>
+            </tr>
+<!--            <tr>
+                <th><a href="#">16</a></th>
+                <td>отзывов на товар</td>
+            </tr>
+            <tr>
+                <th><a href="#">154</a></th>
+                <td>отзывов на продавца</td>
+            </tr>-->
+        </table>
+    </div>
+
 </div>

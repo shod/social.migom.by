@@ -1,7 +1,7 @@
 <div class="navigation">
 	<div class="category <?php if($this->active == 'news'): ?>current<?php endif; ?>">
 		<div class="heading">
-			<a href="lenta.html" class="title"><?= Yii::t('Site', 'Лента'); ?></a>
+            <?= CHtml::link(Yii::t('Site', 'Лента'), array('/user'), array('class' => 'title')) ?>
 			<div class="count">??</div>
 		</div>
 		<div class="options">
@@ -26,8 +26,8 @@
 	</div>-->
 </div>
 
-<?php 
-    $cs = Yii::app()->getClientScript();  
+<?php
+    $cs = Yii::app()->getClientScript();
     $cs->registerScript(
         'ajaxNewsCheckboxes',
         'jQuery(function($) {

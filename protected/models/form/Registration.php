@@ -92,7 +92,6 @@ class Form_Registration extends CFormModel
                 }
                 $profile = new Users_Profile();
                 $profile->user_id = $user->id;
-                $profile->full_name = $user->login;
                 $profile->avatar = UserService::uploadAvatarFromEmail($user->id, $user->email);
                 $profile->save();
                 if(!$identity){

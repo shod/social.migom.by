@@ -1,4 +1,4 @@
-<div class="main" id="central_block">
+<div id="central_block">
     <?php if(!$news || !count($news->entities)): ?>
         <div class="show-more" ><span><?= Yii::t('Site', 'На вашей стене пока нет новостей'); ?></span></div>
     <?php else: ?>

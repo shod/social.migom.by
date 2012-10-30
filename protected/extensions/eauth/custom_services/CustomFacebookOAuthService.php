@@ -19,9 +19,14 @@ class CustomFacebookOAuthService extends FacebookOAuthService {
 	protected function fetchAttributes() {
 		$info = (object) $this->makeSignedRequest('https://graph.facebook.com/me');
 		$this->attributes['soc_id'] = $info->id;
-		$this->attributes['full_name'] = $info->name;
                 $this->attributes['email'] = $info->email;
                 $this->attributes['avatar'] = 'https://graph.facebook.com/' . $info->id . '/picture';
+                if(isset($info->first_name)){
+                    $this->attributes['name'] = $info->first_name;
+                }
+                if(isset($info->last_name)){
+                    $this->attributes['surname'] = $info->last_name;
+                }
                 if(isset($info->username)){
                     $this->attributes['login'] = $info->username;
                 }

@@ -1,13 +1,17 @@
 <?php
 
 class SiteService {
-    
-    public static function timeToDate($time)
+
+    public static function timeToDate($time, $day = false)
     {
-        $result = date("Y-m-d H:i", $time);
+        if($day){
+            $result = date("Y-m-d", $time);
+        } else {
+            $result = date("Y-m-d H:i", $time);
+        }
         return $result;
     }
-    
+
     public static function arrayTranslate($template, &$array)
     {
         $result = array();
@@ -17,7 +21,7 @@ class SiteService {
         }
         return $result;
     }
-    
+
     public static function subStrEx($str, $len)
     {
         if(strlen($str) <= $len){
@@ -25,14 +29,14 @@ class SiteService {
         }
         return mb_substr($str, 0, $len, 'utf8').'&hellip;';
     }
-    
-    public static function getCorectWordsT($template, $word, $number) 
+
+    public static function getCorectWordsT($template, $word, $number)
     {
         $words = Yii::t($template, $word);
         $wArr = explode('|', $words);
-        
+
 //        $number = substr((string)$number, -2);
-        
+
         $c = $number % 10;
         if ($number > 10 && $number < 20)
             return $wArr[1];
@@ -43,7 +47,7 @@ class SiteService {
         if ($c > 4 || $c == 0)
             return $wArr[1];
     }
-    
+
     public static function timeRange($from, $to) {
         $differenceFull  = $to - $from;
         $differenceYear  = floor(($differenceFull) /32140800);

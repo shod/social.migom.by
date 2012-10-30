@@ -12,9 +12,15 @@
 )); ?>
 
 <div class="row">
-    <?php echo $form->label($model->profile,'full_name', array(), true, true); ?>
-    <?php echo $form->textField($model->profile,'full_name', array(), true, true); ?>
-    <?php echo $form->error($model->profile,'full_name', array(), true, true); ?>
+    <?php echo $form->label($model->profile,'name'); ?>
+    <?php echo $form->textField($model->profile,'name', array(), true, true); ?>
+    <?php echo $form->error($model->profile,'name', array(), true, true); ?>
+</div>
+
+<div class="row">
+    <?php echo $form->label($model->profile,'surname', array(), true, true); ?>
+    <?php echo $form->textField($model->profile,'surname', array(), true, true); ?>
+    <?php echo $form->error($model->profile,'surname', array(), true, true); ?>
 </div>
 
 <div class="row">
@@ -40,7 +46,7 @@
 
 <div class="row">
     <?php echo $form->label($model->profile,'birthday', array(), true, true); ?>
-    <?php 
+    <?php
         $this->widget('zii.widgets.jui.CJuiDatePicker', array(
             'model'=>$model->profile,
             'attribute'=>'birthday',
@@ -61,6 +67,6 @@
                 <table width=100%><tr>
                         <td><input type="image" src="/images/login_btn.gif" /></td>
                 </table>
-        </div>		
+        </div>
 
 <?php $this->endWidget(); ?>

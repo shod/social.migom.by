@@ -55,6 +55,9 @@ return array(
             'ads' => 'ads/default/index',
             'user/<id:\d+>' => 'user/index',
             'user' => 'user/index',
+            'profile/<id:\d+>' => 'user/profile',
+            'profile' => 'user/profile',
+            'profile/edit' => 'user/edit',
             '' => 'user/index',
             '<action:(login|logout)>' => 'site/<action>',
             '<controller:\w+>/<id:\d+>' => '<controller>/view',
@@ -63,24 +66,24 @@ return array(
         ),
     ),
 
-    'session' => array(
-        'class' => 'CCacheHttpSession',
-        'cacheID' => 'cache',
-        'cookieParams' => array('domain' => '.migom.by'),
-        'timeout' => 3600 * 24 * 30,
-        'autoStart' => true,
-        'cookieMode' => 'only',
-    ),
-    'cache' => array(
-        'class' => 'system.caching.CMemCache',
-        'keyPrefix' => 'a1e7e8ff',
-        'servers' => array(
-            array(
-                'host' => '178.172.181.139',
-                'port' => 11211,
-            ),
-        ),
-    ),
+//    'session' => array(
+//        'class' => 'CCacheHttpSession',
+//        'cacheID' => 'cache',
+//        'cookieParams' => array('domain' => '.migom.by'),
+//        'timeout' => 3600 * 24 * 30,
+//        'autoStart' => true,
+//        'cookieMode' => 'only',
+//    ),
+//    'cache' => array(
+//        'class' => 'system.caching.CMemCache',
+//        'keyPrefix' => 'a1e7e8ff',
+//        'servers' => array(
+//            array(
+//                'host' => '178.172.181.139',
+//                'port' => 11211,
+//            ),
+//        ),
+//    ),
     'errorHandler' => array(
         // use 'site/error' action to display errors
         'errorAction' => 'site/error',
