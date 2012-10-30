@@ -16,7 +16,8 @@
                             'onComplete'=>"js:function(id, fileName, responseJSON){ imageSrc = $('#uploadAvatar a img').attr('src'); $('#uploadAvatar a img').attr('src', imageSrc + '?' + responseJSON); }",
                             'template' => '<div class="qq-uploader">
                                     <div class="qq-upload-drop-area"><span>' . Yii::t('Profile', 'Перетащите файл сюда') . '</span></div>
-                                    <div id="uploadAvatar" class="qq-upload-button">' . UserService::printAvatar($model->id, $model->login, 96) . '</div><ul class="qq-upload-list"></ul>
+                                    <div id="uploadAvatar" class="qq-upload-button">' . UserService::printAvatar($model->id, $model->login, 96) . '</div>
+                                    <ul class="qq-upload-list"></ul>
                                 </div>',
                             'messages'=>array(
                                     'typeError'=>"{file} has invalid extension. Only {extensions} are allowed.",

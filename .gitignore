@@ -3,3 +3,4 @@ protected/runtime/
 themes/classic/views/
 !/protected/extensions/eauth/assets/
 !/protected/modules/ads/assets/
+!/protected/extensions/EAjaxUpload/assets/

@@ -39,10 +39,10 @@ class Form_Login extends CFormModel
 		return array(
                         'email' => Yii::t('Site', 'E-mail'),
                         'password' => Yii::t('Site', 'Password'),
-			'rememberMe'=>Yii::t('Site', 'Stay signed in'),
+                        'rememberMe'=>Yii::t('Site', 'Stay signed in'),
 		);
 	}
-        
+
         public function remindEmailCheck($attribute, $params){
             $this->userModel = Users::model()->findByAttributes(array('email'=>$this->email));
             if(!$this->userModel){
