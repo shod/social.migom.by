@@ -32,7 +32,7 @@
             </div>
             <!--<div class="avatar"><?= UserService::printAvatar($model->id, $model->login, 96); ?></div>-->
             <div class="name">
-                <strong><?= CHtml::link($model->login, array('/user/profile', 'id' => $model->id)); ?></strong>
+                <strong><?= $model->login; ?></strong>
                 <?= CHtml::link(Yii::t('Profile', 'назад (отмена)'), array('/profile')) ?>
             </div>
         </div>
