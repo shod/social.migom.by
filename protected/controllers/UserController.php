@@ -22,7 +22,7 @@ class UserController extends Controller
     {
         return array(
             array('allow', // allow readers only access to the view file
-                'actions' => array('edit', 'deletenew', 'profile', 'UploadAvatar'),
+                'actions' => array('edit', 'deletenew', 'profile', 'uploadavatar'),
                 'roles' => array('user', 'moderator', 'administrator')
             ),
             array('allow', // allow readers only access to the view file
