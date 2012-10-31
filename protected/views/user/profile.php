@@ -4,7 +4,7 @@
 
     <div class="main profile">
         <div class="summary">
-            <div class="avatar"><?= UserService::printAvatar($model->id, $model->login, 96); ?></div>
+            <div class="avatar"><?= UserService::printAvatar($model->id, $model->login, 96, false); ?></div>
             <div class="name">
                 <strong><?= $model->login; ?></strong>
                 <?php if($model->id == Yii::app()->user->id): ?>

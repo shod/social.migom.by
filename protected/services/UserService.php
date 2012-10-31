@@ -50,12 +50,17 @@ class UserService {
         return $result;
     }
 
-    public static function printAvatar($id, $login, $size = 50){
-        return CHtml::link(
-            CHtml::image(Yii::app()->getBaseUrl().'/images/users/'.$id.'/avatar.jpg', $login, array('width' => $size.'px;', 'height' => $size.'px;')),
-                ($id != Yii::app()->user->id) ? array('/user/profile', 'id' => $id) : array('/user/profile')
+    public static function printAvatar($id, $login, $size = 50, $link = true){
+        if($link){
+            return CHtml::link(
+                CHtml::image(Yii::app()->getBaseUrl().'/images/users/'.$id.'/avatar.jpg', $login, array('width' => $size.'px;', 'height' => $size.'px;')),
+                    ($id != Yii::app()->user->id) ? array('/user/profile', 'id' => $id) : array('/user/profile')
 
-        );
+            );
+        } else {
+            return CHtml::image(Yii::app()->getBaseUrl().'/images/users/'.$id.'/avatar.jpg', $login, array('width' => $size.'px;', 'height' => $size.'px;'));
+        }
+
     }
 
     public static function uploadAvatarFromEmail($user_id, $email = null){

@@ -62,11 +62,11 @@
                 <th><?php echo $form->label($model->profile,'sex'); ?>:</th>
                 <td>
                     <label>
-                        <input type="radio" name="sex" value="1" <?php if($model->profile->sex == 1): ?>checked="checked" <?php endif;?>>
+                        <input type="radio" name="<?= get_class($model->profile) ?>[sex]" value="1" <?php if($model->profile->sex == 1): ?>checked="checked" <?php endif;?>>
                         <span><?= Yii::t('Profile', 'мужской'); ?></span>
                     </label>
                     <label>
-                        <input type="radio" value="2" name="sex" <?php if($model->profile->sex == 2): ?>checked="checked" <?php endif;?>>
+                        <input type="radio" value="2" name="<?= get_class($model->profile) ?>[sex]" <?php if($model->profile->sex == 2): ?>checked="checked" <?php endif;?>>
                         <span><?= Yii::t('Profile', 'женский'); ?></span>
                     </label>
                 </td>
