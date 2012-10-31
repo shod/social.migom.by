@@ -157,7 +157,9 @@ class UserController extends Controller
             $days[$i] = $i;
         }
 
-        $this->render('profile/edit', array('model' => $model, 'month' => $month, 'year'  => $year, 'days'  => $days));
+        $regions = Regions::model()->findAll('parent_id = 1 OR to_menu = 1 OR id = :city ORDER BY to_menu DESC', array(':city' => $model->profile->city_id));
+
+        $this->render('profile/edit', array('model' => $model, 'regions' => $regions, 'month' => $month, 'year'  => $year, 'days'  => $days));
     }
 
     public function actionUploadAvatar(){

@@ -152,4 +152,15 @@ class AjaxController extends Controller
         Yii::app()->end();
     }
 
+    public function actionRegions(){
+        if(Yii::app()->user->getIsGuest()) return false;
+
+        $regions = Regions::model()->findAll('parent_id = :parent_id', array(':parent_id' => Yii::app()->request->getParam('parent_id')));
+        if(count($regions)){
+            $this->renderPartial('regions', array('regions' => $regions));
+        }
+
+
+    }
+
 }

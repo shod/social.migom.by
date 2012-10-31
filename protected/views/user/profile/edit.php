@@ -85,12 +85,8 @@
                 </td>
             </tr>
             <tr>
-                <th><?php echo $form->label($model->profile,'country'); ?>:</th>
-                <td><?php echo $form->textField($model->profile,'country'); ?></td>
-            </tr>
-            <tr>
                 <th><?php echo $form->label($model->profile,'city_id'); ?>:</th>
-                <td><?php echo $form->textField($model->profile,'city_id'); ?></td>
+                <td><?php echo $form->dropDownList($model->profile,'city_id', CHtml::listData($regions, 'id', 'name'), array('class' => 'regions')); ?></td>
             </tr>
             <?php if(!$model->email): ?>
                 <tr>
@@ -205,6 +201,14 @@
             '$(".collapsible").on("click", "caption", function(e) {
                 $(e.delegateTarget).toggleClass("expanded")
             })',
+          CClientScript::POS_END
+        );
+        // TODO:: чек основных городов
+        $cs->registerScript(
+            'ajaxRegions',
+            'jQuery(function($){$(\'body\').on(\'change\',\'.regions\',function(){ var block = this;  $.post("'.
+                    CController::createUrl('/ajax/regions', array('parent_id' => ''))
+                .'"+$(this).val()).success(function(data) { $(block).next("td").remove(); $(data).insertAfter($(block));  });   return false;}); });',
           CClientScript::POS_END
         );
     ?>

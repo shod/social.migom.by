@@ -1,0 +1,1 @@
+<td><?= CHtml::dropDownList('Users_Profile[city_id]', '', CHtml::listData($regions, 'id', 'name'), array('class' => 'regions')) ?></td>

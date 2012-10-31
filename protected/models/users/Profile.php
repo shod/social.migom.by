@@ -44,14 +44,14 @@ class Users_Profile extends CActiveRecord
         // will receive user inputs.
         return array(
             array('user_id', 'required'),
-            array('user_id, city_id, country', 'numerical', 'integerOnly' => true),
+            array('user_id, city_id', 'numerical', 'integerOnly' => true),
             array('birthday', 'match', 'pattern' => '/[\d.]+/'),
             array('name, surname', 'length', 'max' => 255),
             array('avatar', 'file', 'types'      => 'jpg', 'allowEmpty' => true),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
-            array('user_id, name, surname, city_id, country, sex, birthday, avatar', 'safe', 'on' => 'search'),
-            array('name, surname, city_id, country, sex, birthday', 'safe', 'on' => 'update'),
+            array('user_id, name, surname, city_id, sex, birthday, avatar', 'safe', 'on' => 'search'),
+            array('name, surname, city_id, sex, birthday', 'safe', 'on' => 'update'),
         );
     }
 
@@ -79,7 +79,6 @@ class Users_Profile extends CActiveRecord
             'sex'      => Yii::t('Site', 'Пол'),
             'birthday' => Yii::t('Site', 'Дата рождения'),
             'avatar'   => Yii::t('Site', 'Avatar'),
-            'country' => Yii::t('Site', 'Страна'),
         );
     }
 
