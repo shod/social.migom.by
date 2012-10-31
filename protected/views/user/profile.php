@@ -32,10 +32,12 @@
                 <th><?= $model->profile->getAttributeLabel('birthday') ?>:</th>
                 <td><?= $model->profile->birthday ?></td>
             </tr>
+            <?php if($model->profile->city): ?>
             <tr>
                 <th><?= $model->profile->getAttributeLabel('city_id') ?>:</th>
                 <td><?= $model->profile->city->name ?></td>
             </tr>
+            <?php endif; ?>
         </table>
 
         <table>

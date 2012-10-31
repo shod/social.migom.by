@@ -127,7 +127,7 @@ class UserController extends Controller
         }
 
         if ($redirect) {
-            $this->redirect('/user/index', true, 301);
+            $this->redirect('/user/index');
         }
 
         $days = array(
