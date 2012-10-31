@@ -3,7 +3,7 @@
             </div></div>
         <div class="message">
                 <div class="avatar"><?= UserService::printAvatar(Yii::app()->user->id, Yii::app()->user->name); ?></div>
-                <a href="javascript:" class="author"><?= Yii::app()->user->name ?></a>
+                <?= CHtml::link(Yii::app()->user->name, array('/user/profile', 'id' => Yii::app()->user->id), array('class' => 'author')) ?>
                 <span class="date"><?= SiteService::timeRange($model->created_at, time()) ?> <?= Yii::t('Site', 'назад'); ?></span>
                 <?php if(strlen($model->text) <= 400): ?>
                     <div class="body">

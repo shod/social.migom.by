@@ -1,5 +1,5 @@
 <div class="avatar"><?= UserService::printAvatar($user_id, $login, 30); ?></div>
-<a href="javascript:" class="author"><?= $login ?></a>
+<?= CHtml::link($login, array('/user/profile', 'id' => $user_id), array('class' => 'author')) ?>
 <span class="date"><?= SiteService::timeRange($created_at, time()); ?> <?= Yii::t('Site', 'назад'); ?></span>
 <?php if($text): ?>
     <?php if(strlen($text) <= 400): ?>

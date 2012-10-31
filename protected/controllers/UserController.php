@@ -113,6 +113,7 @@ class UserController extends Controller
                 $redirect = false;
                 $success  = false;
             }
+            $model->profile->birthday = Yii::app()->dateFormatter->formatDateTime($model->profile->birthday, 'medium', false);
         }
 
         if (isset($_POST['Users'])) {

@@ -53,7 +53,7 @@ class Users extends ActiveRecord
             array('email', 'required', 'on' => array('simpleRegistration')),
 //                        array('password', 'required', 'on' => array('general_update')),
             array('email, reemail', 'email'),
-            array('reemail', 'compare', 'compareAttribute' => 'email', 'on' => 'general_update', 'message' => Yii::t('Site', 'Не верно введено поле email')),
+            array('reemail', 'compareEmail', 'on' => 'general_update'),
             array('email', 'unique'),
             array('status, date_add, date_edit', 'numerical', 'integerOnly' => true),
             array('login, email', 'length', 'max' => 255),
@@ -75,7 +75,14 @@ class Users extends ActiveRecord
                 $this->addError('old_password', Yii::t('Profile', 'Пароль введен не верно'));
             }
         }
+    }
 
+    public function compareEmail(){
+        if($this->email != $this->oldAttributes['email']){
+            if($this->email != $this->reemail){
+                $this->addError('reemail', Yii::t('Profile', 'Не верно введено поле email'));
+            }
+        }
     }
 
     /**
