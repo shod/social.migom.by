@@ -33,12 +33,8 @@
                 <td><?= $model->profile->birthday ?></td>
             </tr>
             <tr>
-                <th><?= $model->profile->getAttributeLabel('country') ?>:</th>
-                <td><?= $model->profile->country ?></td>
-            </tr>
-            <tr>
                 <th><?= $model->profile->getAttributeLabel('city_id') ?>:</th>
-                <td><?= $model->profile->city_id ?></td>
+                <td><?= $model->profile->city->name ?></td>
             </tr>
         </table>
 
