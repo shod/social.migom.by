@@ -66,6 +66,7 @@ class UserController extends Controller
 
     public function actionEdit()
     {
+        header('Cache-Control: no-cache, must-revalidate');
         if (Yii::app()->user->getIsGuest()) {
             throw new CHttpException(404, 'The requested page does not exist.');
         }
@@ -89,13 +90,16 @@ class UserController extends Controller
         $success  = true;
 
         if (isset($_POST['Users_Profile'])) {
-            if (isset($_FILES['Users_Profile']['tmp_name']) && $_FILES['Users_Profile']['tmp_name']['avatar']) {
-                $upRes                  = UserService::uploadAvatar($id, $_FILES['Users_Profile']['tmp_name']);
-                $model->profile->avatar = $upRes['success'];
-                if (!$model->profile->avatar) {
-                    $model->profile->addError('avatar', $upRes['error']);
-                }
-            }
+//            if (isset($_FILES['Users_Profile']['tmp_name']) && $_FILES['Users_Profile']['tmp_name']['avatar']) {
+//                $upRes                  = UserService::uploadAvatar($id, $_FILES['Users_Profile']['tmp_name']);
+//                $model->profile->avatar = $upRes['success'];
+//                if (!$model->profile->avatar) {
+//                    $model->profile->addError('avatar', $upRes['error']);
+//                }
+//            }
+//            if(isset()){
+//
+//            }
             if ($_POST['birthday']) {
                 $birthday = implode('.', $_POST['birthday']);
                 foreach ($_POST['birthday'] as $p) {
@@ -103,6 +107,11 @@ class UserController extends Controller
                         $birthday                   = $model->profile->birthday;
                     }
                 }
+            }
+
+            if(file_exists($model->getAvatarPath())){
+                copy($model->getAvatarPath(true), $model->getAvatarPath());
+                unlink($model->getAvatarPath(true));
             }
             $model->profile->birthday   = $birthday;
             $model->profile->setScenario('update');
@@ -181,11 +190,11 @@ class UserController extends Controller
         $return = htmlspecialchars(json_encode($result), ENT_NOQUOTES);
         $fileSize=filesize($folder.$result['filename']); //GETTING FILE SIZE
         if(isset($result['filename'])){
-            $fileName = 'avatar.jpg';
+            $fileName = 'avatar-temp.jpg';
         }
         $fileName = 'error';
         // TODO::резайзить файл сразу после загрузки
-        UserService::uploadAvatar($model->id, $folder.$result['filename']);
+        UserService::uploadAvatar($model->id, $folder.$result['filename'], 'avatar-temp');
 
         echo $return;// it's array
         Yii::app()->end();

@@ -13,7 +13,9 @@
                             'allowedExtensions'=>array("jpg","jpeg","png"),//array("jpg","jpeg","gif","exe","mov" and etc...
                             'sizeLimit'=> 2 *1024 * 1024,// maximum file size in bytes
                 //                'minSizeLimit'=>10*1024*1024,// minimum file size in bytes
-                            'onComplete'=>"js:function(id, fileName, responseJSON){ imageSrc = $('#uploadAvatar a img').attr('src'); $('#uploadAvatar a img').attr('src', imageSrc + '?' + responseJSON); }",
+                            'onComplete'=>"js:function(id, fileName, responseJSON){ tempImage = '".
+                                    $model->getAvatarUrl(true)
+                                ."'; $('#uploadAvatar a img').attr('src', tempImage + '?' + fileName); }",
                             'template' => '<div class="qq-uploader">
                                     <div class="qq-upload-drop-area"><span>' . Yii::t('Profile', 'Перетащите файл сюда') . '</span></div>
                                     <div id="uploadAvatar" class="qq-upload-button">' . UserService::printAvatar($model->id, $model->login, 96) . '</div>
@@ -200,7 +202,7 @@
             'showOptions',
             '$(".collapsible").on("click", "caption", function(e) {
                 $(e.delegateTarget).toggleClass("expanded")
-            })',
+            });',
           CClientScript::POS_END
         );
         // TODO:: чек основных городов

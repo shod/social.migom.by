@@ -120,7 +120,7 @@ class SiteController extends Controller {
                     if($identity->addNewSocial){
                         Users_Providers::addSocialToUser($identity, Yii::app()->user->getId());
                     }
-                   
+
                     // special redirect with closing popup window
                     $authIdentity->redirect();
                 } elseif ($identity->errorCode == EAuthUserIdentity::ERROR_USER_NOT_REGISTERED) {
@@ -146,7 +146,6 @@ class SiteController extends Controller {
                             Users_Providers::addSocialToUser($identity, Yii::app()->user->getId());
                         }
                     }
-
                     // special redirect with closing popup window
                     $authIdentity->redirect();
                 } else {
@@ -154,6 +153,9 @@ class SiteController extends Controller {
                     $authIdentity->cancel();
                 }
             }
+
+            $errors = array('message' => 'user was not login from ' . $service);
+            Yii::log($errors, CLogger::LEVEL_INFO);
 
             // Something went wrong, redirect to login page
             $this->redirect(array('/site/login'));
