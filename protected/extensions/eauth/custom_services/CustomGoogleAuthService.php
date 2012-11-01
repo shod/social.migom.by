@@ -21,9 +21,13 @@ class CustomGoogleAuthService extends GoogleOAuthService
         $info = (array) $this->makeSignedRequest('https://www.googleapis.com/oauth2/v1/userinfo');
 
         $this->attributes['soc_id'] = $info['id'];
-        $this->attributes['email']  = $info['email'];
         $this->attributes['login']  = $info['given_name'];
-        $this->attributes['avatar'] = $info['picture'];
+        if(isset($info['email'])){
+            $this->attributes['email']  = $info['email'];
+        }
+        if(isset($info['picture'])){
+            $this->attributes['avatar'] = $info['picture'];
+        }
         if (isset($info['gender'])) {
             $this->attributes['sex'] = ($info['gender'] == 'male') ? 1 : 2;
         }
