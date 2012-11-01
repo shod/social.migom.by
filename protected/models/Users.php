@@ -205,4 +205,26 @@ class Users extends ActiveRecord
         return $count;
     }
 
+    public function getAvatarPath($temp = false){
+        if(!$this->id){
+            return false;
+        }
+        $path = Yii::app()->getBasePath() . DIRECTORY_SEPARATOR . '..';
+        $destination = $path . Users::AVATAR_PATH . DIRECTORY_SEPARATOR . $this->id  . DIRECTORY_SEPARATOR;
+        if($temp){
+            return $destination . 'avatar-temp.jpg';
+        }
+        return $destination . 'avatar.jpg';
+    }
+
+    public function getAvatarUrl($temp = false){
+        if(!$this->id){
+            return false;
+        }
+        $destination = Users::AVATAR_PATH.'/'.$this->id.'/';
+        if($temp){
+            return $destination . 'avatar-temp.jpg';
+        }
+        return $destination . 'avatar.jpg';
+    }
 }

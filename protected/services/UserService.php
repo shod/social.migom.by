@@ -30,7 +30,7 @@ class UserService {
         return true;
     }
 
-    public static function uploadAvatar($user_id, $file){
+    public static function uploadAvatar($user_id, $file, $fileName = 'avatar'){
         $result = array('success' => false, 'error' => 'undefined');
         try {
             if(is_array($file)){
@@ -42,7 +42,7 @@ class UserService {
             $path = Yii::app()->getBasePath() . DIRECTORY_SEPARATOR . '..';
             $destination = $path . Users::AVATAR_PATH . DIRECTORY_SEPARATOR . $user_id;
             @mkdir($destination, 0777, true);
-            $image->save($destination . DIRECTORY_SEPARATOR. 'avatar.jpg');
+            $image->save($destination . DIRECTORY_SEPARATOR. $fileName . '.jpg');
             $result = array('success' => true, 'error' => 'undefined');
         } catch (Exception $exc) {
             $result = array('success' => false, 'error' => $exc->getMessage());
