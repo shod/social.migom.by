@@ -90,16 +90,11 @@ class UserController extends Controller
         $success  = true;
 
         if (isset($_POST['Users_Profile'])) {
-//            if (isset($_FILES['Users_Profile']['tmp_name']) && $_FILES['Users_Profile']['tmp_name']['avatar']) {
-//                $upRes                  = UserService::uploadAvatar($id, $_FILES['Users_Profile']['tmp_name']);
-//                $model->profile->avatar = $upRes['success'];
-//                if (!$model->profile->avatar) {
-//                    $model->profile->addError('avatar', $upRes['error']);
-//                }
-//            }
-//            if(isset()){
-//
-//            }
+            if(file_exists($model->getAvatarPath(true))){
+                copy($model->getAvatarPath(true), $model->getAvatarPath());
+                unlink($model->getAvatarPath(true));
+            }
+
             if ($_POST['birthday']) {
                 $birthday = implode('.', $_POST['birthday']);
                 foreach ($_POST['birthday'] as $p) {
@@ -109,10 +104,6 @@ class UserController extends Controller
                 }
             }
 
-            if(file_exists($model->getAvatarPath())){
-                copy($model->getAvatarPath(true), $model->getAvatarPath());
-                unlink($model->getAvatarPath(true));
-            }
             $model->profile->birthday   = $birthday;
             $model->profile->setScenario('update');
             $model->profile->attributes = $_POST['Users_Profile'];
