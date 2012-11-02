@@ -23,8 +23,16 @@ return array(
         // ImageMagick setup path
         'params' => array('directory' => '/opt/local/bin'),
     ),
+    'migom' => array(
+        'class' => 'ERestServer',
+        'connectionString' => 'http://test3.migom.by/api/api',
+        'password' => 'devel',
+//                            'http_auth' => true,
+//                            'http_user' => true,
+//                            'http_pass' => true,
+    ),
     'RESTClient' => array(
-        'class' => 'application.extensions.RESTClient.RESTClient',
+        'class' => 'RESTClient',
         'servers' => array(
             'migom' => array(
                 'server' => 'http://test4.migom.by/api',
@@ -62,7 +70,7 @@ return array(
             '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
         ),
     ),
-    
+
     'session' => array(
         'class' => 'CCacheHttpSession',
         'cacheID' => 'cache',
@@ -77,6 +85,10 @@ return array(
         'servers' => array(
             array(
                 'host' => '178.172.181.139',
+                'port' => 11211,
+            ),
+            array(
+                'host' => 'localhost',
                 'port' => 11211,
             ),
         ),
@@ -102,7 +114,7 @@ return array(
 //                        'class' => 'CProfileLogRoute',
 //                        'levels' => 'error, warning',
 //                        'enabled' => true,
-//                ), 
+//                ),
 //                                array( // configuration for the toolbar
 //                                        'class' => 'XWebDebugRouter',
 //                                        'config' => 'alignLeft, opaque, runInDebug, fixedPos, collapsed, yamlStyle',
