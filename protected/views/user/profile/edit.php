@@ -167,7 +167,14 @@
         $cs = Yii::app()->getClientScript();
         $cs->registerScript(
             'calendar',
-            'date = new Date();
+            '
+            sYear = $(".year").val();
+            sMonth = $(".month").val();
+            date = new Date(sYear, sMonth, 0);
+            sDay = $(".day").val();
+            sDay++;
+            $(".day").html($(createDateOptions(0, date.getDate())));
+            $(".day :nth-child("+sDay+")").attr("selected", "selected");
 
             $(".month").change(function(){
                 sDay = $(".day").val();
