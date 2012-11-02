@@ -38,12 +38,12 @@ class ApiModule extends CWebModule {
     public function init() {
 //        var_dump($_SERVER["REDIRECT_URL"], $_SERVER["REQUEST_METHOD"]);
 //        var_dump($_POST);
-        $this->setImport(array(
+//        $this->setImport(array(
 //            'api.models.*',
-            'api.components.*',
-        ));
+//            'api.components.*',
+//        ));
         $this->setComponents(array(
-                                'render'=>array('class'=>'Render'),
+                                'render'=>array('class'=>'ERestRender'),
             ), true);
 
         Yii::app()->urlManager->addRules($this->urlManager[CHttpRequest::getRequestType()], false);
