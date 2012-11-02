@@ -165,7 +165,8 @@ class SiteController extends Controller {
         $getErrors = (isset($_GET['mailError'])) ? $_GET['mailError'] : '';
 
         $regModel = new Form_Registration();
-        $this->render('login', array('model' => $model, 'regModel' => $regModel, 'getErrors' => $getErrors));
+        $remindModel = new Form_Remind();
+        $this->render('login', array('model' => $model, 'regModel' => $regModel, 'remindModel' => $remindModel, 'getErrors' => $getErrors));
     }
 
     protected function _preLogin($redirect = true){
@@ -173,7 +174,6 @@ class SiteController extends Controller {
 
         // if it is ajax validation request
         if (Yii::app()->getRequest()->isAjaxRequest && Yii::app()->getRequest()->getParam('ajax') == 'formLogin') {
-//            echo json_encode(array('Form_Login_password' => array('Incorrect email or password.', 'Incorrect email or password2.'), 'Form_Login_email' => array('Incorrect email or password.', 'Incorrect email or password2.')));
             echo CActiveForm::validate($model);
             Yii::app()->end();
         }
@@ -220,31 +220,20 @@ class SiteController extends Controller {
     }
 
     public function actionRemindPass(){
-        if(!Yii::app()->user->getIsGuest()){
-            Yii::app()->end();
+        if(!Yii::app()->user->getIsGuest() || !Yii::app()->getRequest()->isAjaxRequest){
+            throw new CHttpException(404, 'Страница не найдена');
         }
-        $form = new Form_Login('remindPassword');
-        if (isset($_POST['Form_Login']) && Yii::app()->getRequest()->isAjaxRequest) {
-            $form->attributes = $_POST['Form_Login'];
-            if($form->validate() && $form->userModel->remindPassword()){
+
+        $form = new Form_Remind();
+        if (isset($_POST['Form_Remind']) && Yii::app()->getRequest()->isAjaxRequest) {
+            $form->attributes = $_POST['Form_Remind'];
+            if($form->validate() && isset($_POST['remind']) && $form->userModel->remindPassword()){
                 echo json_encode(array('success' => true, 'message' => Yii::t('Site', 'Новый пароль был выслан на почту')));
                 Yii::app()->end();
+            } else {
+                echo CActiveForm::validate($form);
+                Yii::app()->end();
             }
-            echo CActiveForm::validate($form);
-            Yii::app()->end();
-            // validate user input and redirect to the previous page if valid
-
-//            if ($model->validate() && $model->login() && $redirect){
-//                $this->redirect(Yii::app()->user->returnUrl);
-//            }
-        }
-
-        die;
-
-        $user = Users::model()->findByPk(Yii::app()->user->id);
-        if(!$user){
-            echo json_encode(array('error' => 'email not found', 'success' => false));
-            return false;
         }
     }
 }
