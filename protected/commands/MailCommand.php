@@ -20,10 +20,10 @@ class MailCommand extends ConsoleCommand {
         $mailer->Subject = Yii::t('Mail', 'Social.Migom.By');
         $this->params['user'] = $user;
         $mailer->getView($template, $this->params);
-        if(!$mailer->Send()){
+        if(!$result = $mailer->Send()){
             $errors = array('message' => Yii::t('Command', 'Email not send (email = :email, template = :template)', array(':email' => $user->email, ':template' => $template)));
             Yii::log($errors, CLogger::LEVEL_INFO);
         }
-        return $mailer->Send();
+        return $result;
     }
 }
