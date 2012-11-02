@@ -8,7 +8,7 @@
 class Form_Registration extends CFormModel
 {
 	public $email;
-	public $agree;
+//	public $agree;
 
 	private $_identity;
 
@@ -22,7 +22,7 @@ class Form_Registration extends CFormModel
 		return array(
 			array('email', 'required', 'message' => Yii::t('Site', 'Cannot be blank')),
                         array('email', 'email', 'checkPort' => true, 'message' => Yii::t('Site', 'Wrong Email Addres')),
-			array('agree', 'in', 'range'=>array(1), 'allowEmpty'=>false, 'message' => Yii::t('Site', 'You are not agree with rules?')),
+//			array('agree', 'in', 'range'=>array(1), 'allowEmpty'=>false, 'message' => Yii::t('Site', 'You are not agree with rules?')),
 			// password needs to be authenticated
 			array('email', 'authenticate'),
 		);
@@ -35,7 +35,7 @@ class Form_Registration extends CFormModel
 	{
 		return array(
                         'email' => Yii::t('Site', 'E-mail'),
-			'agree' => Yii::t('Site', 'I agree with the rules'),
+//			'agree' => Yii::t('Site', 'I agree with the rules'),
 		);
 	}
 

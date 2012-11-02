@@ -3,9 +3,9 @@ a {text-decoration: none}
 a:hover {text-decoration:underline}
 a img {border: 0}
 
-.lenta {position: relative; padding: 10px 300px 65px 0}
+.lenta {position: relative; padding: 10px 300px 65px 0;background:url(/images/lenta-line.png) repeat-y 210px top;min-height:900px}
 
-.navigation {float: left; width: 210px}
+.navigation {float: left; width: 210px;position:absolute}
 
 .navigation .heading {padding-left: 30px; padding-right: 10px}
 .navigation .category {padding-bottom: 10px}
@@ -111,8 +111,10 @@ a img {border: 0}
 .profile, .profile a, .profile table th {color: #777}
 .profile strong, .profile table caption {color: #1c2530}
 .profile .summary {overflow: hidden}
-.profile .summary .avatar {float: left; width: 115px}
-.profile .summary .avatar img {display: block; max-width: 96px; max-height: 96px}
+.profile .summary .avatar {margin-right:20px;width: 96px; height: 96px;float: left; }
+.profile .summary .avatar div {}
+.profile .summary .change-avatar {margin-top:69px;padding:5px 0 10px 0 ;text-align:center;color:#fff; background-color:#000;filter:alpha(opacity=50); -khtml-opacity:0.5;-moz-opacity:0.50;opacity:0.50;}
+.profile .summary .change-avatar:hover {color:#fff; background-color:#000;filter:alpha(opacity=70); -khtml-opacity:0.7;-moz-opacity:0.70;opacity:0.70;}
 .profile .summary .name {float: left}
 .profile .summary .name strong,  .profile .summary .name strong a {font: bold 25px arial;color:#000}
 .profile .info {float: right; clear: right; text-align: right; line-height: 16px}
@@ -128,9 +130,19 @@ a img {border: 0}
 .profile table td, .profile input, .profile select {color: #333}
 .profile table + table {margin-top: 20px}
 .profile table a {color: #195e85;text-decoration:none;}
-.profile table a:hover {text-decoration:underline;}
-.profile input[type=text], .profile select {border: 1px solid #bec0c2; box-shadow: inset 1px 1px 2px rgba(0,0,0,.1); padding: 5px; margin: 5px 0}
-.profile input[type=text] {width: 210px}
+
+/* :hover  text-decoration:underline; */
+.profile table a:hover, .profile .buttons .cancel-link a:hover {text-decoration:underline;}
+
+/* inputs */
+.profile input[type=text], .profile select, .profile input[type=password], 
+.auth .signin input[type=text], .auth .signin input[type=password], .auth .signin input[type=email],
+.auth .signup input[type=email],
+.password-recover input[type=email]
+{border: 1px solid #bec0c2; box-shadow: inset 1px 1px 2px rgba(0,0,0,.1); padding: 5px; margin: 5px 0}
+
+.profile input[type=text], .profile input[type=password] {width: 210px}
+.profile select.regions {width:222px}
 .profile label input[type=checkbox], .profile label input[type=radio], .profile label span {vertical-align: middle}
 
 .profile .birth th {vertical-align: top; line-height: 38px}
@@ -141,9 +153,10 @@ a img {border: 0}
 .profile .birth .day, .profile .birth .month {width: 60px}
 .profile .birth .year {width: 80px}
 
-.profile .collapsible caption  {color: #195e85; cursor: pointer; border-top: 1px solid #ebebeb; border-bottom: 0; padding-bottom: 10px; margin-bottom: 0;}
-.profile .collapsible caption p span {border-bottom: 1px dotted #195e85;}
-.profile .collapsible caption p {padding-right:10px;display:inline;background:url(../images/arr-down.png) no-repeat right 10px;}
+.profile .collapsible caption  {color: #195e85;border-top: 1px solid #ebebeb; border-bottom: 0; padding-bottom: 10px; margin-bottom: 0;}
+.profile .collapsible caption p {padding-right:10px; cursor: pointer;display:inline;background:url(../images/arr-down.png) no-repeat right 10px;}
+.profile .collapsible caption p span {background:url(../images/link....png) repeat-x left 15px;}
+.profile .collapsible caption p span:hover {background:none;}
 .profile .collapsible tbody {margin-bottom: 10px}
 .profile .collapsible tr {display: none}
 .profile .collapsible + table {margin-top: 0}
@@ -154,7 +167,89 @@ a img {border: 0}
 .profile .collapsible.expanded caption p {padding-right:10px;display:inline;background:url(../images/arr-up.png) no-repeat right 10px;}
 
 .profile .buttons, .profile table caption {padding-left: 115px}
-.profile .buttons {margin-top: 40px}
+.profile .buttons {margin-top: 40px;}
+.profile .buttons button {margin-right:20px;display:inline}
+.profile .buttons .cancel-link {display:inline}
+/*.profile .buttons .cancel-link a {color:#165f85!important;font-size:1.1em;font-family:arial, tahoma, verdana, 'sans-serif';text-decoration:none}*/
+.profile .buttons .cancel-link a:hover {text-decoration:none}
+
+
+/* 01.11.2012 */
+
+.auth, .auth table {font-family: arial;}
+.auth > *, .auth table {font-size: 15px}
+.auth {text-align: center; margin-top: 23px; font-size: 0}
+.auth .logo, .auth-question .logo {background: url(../images/logo.png) center no-repeat; display: inline-block; width: 223px; height: 61px}
+.auth .logo {margin-left: -15px}
+.auth p {margin: 0}
+.auth > p {margin: 28px 0 16px}
+.auth label {display: inline-block}
+.auth label input[type=text] {margin-top: 5px}
+.auth em {display: block; height: 28px; font-style: normal; font-size: 13px}
+.auth input[type=text], .auth input[type=password] {width: 100%; height:  margin: 0; -moz-box-sizing: border-box; box-szinig: border-box}
+.auth .social {display: table; margin: 0 auto 50px; font-size: 0}
+.auth .social a {display: inline-block; vertical-align: middle}
+.auth .social a + a {margin-left: 10px}
+.auth .social img {display: block; border: 0}
+.auth .panel {display: inline-block; border: 1px solid transparent; vertical-align: bottom; text-align: left; width: 261px; padding: 20px 19px}
+.auth .panel .header {color: #1c2530; font-size: 23px; margin: -8px 0 17px}
+.auth .panel a {color: #165f85}
+.auth .panel a:hover {text-decoration:underline}
+.auth .panel + .panel {margin-left: 19px}
+.auth .signup {margin-left: 101px}
+.auth .signup input[type=email] {width:247px;margin-left:1px}
+.auth .signup {border-color: #e5e5e5}
+.auth .signup label {margin-bottom: 7px}
+.auth .signup label span, .auth .signin label div {display:block;margin-bottom: 3px}
+.auth .signup p + p {margin-top: 16px}
+
+.auth .signin {margin-top:1px;padding-bottom:22px}
+.auth .signin p {margin-top: 3px}
+.auth .signin p + p {margin-top: 13px}
+.auth .signin input[type=email], .auth .signin input[type=password] {width: 180px; margin-right: 8px}
+
+.auth .signin .buttons {margin-top:12px}
+.auth .signin .buttons button {margin:0 10px 0 0}
+.auth .signin .buttons span {font-size:13px;vertical-align:top;}
+
+.auth .signin .remind {padding:0 1px;font: 11px tahoma; cursor: pointer; color: #777; background:url(/images/underline777.png) repeat-x bottom right;}
+.auth .signin .remind:hover {background:none}
+
+.auth .social, .auth .signup label, .auth .signin label {position: relative}
+.auth .hint {position: absolute; color: #777; font-size: 13px; text-align: left}
+.auth .social .hint {width: 160px; left: -180px; padding-top: 24px; background: url(../images/decor/hint-stroke-1.gif) right top no-repeat}
+.auth .signup .hint {width: 165px; left: -170px; top: 23px; padding-top: 75px; background: url(../images/decor/hint-stroke-2.gif) right top no-repeat}
+.auth .signin .hint {width:150px;height: 63px; left: 64px; top: -68px; padding-left: 80px; background: url(../images/decor/hint-stroke-3.gif) left bottom no-repeat}
+
+.auth-question {font: 13px arial; color: #1c2530; padding: 20px 50px 0}
+.auth-question p {line-height: 18px; margin: 12px 0 20px}
+.auth-question .vk {display: inline-block; line-height: 16px; background: url(../images/vkontakte-small.png) left no-repeat; margin: 0 5px; padding-left: 20px}
+.auth-question button {margin-right: 10px}
+
+.popup-fader, .popup {display: none; position: fixed;}
+.popup-fader {left: 0; top: 0; width: 100%; height: 100%; background-color: #000; background-color: rgba(0,0,0,.3); filter: alpha(opacity=50)}
+.popup {top: 40%; left: 50%; background-color: #fff; font: 15px arial; padding: 30px 30px 38px 70px; box-shadow: -2px 2px 5px rgba(0,0,0,.3)}
+.popup h1 {font-size: 25px; font-weight: normal; margin: 0 0 10px;padding-bottom:1px!important}
+.popup .close {position: absolute; right: 10px; top: 10px; color: #999; font: 18px/9px verdana, monospace; cursor: pointer}
+
+.password-recover {width: 590px; margin-left: -305px; -moz-box-sizing: border-box; box-sizing: border-box}
+.password-recover h1 {}
+.password-recover p {line-height:1.4em;}
+.password-recover input[type=email], .password-recover button {padding:0 0 2px 0;width: 190px; -moz-box-sizing: border-box; box-sizing: border-box}
+.password-recover input[type=email] {padding:5px;margin:0}
+.password-recover .cancel-link a {font-size: 11px; font-family:tahoma, arial, "sans-serif";color: #777; margin-left: 20px; cursor: pointer;text-decoration:underline}
+.password-recover .cancel-link a:hover {text-decoration:none}
+
+
+.message {position: absolute; font: 13px arial; color: #fff; background: url(../images/decor/message.png) 9px bottom no-repeat; padding-bottom: 10px}
+.message div {background-color: #777; padding: 6px 10px}
+
+.error {border-color: #f00 !important}
+
+/*input, select, button {font-family: arial}
+input, select {font-size: 13px}
+input[type=text], input[type=password], select {border: 1px solid #bec0c2; box-shadow: inset 1px 1px 2px rgba(0,0,0,.1); padding: 0 5px; height: 31px}
+label input[type=checkbox], label input[type=radio], label span {vertical-align: middle}*/
 
 button {font-size: 15px; border: 1px solid #a6b0b7; box-shadow: inset 0 0 1px #fff3a0; padding: 0 18px; line-height: 32px; text-shadow: 0 1px #fff; cursor: pointer;
 	background: #fff5a3;

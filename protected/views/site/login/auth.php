@@ -9,6 +9,6 @@
                     <?= CHtml::link(Yii::t('Site', 'I already have a login'), 'site/login', array('service' => 'vkontakte', 'user' => 'haveALogin')); ?>
 		<div class="social">
 		</div>
-			
+
 	</div><!-- /contentnLogin -->
 </div>

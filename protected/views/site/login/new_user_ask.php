@@ -1,14 +1,19 @@
-<div class="wcontent" id="popupLogin">
-	<div class="contentLogin">
-		<h2>Вход на сайт</h2>
-		<div class="response" style="display:none; height: 100px; margin-bottom: 20px;">
-			<div></div>
-			<a href="javascript:void(0);" onclick='$("#popupLogin .contentLogin .response").hide();$("#formLogin").show();'>Попробовать еще раз</a>
-		</div>
-                    <?= CHtml::link(Yii::t('Site', 'I`m a new User'), array('site/login' , 'service' => $service, 'user' => 'new', 'reg_ask' => 1)); ?>
-                    <?= CHtml::link(Yii::t('Site', 'I already have a login'), array('site/login' , 'service' => $service, 'user' => 'haveALogin', 'reg_ask' => 1)); ?>
-		<div class="social">
-		</div>
-			
-	</div><!-- /contentnLogin -->
+<div class="auth-question">
+	<div class="logo"></div>
+    <?php
+        $attrs = $identity->getAttributes();
+        $login = '';
+        if(isset($attrs['name'])){
+            $login = $attrs['name'];
+        }
+        if(isset($attrs['surname'])){
+            $login .= ' ' . $attrs['surname'];
+        }
+        if(!$login && isset($attrs['login'])){
+            $login = $attrs['login'];
+        }
+    ?>
+	<p><?= Yii::t('Login', 'Вы сможете входить на сайт migom.by без ввода пароля через свой аккаунт <strong class="vk">Алексей Сайковский</strong>', array('class' => $service, 'name' => $login)); ?></p>
+    <button onclick="location(<?= $this->createUrl('site/login', array('service' => $service, 'user' => 'new', 'reg_ask' => 1)); ?>)"><?= Yii::t('Login', 'Я новый пользователь') ?></button>
+	<button onclick="location(<?= $this->createUrl('site/login', array('service' => $service, 'user' => 'haveALogin', 'reg_ask' => 1)); ?>"><?= Yii::t('Login', 'У меня уже есть аккаунт') ?></button>
 </div>
