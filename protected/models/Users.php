@@ -54,12 +54,12 @@ class Users extends ActiveRecord
 //                        array('password', 'required', 'on' => array('general_update')),
             array('email, reemail', 'email'),
             array('reemail', 'compareEmail', 'on' => 'general_update'),
-            array('email', 'unique'),
+            array('email', 'unique', 'message' => 'Пользователь с таким email уже зарегистрирован'),
             array('status, date_add, date_edit', 'numerical', 'integerOnly' => true),
             array('login, email', 'length', 'max' => 255),
             array('password', 'length', 'max' => 32, 'min' => 6),
-            array('repassword', 'compare', 'compareAttribute' => 'password', 'on' => 'general_update', 'message' => Yii::t('Site', 'Write right pass')),
-            array('old_password', 'compareOldPass', 'on' => 'general_update', 'message' => Yii::t('Site', 'Write right pass')),
+            array('repassword', 'compare', 'compareAttribute' => 'password', 'on' => 'general_update', 'message' => Yii::t('Site', 'Введите пароль правильно')),
+            array('old_password', 'compareOldPass', 'on' => 'general_update', 'message' => Yii::t('Site', 'Введите пароль правильно')),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
             array('id, login, password, email, status, date_add, date_edit, role', 'safe', 'on' => 'search'),
