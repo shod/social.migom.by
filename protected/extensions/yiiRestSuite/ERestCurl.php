@@ -12,7 +12,7 @@
  * @license         http://philsturgeon.co.uk/code/dbad-license
  * @link			http://getsparks.org/packages/curl/show
  **/
-class CURL extends CComponent
+class ERestCurl extends CComponent
 {
 
 	private $response = '';		  // Contains the cURL response for debug
@@ -49,7 +49,7 @@ class CURL extends CComponent
             return CVarDumper::dumpAsString($var,$depth=15,$highlight);
         }
     }
-	
+
 	function __construct($url = '')
 	{
 		Yii::log('debug', 'cURL Class Initialized');
@@ -156,20 +156,21 @@ class CURL extends CComponent
 
 	public function put($params = array(), $options = array())
 	{
+        return $this->post($params, $options);
 		// If its an array (instead of a query string) then format it correctly
-		if (is_array($params))
-		{
-			$params = http_build_query($params, NULL, '&');
-		}
-
-		// Add in the specific options provided
-		$this->options($options);
-
-		$this->http_method('put');
-		$this->option(CURLOPT_POSTFIELDS, $params);
-
-		// Override method, I think this overrides $_POST with PUT data but... we'll see eh?
-		$this->option(CURLOPT_HTTPHEADER, array('X-HTTP-Method-Override: PUT'));
+//		if (is_array($params))
+//		{
+//			$params = http_build_query($params, NULL, '&');
+//		}
+//
+//		// Add in the specific options provided
+//		$this->options($options);
+//
+//		$this->http_method('put');
+//		$this->option(CURLOPT_POSTFIELDS, $params);
+//
+//		// Override method, I think this overrides $_POST with PUT data but... we'll see eh?
+//		$this->option(CURLOPT_HTTPHEADER, array('X-HTTP-Method-Override: PUT'));
 	}
 
 	public function delete($params, $options = array())

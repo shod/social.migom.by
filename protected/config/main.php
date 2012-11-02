@@ -31,6 +31,8 @@ return array(
         'ext.eauth.custom_services.*',
         'ext.YiiMongoDbSuite.*',
         'ext.YiiMongoDbSuite.extra.*',
+        'ext.yiiRestSuite.*',
+        'ext.yiiRestSuite.server.*',
     ),
     'modules' => require(dirname(__FILE__) . '/modules.php'),
     'components' => require(dirname(__FILE__) . '/components.php'),
