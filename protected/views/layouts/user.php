@@ -5,8 +5,12 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <meta http-equiv="Content-Language" content="ru" />
         <title><?php echo $this->title; ?></title>
-        <?php Yii::app()->getClientScript()->registerCssFile('/css/default.css');?>
-        <?php Yii::app()->clientScript->registerCoreScript('jquery'); ?>
+        <?php
+            Yii::app()->getClientScript()->registerCssFile('/css/default.css');
+            Yii::app()->clientScript->registerScriptFile('/js/default.js');
+            Yii::app()->clientScript->registerCoreScript('jquery');
+            Yii::app()->clientScript->registerCoreScript('jquery.ui');
+        ?>
         <!--
             FOR EXAMPLE
 
@@ -19,13 +23,13 @@
         <link rel="SHORTCUT ICON" href="/favicon.ico">
 </head>
 <body>
-    
-    <!--HEAD-->		
-    <?= $content ?>	
-    
+
+    <!--HEAD-->
+    <?= $content ?>
+
     <div class="aside">
             <a href="javascript:"><img src="/images/content/banner.jpg"></a>
     </div>
-    
+
 </body>
 </html>
