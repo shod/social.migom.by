@@ -1,32 +1,19 @@
-<div class="wcontent" id="popupLogin">
-	<div class="contentLogin">
-		<h2>Вход на сайт</h2>
-		<div class="response" style="display:none; height: 100px; margin-bottom: 20px;">
-			<div></div>
-			<a href="javascript:void(0);" onclick='$("#popupLogin .contentLogin .response").hide();$("#formLogin").show();'>Попробовать еще раз</a>
-		</div>
-		
-		<?php $this->renderPartial('frm/_login', array('model' => $model)) ?>
-		
-		<h2>Войти из сети</h2>
-		<div class="social">
-			<?php
-				$this->widget('ext.eauth.EAuthWidget', array('action' => 'site/login'));
-			?>
-		</div>
-			
-	</div><!-- /contentnLogin -->
-	
-	<div class="contentRegistration">
-		<div class="title">
-			<h2>Регистрация</h2>
-			нового пользователя на Migom.by
-		</div>
-		<div class="response" style="display:none">
-			<div></div>
-			<a href="javascript:void(0);" onclick='$("#popupLogin .contentRegistration .response").hide();$("#formReg").show();'>Попробовать еще раз</a>		
-		</div>
-		
-		<?php $this->renderPartial('frm/_registration', array('model' => $regModel)) ?>
+<div class="auth form">
+	<div class="logo"></div>
+	<p><?= Yii::t('Login', 'Привяжите свой аккаунт из социальных сетей'); ?></p>
+
+	<div class="social">
+		<div class="hint"><?= Yii::t('Login', 'Вход и регистрация<br> в 3 клика'); ?></div>
+		<?php $this->widget('ext.eauth.EAuthWidget', array('action' => 'site/login')); ?>
 	</div>
+
+	<div class="panel signup">
+        <?php $this->renderPartial('frm/_registration', array('model' => $regModel)) ?>
+	</div>
+
+    <?php $this->renderPartial('frm/_login', array('model' => $model)) ?>
 </div>
+
+<div class="popup-fader"></div>
+
+<?php $this->renderPartial('frm/_remind', array('model' => $remindModel)) ?>

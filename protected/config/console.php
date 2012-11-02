@@ -5,6 +5,7 @@
 return array(
     'import' => array(
         'application.models.*',
+        'application.services.*',
         'application.models.mongo.*',
         'application.components.*',
         'application.components.ConsoleCommand',
@@ -86,5 +87,5 @@ return array(
             'time_limit' => 60 * 9 // 9 минут на обновление лайков (обновление в кроне - раз в 10 минут)
         ),
     ),
-   
+
 );

@@ -30,7 +30,7 @@ class SiteController extends Controller {
     public function accessRules() {
         return array(
             array('allow', // allow readers only access to the view file
-                'actions' => array('index', 'error', 'login', 'test', 'logout', 'registration', 'info'),
+                'actions' => array('index', 'error', 'login', 'test', 'logout', 'registration', 'info', 'remindPass'),
                 'users' => array('*')
             ),
             array('deny', // deny everybody else
@@ -47,7 +47,7 @@ class SiteController extends Controller {
      * when an action is not explicitly requested by users.
      */
     public function actionIndex() {
-        
+
 //        $queue = new Queue();
 //        $queue->what = 'mail send';
 //        $queue->user_id = 14;
@@ -70,13 +70,13 @@ class SiteController extends Controller {
     }
 
     public function actionTest() {
-        
-        $criteria = new CDbCriteria;
-        $criteria->compare('soc_id', '105844357378365018543');
-        $criteria->limit = 1;
-        $provider = Users_Providers::model('g----------------------oogle_oauth');
-        d($provider->find($criteria)->user->email);
-        
+        d($_SESSION);
+//        $criteria = new CDbCriteria;
+//        $criteria->compare('soc_id', '105844357378365018543');
+//        $criteria->limit = 1;
+//        $provider = Users_Providers::model('g----------------------oogle_oauth');
+//        d($provider->find($criteria)->user->email);
+
     }
 
     /**
@@ -120,12 +120,13 @@ class SiteController extends Controller {
                     if($identity->addNewSocial){
                         Users_Providers::addSocialToUser($identity, Yii::app()->user->getId());
                     }
+
                     // special redirect with closing popup window
                     $authIdentity->redirect();
                 } elseif ($identity->errorCode == EAuthUserIdentity::ERROR_USER_NOT_REGISTERED) {
                     if(!Yii::app()->request->getParam('reg_ask')){
                         $this->layout = 'popup';
-                        $this->render('login/new_user_ask', array('service' => $service));
+                        $this->render('login/new_user_ask', array('service' => $service, 'identity' => $identity));
                         Yii::app()->end();
                     } elseif(Yii::app()->request->getParam('user') == 'new'){
                         $reg = new Form_Registration();
@@ -145,7 +146,6 @@ class SiteController extends Controller {
                             Users_Providers::addSocialToUser($identity, Yii::app()->user->getId());
                         }
                     }
-
                     // special redirect with closing popup window
                     $authIdentity->redirect();
                 } else {
@@ -153,6 +153,9 @@ class SiteController extends Controller {
                     $authIdentity->cancel();
                 }
             }
+
+            $errors = array('message' => 'user was not login from ' . $service);
+            Yii::log($errors, CLogger::LEVEL_INFO);
 
             // Something went wrong, redirect to login page
             $this->redirect(array('/site/login'));
@@ -162,9 +165,10 @@ class SiteController extends Controller {
         $getErrors = (isset($_GET['mailError'])) ? $_GET['mailError'] : '';
 
         $regModel = new Form_Registration();
-        $this->render('login', array('model' => $model, 'regModel' => $regModel, 'getErrors' => $getErrors));
+        $remindModel = new Form_Remind();
+        $this->render('login', array('model' => $model, 'regModel' => $regModel, 'remindModel' => $remindModel, 'getErrors' => $getErrors));
     }
-    
+
     protected function _preLogin($redirect = true){
         $model = new Form_Login;
 
@@ -214,8 +218,22 @@ class SiteController extends Controller {
         }
         $this->redirect('/site/login');
     }
-    
-    public function actionSocialReg(){
-        
+
+    public function actionRemindPass(){
+        if(!Yii::app()->user->getIsGuest() || !Yii::app()->getRequest()->isAjaxRequest){
+            throw new CHttpException(404, 'Страница не найдена');
+        }
+
+        $form = new Form_Remind();
+        if (isset($_POST['Form_Remind']) && Yii::app()->getRequest()->isAjaxRequest) {
+            $form->attributes = $_POST['Form_Remind'];
+            if($form->validate() && isset($_POST['remind']) && $form->userModel->remindPassword()){
+                echo json_encode(array('success' => true, 'message' => Yii::t('Site', 'Новый пароль был выслан на почту')));
+                Yii::app()->end();
+            } else {
+                echo CActiveForm::validate($form);
+                Yii::app()->end();
+            }
+        }
     }
 }

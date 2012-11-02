@@ -38,7 +38,7 @@ class WebUser extends CWebUser {
         $this->id = $identity->getId();
         $user = $this->_getModel();
 
-        // return role name
+//        return role name
 //        $this->setState('name', $user->login);
 //        $this->setState('role', Users::$roles[$user->role]);
         $this->setRole(Users::$roles[$user->role]);

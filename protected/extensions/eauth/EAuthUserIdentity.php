@@ -30,11 +30,11 @@ class EAuthUserIdentity extends CUserIdentity {
 	 * @var string the display name for the identity.
 	 */
 	protected $name;
-        
+
         protected $attributes;
-        
+
         protected $soc_id;
-        
+
         public $addNewSocial = false;
 
 	/**
@@ -58,7 +58,7 @@ class EAuthUserIdentity extends CUserIdentity {
 			$this->setState('name', $this->name);
 //			$this->setState('service', $this->service->serviceName);
 
-			// You can save all given attributes in session.
+//          You can save all given attributes in session.
 //			$this->attributes = $this->service->getAttributes();
 //			$session = Yii::app()->session;
 //			$session['eauth_attributes'][$this->service->serviceName] = $attributes;
@@ -69,7 +69,7 @@ class EAuthUserIdentity extends CUserIdentity {
 			$this->errorCode = self::ERROR_NOT_AUTHENTICATED;
                         return $this->errorCode;
 		}
-                
+
                 if(!$this->errorCode && $this->service->getAttribute('soc_id')){
                     $user = false;
                     $criteria = new CDbCriteria;
@@ -97,18 +97,18 @@ class EAuthUserIdentity extends CUserIdentity {
                         $this->errorCode = self::ERROR_NONE;
                     }
                 }
-                
+
 		return !$this->errorCode;
 	}
-        
+
         public function getAttributes(){
             return $this->service->getAttributes();
         }
-        
+
         public function getAttribute($name){
             return $this->service->getAttribute($name);
         }
-        
+
         public function getProviderName(){
             return $this->service->getProviderName();
         }
@@ -121,7 +121,7 @@ class EAuthUserIdentity extends CUserIdentity {
 	public function getId() {
 		return $this->id;
 	}
-        
+
         public function setId($id) {
 		return $this->id = $id;
 	}

@@ -40,10 +40,10 @@ class CommentsController extends Controller
             $model->attributes = $_POST[get_class($model)];
         }
         $model->moderate_id = Yii::app()->user->id;
-        
+        $count = Comments::model($modelTitle)->count('parent_id = :parent_id', array(':parent_id' => $model->parent_id));
         if($model->save()){
             if($model->parent){
-                News::pushComment($model);
+                News::pushComment($model, $count);
             }
         }
     }

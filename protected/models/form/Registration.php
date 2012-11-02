@@ -8,7 +8,7 @@
 class Form_Registration extends CFormModel
 {
 	public $email;
-	public $agree;
+//	public $agree;
 
 	private $_identity;
 
@@ -20,9 +20,9 @@ class Form_Registration extends CFormModel
 	public function rules()
 	{
 		return array(
-			array('email', 'required', 'message' => Yii::t('Site', 'Cannot be blank')),
-                        array('email', 'email', 'checkPort' => true, 'message' => Yii::t('Site', 'Wrong Email Addres')),
-			array('agree', 'in', 'range'=>array(1), 'allowEmpty'=>false, 'message' => Yii::t('Site', 'You are not agree with rules?')),
+			array('email', 'required', 'message' => Yii::t('Site', 'Заполните')),
+                        array('email', 'email', 'checkPort' => true, 'message' => Yii::t('Site', 'Email введен не верно')),
+//			array('agree', 'in', 'range'=>array(1), 'allowEmpty'=>false, 'message' => Yii::t('Site', 'You are not agree with rules?')),
 			// password needs to be authenticated
 			array('email', 'authenticate'),
 		);
@@ -35,7 +35,7 @@ class Form_Registration extends CFormModel
 	{
 		return array(
                         'email' => Yii::t('Site', 'E-mail'),
-			'agree' => Yii::t('Site', 'I agree with the rules'),
+//			'agree' => Yii::t('Site', 'I agree with the rules'),
 		);
 	}
 
@@ -55,7 +55,7 @@ class Form_Registration extends CFormModel
 	}
 
         public function registration($identity = null, $service = null){
-            $pass = substr(md5(time() . 'intwall was heare'), 6, 8); // send to email
+            $pass = substr(md5(time() . 'intwall was here'), 6, 8); // send to email
             if($service){
                 $user = new Users('regByApi');
                 $user->password = $pass;
@@ -92,7 +92,6 @@ class Form_Registration extends CFormModel
                 }
                 $profile = new Users_Profile();
                 $profile->user_id = $user->id;
-                $profile->full_name = $user->login;
                 $profile->avatar = UserService::uploadAvatarFromEmail($user->id, $user->email);
                 $profile->save();
                 if(!$identity){
@@ -101,8 +100,10 @@ class Form_Registration extends CFormModel
                     $identity->authenticate();
                 }
             }
-            $mail = new Mail();
-            $mail->send($user, 'registration', array('password' => $pass), true);
+            if($user->email){
+                $mail = new Mail();
+                $mail->send($user, 'registration', array('password' => $pass), true);
+            }
             return $identity;
         }
 }

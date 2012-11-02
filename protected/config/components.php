@@ -35,7 +35,7 @@ return array(
         'class' => 'RESTClient',
         'servers' => array(
             'migom' => array(
-                'server' => 'http://test4.migom.by/api',
+                'server' => 'http://test3.migom.by/api/api',
 //                            'http_auth' => true,
 //                            'http_user' => true,
 //                            'http_pass' => true,
@@ -63,6 +63,9 @@ return array(
             'ads' => 'ads/default/index',
             'user/<id:\d+>' => 'user/index',
             'user' => 'user/index',
+            'profile/<id:\d+>' => 'user/profile',
+            'profile' => 'user/profile',
+            'profile/edit' => 'user/edit',
             '' => 'user/index',
             '<action:(login|logout)>' => 'site/<action>',
             '<controller:\w+>/<id:\d+>' => '<controller>/view',
