@@ -26,7 +26,7 @@
             <p class="buttons">
                 <button><?= Yii::t('Login', 'Войти'); ?></button>
                 <label>
-                    <?= CHtml::checkBox('short_session') ?>
+                    <?= $form->checkBox($model, 'shortSession') ?>
                     <span><?= Yii::t('Login', 'Чужой компьютер'); ?></span>
                 </label>
             </p>

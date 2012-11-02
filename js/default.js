@@ -43,4 +43,10 @@ $(document).bind("ready", function init() {
             $("#"+attr).addClass("error").message(data[attr]).fadeIn().delay(1500).fadeOut();
         }
     }
+
+    $(".remind, .password-recover .close, .password-recover .cancel-link").on("click", function(e) {
+        $(".popup-fader, .password-recover").toggle()
+        $("#formRemind #Form_Remind_email").val($("#formLogin #Form_Login_email").val())
+        $(".password-recover").css("margin-top", $(".password-recover").outerHeight() / -2)
+    })
 })

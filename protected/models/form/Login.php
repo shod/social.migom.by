@@ -9,7 +9,7 @@ class Form_Login extends CFormModel
 {
 	public $email;
 	public $password;
-	public $rememberMe;
+	public $shortSession;
         public $userModel;
 
 	private $_identity;
@@ -23,9 +23,9 @@ class Form_Login extends CFormModel
 	{
 		return array(
 			array('email, password', 'required', 'message' => Yii::t('Site', 'Заполните'), 'except' => 'remindPassword'),
-                        array('email', 'email', 'message' => Yii::t('Site', 'Email введен не верно')),
-                        array('email', 'remindEmailCheck', 'message' => Yii::t('Site', 'Write right'), 'on' => 'remindPassword'),
-			array('rememberMe', 'boolean'),
+            array('email', 'email', 'message' => Yii::t('Site', 'Email введен не верно')),
+            array('email', 'remindEmailCheck', 'message' => Yii::t('Site', 'Write right'), 'on' => 'remindPassword'),
+			array('shortSession', 'boolean'),
 			// password needs to be authenticated
 			array('password', 'authenticate', 'except' => 'remindPassword'),
 		);
@@ -39,7 +39,7 @@ class Form_Login extends CFormModel
 		return array(
                         'email' => Yii::t('Site', 'E-mail'),
                         'password' => Yii::t('Site', 'Password'),
-                        'rememberMe'=>Yii::t('Site', 'Stay signed in'),
+                        'shortSession'=>Yii::t('Site', 'Stay signed in'),
 		);
 	}
 
@@ -78,7 +78,7 @@ class Form_Login extends CFormModel
 		}
 		if($this->_identity->errorCode===UserIdentity::ERROR_NONE)
 		{
-			$duration=$this->rememberMe ? 3600*24*30 : 0; // 30 days
+			$duration=$this->shortSession ? 3600 : 3600*24*30; // 30 days
 			Yii::app()->user->login($this->_identity,$duration);
 			return true;
 		}
