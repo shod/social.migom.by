@@ -4,20 +4,20 @@
  * Entity like
  * @package api
  */
-class LikesController extends ApiController
+class LikesController extends ERestController
 {
 
     const CONTENT_IS_UPDATE = 'update';
 
     /**
-     * 
+     *
      * @param string $entity
      * @param array $id array of int array(1,23,34)
      */
     public function actionGetEntityList($entity)
     {
         if(!is_array($_GET['id'])){
-            throw new ApiException(Yii::t('Likes', "Param '{param}' is not array", array('{param}' => 'id')));
+            throw new ERestException(Yii::t('Likes', "Param '{param}' is not array", array('{param}' => 'id')));
         }
         array_map('intval', $_GET['id']);
         $criteria = new EMongoCriteria();
@@ -27,12 +27,12 @@ class LikesController extends ApiController
             /* @var $res Likes */
             $res = Likes::model($entity)->findAll($criteria);
         } catch (Exception $exc) {
-            throw new ApiException(Yii::t('Likes', "Entity '{entity}' is not exist", array('{entity}' => $entity)));
+            throw new ERestException(Yii::t('Likes', "Entity '{entity}' is not exist", array('{entity}' => $entity)));
         }
 
-        
 
-        $content = array(ApiComponent::CONTENT_ITEMS => $res, ApiComponent::CONTENT_COUNT => count($res));
+
+        $content = array(ERestComponent::CONTENT_ITEMS => $res, ERestComponent::CONTENT_COUNT => count($res));
         $this->render()->sendResponse($content);
     }
 
@@ -41,7 +41,7 @@ class LikesController extends ApiController
         /* @var $res Likes */
         $res = Likes::model($entity)->findAll(array('entity_id' => $id));
 
-        $content = array(ApiComponent::CONTENT_ITEM => $res);
+        $content = array(ERestComponent::CONTENT_ITEM => $res);
         $this->render()->sendResponse($content);
     }
 
@@ -57,7 +57,7 @@ class LikesController extends ApiController
         $res = $this->_likeUpdate($_REQUEST['id'], $entity, 1);
         $this->render()->sendResponse(array(self::CONTENT_IS_UPDATE => $res));
     }
-    
+
     /**
      * Like disentity
      * @param string $entity
@@ -78,9 +78,9 @@ class LikesController extends ApiController
         $userId = (int) $_REQUEST['user_id'];
         $comment = $entity::model()->findByPk($entity_id);
         if(!$comment){
-            throw new ApiException(Yii::t('Likes', "Have not entity #{id}", array('{id}' => $entity_id)));
+            throw new ERestException(Yii::t('Likes', "Have not entity #{id}", array('{id}' => $entity_id)));
         }
-        try { 
+        try {
              /* @var $likes Likes */
             if ($likes = Likes::model($entity)->findByPk($entity_id)) {
                 foreach ($likes->users as $user) {
@@ -94,7 +94,7 @@ class LikesController extends ApiController
                 $likes->entity_id = $entity_id;
             }
         } catch (Exception $exc) {
-            throw new ApiException(Yii::t('Likes', "Entity '{entity}' is not exist", array('{entity}' => $model)));
+            throw new ERestException(Yii::t('Likes', "Entity '{entity}' is not exist", array('{entity}' => $model)));
         }
         $userModel = Users::model()->findByPk($userId);
         $user = new Likes_Embidded_Users();
@@ -105,7 +105,7 @@ class LikesController extends ApiController
         $likes->users[] = $user;
         $likes->setWeightInc($weight);
         if($likes->save()){
-                
+
                 $like = array('user_id' => $userId,
                     'login' => $userModel->login,
                     'likes' => $likes->likes,
@@ -114,7 +114,7 @@ class LikesController extends ApiController
                 News::pushLike($comment, $like);
                 return true;
         }  else {
-            throw new ApiException(Yii::t('Likes', $likes->getErrors()));
+            throw new ERestException(Yii::t('Likes', $likes->getErrors()));
         }
         return false;
     }
