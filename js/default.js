@@ -28,7 +28,7 @@ $(document).bind("ready", function init() {
         return error
     }
 
-    $(".auth").on("focusin focusout", "input", function(e) {
+    $(".auth, .profileForm").on("focusin focusout", "input", function(e) {
         if (e.type == "focusin") {
             $(e.target).next(".message").fadeIn();
         } else {
