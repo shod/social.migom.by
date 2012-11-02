@@ -168,10 +168,6 @@
         $cs->registerScript(
             'calendar',
             'date = new Date();
-            sDay = $(".day").val();
-            sDay++;
-            $(".day").html($(createDateOptions(0, date.getDate())));
-            $(".day :nth-child("+sDay+")").attr("selected", "selected");
 
             $(".month").change(function(){
                 sDay = $(".day").val();
