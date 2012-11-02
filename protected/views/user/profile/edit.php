@@ -43,15 +43,21 @@
                     'enableAjaxValidation'=>true,
                     'enableClientValidation'=>true,
                     'focus'=>array($model,'username'),
-                    'htmlOptions' => array(
-                        'enctype'=>'multipart/form-data'
-                    ),
                     'clientOptions'=>array(
                         'validateOnSubmit'=>true,
+                        'inputContainer' => 'div',
+                        'afterValidate' => 'js:function(form, data, hasError){ $(form).validateAttrs(data); return true; }',
+                        'afterValidateAttribute' => 'js:function(form, attribute, data, hasError){ $(form).validateAttrs(data); return true; }',
+                        'hideErrorMessage' => true,
                     ),
         )); ?>
         <table>
             <caption><?= Yii::t('Profile', 'Редактирование профиля') ?></caption>
+            <tr>
+                <th><?php echo $form->label($model,'login'); ?>:</th>
+                <td><?php echo $form->textField($model,'login'); ?></td>
+                <?php echo $form->error($model,'login'); ?>
+            </tr>
             <tr>
                 <th><?php echo $form->label($model->profile,'name'); ?>:</th>
                 <td><?php echo $form->textField($model->profile,'name'); ?></td>
