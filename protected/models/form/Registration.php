@@ -20,8 +20,8 @@ class Form_Registration extends CFormModel
 	public function rules()
 	{
 		return array(
-			array('email', 'required', 'message' => Yii::t('Site', 'Cannot be blank')),
-                        array('email', 'email', 'checkPort' => true, 'message' => Yii::t('Site', 'Wrong Email Addres')),
+			array('email', 'required', 'message' => Yii::t('Site', 'Заполните')),
+                        array('email', 'email', 'checkPort' => true, 'message' => Yii::t('Site', 'Email введен не верно')),
 //			array('agree', 'in', 'range'=>array(1), 'allowEmpty'=>false, 'message' => Yii::t('Site', 'You are not agree with rules?')),
 			// password needs to be authenticated
 			array('email', 'authenticate'),

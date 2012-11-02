@@ -22,8 +22,8 @@ class Form_Login extends CFormModel
 	public function rules()
 	{
 		return array(
-			array('email, password', 'required', 'message' => Yii::t('Site', 'Cannot be blank'), 'except' => 'remindPassword'),
-                        array('email', 'email', 'message' => Yii::t('Site', 'write right')),
+			array('email, password', 'required', 'message' => Yii::t('Site', 'Заполните'), 'except' => 'remindPassword'),
+                        array('email', 'email', 'message' => Yii::t('Site', 'Email введен не верно')),
                         array('email', 'remindEmailCheck', 'message' => Yii::t('Site', 'Write right'), 'on' => 'remindPassword'),
 			array('rememberMe', 'boolean'),
 			// password needs to be authenticated
