@@ -3,14 +3,14 @@
 /**
  * @ignore
  */
-class Render extends ApiComponent {
+class ERestRender extends ERestComponent {
 
     private $status = self::STATUS_OK;
     private $content_type = self::TYPE_JSON;
     private $version = '1.0';
 
     public function init() {
-        
+
     }
 
     public function setStatus($status) {
@@ -83,11 +83,11 @@ class Render extends ApiComponent {
 
             $content = array(
                 "message" => $message,
-                ApiComponent::CONTENT_SUCCESS => false,
+                ERestComponent::CONTENT_SUCCESS => false,
             );
         }else{
-            if(!isset($content[ApiComponent::CONTENT_SUCCESS])){
-                $content[ApiComponent::CONTENT_SUCCESS] = true;
+            if(!isset($content[ERestComponent::CONTENT_SUCCESS])){
+                $content[ERestComponent::CONTENT_SUCCESS] = true;
             }
         }
         $body = array(

@@ -4,7 +4,7 @@
  * Work with user
  * @package api
  */
-class UserController extends ApiController
+class UserController extends ERestController
 {
 
     /**
@@ -17,14 +17,14 @@ class UserController extends ApiController
         $puid = $_GET['puid'];
         $user = Yii::app()->cache->get('user_' . $puid);
         if ($user) {
-            $content = array(ApiComponent::CONTENT_MESSAGE => Yii::t('Api', 'User is auth'),
-                ApiComponent::CONTENT_ID => $user['id'],
+            $content = array(ERestComponent::CONTENT_MESSAGE => Yii::t('Api', 'User is auth'),
+                ERestComponent::CONTENT_ID => $user['id'],
                 'auth' => true,
-                ApiComponent::CONTENT_SUCCESS => true);
+                ERestComponent::CONTENT_SUCCESS => true);
         } else {
-            $content = array(ApiComponent::CONTENT_MESSAGE => Yii::t('Api', 'User is not auth'),
+            $content = array(ERestComponent::CONTENT_MESSAGE => Yii::t('Api', 'User is not auth'),
                 'auth' => false,
-                ApiComponent::CONTENT_SUCCESS => true);
+                ERestComponent::CONTENT_SUCCESS => true);
         }
         $this->render()->sendResponse($content);
     }
@@ -37,8 +37,8 @@ class UserController extends ApiController
     public function actionDeleteAuth($puid)
     {
         Yii::app()->cache->delete('user_' . $puid);
-        $this->render()->sendResponse(array(ApiComponent::CONTENT_MESSAGE => Yii::t('Api', 'User logout'),
-            ApiComponent::CONTENT_SUCCESS => true));
+        $this->render()->sendResponse(array(ERestComponent::CONTENT_MESSAGE => Yii::t('Api', 'User logout'),
+            ERestComponent::CONTENT_SUCCESS => true));
     }
 
     /**
@@ -55,10 +55,10 @@ class UserController extends ApiController
             $puid = 'asd';
             Yii::app()->cache->set('user_' . $puid, array('id' => 100));
 
-            $content = array(ApiComponent::CONTENT_MESSAGE => Yii::t('Api', 'User is auth'),
-                ApiComponent::CONTENT_PUID => $puid);
+            $content = array(ERestComponent::CONTENT_MESSAGE => Yii::t('Api', 'User is auth'),
+                ERestComponent::CONTENT_PUID => $puid);
         } else {
-            $content = array(ApiComponent::CONTENT_MESSAGE => Yii::t('Api', 'User is not auth'));
+            $content = array(ERestComponent::CONTENT_MESSAGE => Yii::t('Api', 'User is not auth'));
         }
         $this->render()->sendResponse($content);
     }

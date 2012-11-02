@@ -2,7 +2,7 @@
 /**
  * @package component
  */
-class ApiComponent extends CComponent {
+class ERestComponent extends CComponent {
 
     const TYPE_JSON = 'json';
     const TYPE_XML = 'xml';

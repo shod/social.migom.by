@@ -10,7 +10,7 @@ return array(
         'application.components.*',
         'application.components.ConsoleCommand',
         'application.modules.api.components.*',
-        'application.extensions.RESTClient.*',
+        'ext.yiiRestSuite.*',
         'ext.YiiMongoDbSuite.*',
         'ext.YiiMongoDbSuite.extra.*',
     ),

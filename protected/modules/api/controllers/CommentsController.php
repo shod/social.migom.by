@@ -4,7 +4,7 @@
  * Work with user comment
  * @package api
  */
-class CommentsController extends ApiController
+class CommentsController extends ERestController
 {
 
     const CONTENT_COMMENTS = 'comments';
@@ -21,7 +21,7 @@ class CommentsController extends ApiController
      */
     public function actionGetComment($id)
     {
-        
+
     }
 
     /**
@@ -32,7 +32,7 @@ class CommentsController extends ApiController
      */
     public function actionGetUserList($id, $limit, $start = null)
     {
-        
+
     }
 
     /**
@@ -75,7 +75,7 @@ class CommentsController extends ApiController
             $res[] = $row;
         }
 
-        $content = array(self::CONTENT_COMMENTS => $res, ApiComponent::CONTENT_COUNT => count($res));
+        $content = array(self::CONTENT_COMMENTS => $res, ERestComponent::CONTENT_COUNT => count($res));
         $this->render()->sendResponse($content);
     }
 
@@ -108,7 +108,7 @@ class CommentsController extends ApiController
             $res[] = $row;
         }
 
-        $content = array(self::CONTENT_COMMENTS => $res, ApiComponent::CONTENT_COUNT => count($res));
+        $content = array(self::CONTENT_COMMENTS => $res, ERestComponent::CONTENT_COUNT => count($res));
         $this->render()->sendResponse($content);
     }
 
@@ -142,13 +142,13 @@ class CommentsController extends ApiController
     {
         $comment = Comments::model($entity, true);//new Comments_News();
         $comment->attributes = $_POST;
-        
+
         $comment->parent_id = (isset($_POST['parent_id']) && $_POST['parent_id'] > 0) ? $_POST['parent_id'] : 0;
         if ($comment->save()) {
             $content = array(self::CONTENT_COMMENT => $comment->attributes);
             $this->render()->sendResponse($content);
         } else {
-            throw new ApiException(Yii::t('Likes', $comment->getErrors()));
+            throw new ERestException(Yii::t('Likes', $comment->getErrors()));
         }
     }
 
@@ -160,7 +160,7 @@ class CommentsController extends ApiController
      */
     public function actionDeliteComment($id, $entity, $recursive = true)
     {
-        
+
     }
 
     /**
@@ -171,7 +171,7 @@ class CommentsController extends ApiController
      */
     public function actionPutComment($id, $entity, $params = array())
     {
-        
+
     }
 
 }

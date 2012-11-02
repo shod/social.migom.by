@@ -5,10 +5,10 @@
  * @package api
  * @ignore
  */
-class ApiController extends CController {
+class ERestController extends CController {
 
     protected $key;
-    
+
     /**
      * @ignore
      * @param string $id
@@ -27,10 +27,10 @@ class ApiController extends CController {
             $this->key = $_REQUEST['key'];
         }
     }
-    
+
     // Members
     /**
-     * Key which has to be in HTTP USERNAME and PASSWORD headers 
+     * Key which has to be in HTTP USERNAME and PASSWORD headers
      */
 
     const APPLICATION_ID = 'ASCCPE';
@@ -50,9 +50,9 @@ class ApiController extends CController {
     }
 
     protected function getModel($param) {
-        
+
     }
-    
+
     public function render(){
         return Yii::app()->controller->module->render;
     }
@@ -90,7 +90,7 @@ class ApiController extends CController {
             $this->_sendResponse(500, 'Error: Parameter <b>id</b> is missing');
 
         switch ($_GET['model']) {
-            // Find respective model    
+            // Find respective model
             case 'posts':
                 $model = Post::model()->findByPk($_GET['id']);
                 break;

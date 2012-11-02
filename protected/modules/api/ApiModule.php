@@ -10,23 +10,24 @@ class ApiModule extends CWebModule {
         'GET' => array(
             'api' => 'default/index',
             'api/auth/login/<key:\w+>' => 'api/auth/getLogin',
-            
+
             'api/<controller:\w+>/<action:\w+>/<entity:\w+>/<id:\d+>' => 'api/<controller>/get<action>',
             'api/<controller:\w+>/<action:\w+>/<entity:\w+>' => 'api/<controller>/get<action>',
             'api/<controller:\w+>/<action:\w+>/<id:\d+>' => 'api/<controller>/get<action>',
             'api/<controller:\w+>/<_a:(list)>' => 'api/<controller>/get<_a>',
         ),
         'POST' => array(
+            'api/<controller:\w+>/<_a:(update|insert|delite)>' => 'api/<controller>/<_a>', //static
             'api/<controller:\w+>/<action:\w+>/<id:\d+>' => 'api/<controller>/post<action>',
             'api/<controller:\w+>/<action:\w+>/<entity:\w+>' => 'api/<controller>/post<action>',
             'api/<controller:\w+>/<action:\w+>' => 'api/<controller>/post<action>',
         ),
-        'PUT' => array(
-            'api/<controller:\w+>/<_a:(update)>/<key:\w+>' => 'api/<controller>/put<_a>',
-        ),
-        'DELETE' => array(
-            'api/<controller:\w+>/<action:\w+>/<puid:\w+>' => 'api/<controller>/delete<action>',
-        ),
+//        'PUT' => array(
+//            'api/<controller:\w+>/<_a:(update)>/<key:\w+>' => 'api/<controller>/put<_a>',
+//        ),
+//        'DELETE' => array(
+//            'api/<controller:\w+>/<action:\w+>/<puid:\w+>' => 'api/<controller>/delete<action>',
+//        ),
     );
 
     /**
@@ -35,8 +36,8 @@ class ApiModule extends CWebModule {
      *  import the module-level models and components
      */
     public function init() {
-     //   var_dump($_SERVER["REDIRECT_URL"], $_SERVER["REQUEST_METHOD"]);
-     //   var_dump($_POST);
+//        var_dump($_SERVER["REDIRECT_URL"], $_SERVER["REQUEST_METHOD"]);
+//        var_dump($_POST);
         $this->setImport(array(
 //            'api.models.*',
             'api.components.*',
@@ -44,15 +45,15 @@ class ApiModule extends CWebModule {
         $this->setComponents(array(
                                 'render'=>array('class'=>'Render'),
             ), true);
-        
+
         Yii::app()->urlManager->addRules($this->urlManager[CHttpRequest::getRequestType()], false);
-        
-        Yii::app()->getErrorHandler()->errorAction = 'api/default/pageNotFound';
+
+        Yii::app()->getErrorHandler()->errorAction = 'api/auth/pageNotFound';
     }
 
-    public function beforeControllerAction($controller, $action) {
+        public function beforeControllerAction($controller, $action) {
         $className = get_class($controller);
-        if ($className != 'AuthController' && $className != 'DefaultController') {
+        if ($className != 'AuthController') {
             if (!$this->isAuth()) {
                 return false;
             }
@@ -76,7 +77,7 @@ class ApiModule extends CWebModule {
         }
         $cache = Yii::app()->cache->get($key);
         if ($cache === false) {
-            new ApiException(Yii::t('Api', 'Auth error with key "{key}"', array('{key}'=>$key)));
+            new ERestException(Yii::t('Api', 'Auth error with key "{key}"', array('{key}'=>$key)));
             return false;
         }
         Yii::app()->controller->module->render->setContentType($cache['type']);

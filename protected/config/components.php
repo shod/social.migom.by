@@ -23,17 +23,13 @@ return array(
         // ImageMagick setup path
         'params' => array('directory' => '/opt/local/bin'),
     ),
-    'RESTClient' => array(
-        'class' => 'application.extensions.RESTClient.RESTClient',
-        'servers' => array(
-            'migom' => array(
-                'server' => 'http://test3.migom.by/api/api',
+    'migom' => array(
+        'class' => 'ERestServer',
+        'connectionString' => 'http://test3.migom.by/api/api',
+        'password' => 'social',
 //                            'http_auth' => true,
 //                            'http_user' => true,
 //                            'http_pass' => true,
-                'key' => 'devel',
-            ),
-        ),
     ),
     'user' => array(
         // enable cookie-based authentication
@@ -80,6 +76,10 @@ return array(
         'servers' => array(
             array(
                 'host' => '178.172.181.139',
+                'port' => 11211,
+            ),
+            array(
+                'host' => 'localhost',
                 'port' => 11211,
             ),
         ),
