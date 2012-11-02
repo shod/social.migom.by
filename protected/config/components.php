@@ -26,22 +26,10 @@ return array(
     'migom' => array(
         'class' => 'ERestServer',
         'connectionString' => 'http://test3.migom.by/api/api',
-        'password' => 'devel',
+        'password' => 'social',
 //                            'http_auth' => true,
 //                            'http_user' => true,
 //                            'http_pass' => true,
-    ),
-    'RESTClient' => array(
-        'class' => 'RESTClient',
-        'servers' => array(
-            'migom' => array(
-                'server' => 'http://test3.migom.by/api/api',
-//                            'http_auth' => true,
-//                            'http_user' => true,
-//                            'http_pass' => true,
-                'key' => 'devel',
-            ),
-        ),
     ),
     'user' => array(
         // enable cookie-based authentication
