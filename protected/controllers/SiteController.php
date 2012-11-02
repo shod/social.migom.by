@@ -126,7 +126,7 @@ class SiteController extends Controller {
                 } elseif ($identity->errorCode == EAuthUserIdentity::ERROR_USER_NOT_REGISTERED) {
                     if(!Yii::app()->request->getParam('reg_ask')){
                         $this->layout = 'popup';
-                        $this->render('login/new_user_ask', array('service' => $service));
+                        $this->render('login/new_user_ask', array('service' => $service, 'identity' => $identity));
                         Yii::app()->end();
                     } elseif(Yii::app()->request->getParam('user') == 'new'){
                         $reg = new Form_Registration();
@@ -173,6 +173,7 @@ class SiteController extends Controller {
 
         // if it is ajax validation request
         if (Yii::app()->getRequest()->isAjaxRequest && Yii::app()->getRequest()->getParam('ajax') == 'formLogin') {
+//            echo json_encode(array('Form_Login_password' => array('Incorrect email or password.', 'Incorrect email or password2.'), 'Form_Login_email' => array('Incorrect email or password.', 'Incorrect email or password2.')));
             echo CActiveForm::validate($model);
             Yii::app()->end();
         }
