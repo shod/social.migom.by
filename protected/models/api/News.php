@@ -23,7 +23,7 @@ class Api_News extends ERestDocument
 		return $this->setRestComponent(Yii::app()->getComponent('migom'));
 	}
 
-    public static function model($className=__CLASS__)
+    public static function model($className='News')
 	{
 		return parent::model($className);
 	}
