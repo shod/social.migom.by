@@ -170,7 +170,12 @@ class News extends EMongoDocument {
         // эти параметры следовало бы обновить в любом случае
 
         $name = array_pop(explode('_', get_class($parent)));
-        $api = 'Api_'.$name::model()->findByPK($parent->id);
+        d($name);
+        d($comment->entity_id);
+        $api = 'Api_'.$name::model();
+        d($api);
+        $api->findByPK($comment->entity_id);
+        d($api);
         $entity->link = self::getLink($name);
         $entity->entity_id = $comment->entity_id;
         $entity->filter = 'comment';
