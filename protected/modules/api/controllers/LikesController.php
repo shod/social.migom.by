@@ -10,7 +10,7 @@ class LikesController extends ApiController
     const CONTENT_IS_UPDATE = 'update';
 
     /**
-     * 
+     *
      * @param string $entity
      * @param array $id array of int array(1,23,34)
      */
@@ -30,7 +30,7 @@ class LikesController extends ApiController
             throw new ApiException(Yii::t('Likes', "Entity '{entity}' is not exist", array('{entity}' => $entity)));
         }
 
-        
+
 
         $content = array(ApiComponent::CONTENT_ITEMS => $res, ApiComponent::CONTENT_COUNT => count($res));
         $this->render()->sendResponse($content);
@@ -57,7 +57,7 @@ class LikesController extends ApiController
         $res = $this->_likeUpdate($_REQUEST['id'], $entity, 1);
         $this->render()->sendResponse(array(self::CONTENT_IS_UPDATE => $res));
     }
-    
+
     /**
      * Like disentity
      * @param string $entity
@@ -67,6 +67,8 @@ class LikesController extends ApiController
      */
     public function actionPostDislike($entity)
     {
+        d($entity);
+        d($_REQUEST['id']);
         $res = $this->_likeUpdate($_REQUEST['id'], $entity, -1);
         $this->render()->sendResponse(array(self::CONTENT_IS_UPDATE => $res));
     }
@@ -80,7 +82,7 @@ class LikesController extends ApiController
         if(!$comment){
             throw new ApiException(Yii::t('Likes', "Have not entity #{id}", array('{id}' => $entity_id)));
         }
-        try { 
+        try {
              /* @var $likes Likes */
             if ($likes = Likes::model($entity)->findByPk($entity_id)) {
                 foreach ($likes->users as $user) {
