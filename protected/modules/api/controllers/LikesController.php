@@ -67,6 +67,8 @@ class LikesController extends ERestController
      */
     public function actionPostDislike($entity)
     {
+        d($entity);
+        d($_REQUEST['id']);
         $res = $this->_likeUpdate($_REQUEST['id'], $entity, -1);
         $this->render()->sendResponse(array(self::CONTENT_IS_UPDATE => $res));
     }
