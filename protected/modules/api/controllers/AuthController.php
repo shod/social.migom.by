@@ -55,7 +55,7 @@ class AuthController extends ERestController {
     public function actionPageNotFound()
     {
         $errors = Yii::app()->getErrorHandler()->getError();
-        $this->render()->setStatus($errors['code'])->sendResponse(array(ERestComponent::CONTENT_MESSAGE => Yii::t('Api', $errors['message']),
+        $this->render()->setStatus($errors['code'])->sendResponse(array(ERestComponent::CONTENT_MESSAGE => $errors['message'],
             ERestComponent::CONTENT_SUCCESS => false));
     }
 }
