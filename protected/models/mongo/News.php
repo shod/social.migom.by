@@ -170,12 +170,11 @@ class News extends EMongoDocument {
         // эти параметры следовало бы обновить в любом случае
 
         $name = array_pop(explode('_', get_class($parent)));
-        $parentObjectName = 'Api_'.$name;
-        $api = new $parentObjectName();
+        $api = 'Api_'.$name::model()->findByPK($parent->id);
         $entity->link = self::getLink($name);
         $entity->entity_id = $comment->entity_id;
         $entity->filter = 'comment';
-        $entity->title = $api->getTitle($parent->id);
+        $entity->title = $api->title;
         $entity->text = $parent->text;
         $entity->template = 'news';
         $entity->comment->count = $count;
@@ -235,7 +234,6 @@ class News extends EMongoDocument {
         $news->entities[] = $entity;
         $news->save();
         self::_updateChildLikes($comment, $likes);
-
         return true;;
     }
 
