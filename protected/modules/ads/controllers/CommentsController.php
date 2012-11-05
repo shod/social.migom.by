@@ -5,7 +5,7 @@ class CommentsController extends Controller
     public function actionIndex(){
         $this->render('index');
     }
-    
+
     public function actionList($model){
         $modelTitle = $model;
         $model= Comments::model($modelTitle);
@@ -14,10 +14,10 @@ class CommentsController extends Controller
         if(isset($_GET['Comments_News'])){
             $model->attributes = $_GET['Comments_News'];
         }
-        
+
         $this->render('list', array('model' => $model, 'modelTitle' => $modelTitle));
     }
-    
+
     public function actionTree($model, $id){
         $modelTitle = $model;
         $model= Comments::model($modelTitle);
@@ -27,10 +27,10 @@ class CommentsController extends Controller
             $model->moderate_id = Yii::app()->user->id;
             $model->save();
         }
-        
+
         $this->renderPartial('tree', array('model' => $model, 'modelTitle' => $modelTitle));
     }
-    
+
     public function actionApproove($model, $id){
         $modelTitle = $model;
         $model= Comments::model($modelTitle);
@@ -45,9 +45,11 @@ class CommentsController extends Controller
             if($model->parent){
                 News::pushComment($model, $count);
             }
+        }else{
+            d($model->getErrors());
         }
     }
-    
+
     public function actionSave($model, $id){
         $modelTitle = $model;
         $model= Comments::model($modelTitle);
@@ -56,7 +58,7 @@ class CommentsController extends Controller
         $model->moderate_id = Yii::app()->user->id;
         $model->save();
     }
-    
+
     public function actionDelete($model, $id){
         $modelTitle = $model;
         $model= Comments::model($modelTitle);
