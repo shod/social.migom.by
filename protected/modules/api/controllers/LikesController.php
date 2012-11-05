@@ -4,7 +4,7 @@
  * Entity like
  * @package api
  */
-class LikesController extends ApiController
+class LikesController extends ERestController
 {
 
     const CONTENT_IS_UPDATE = 'update';
