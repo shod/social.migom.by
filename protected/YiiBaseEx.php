@@ -33,7 +33,7 @@ class YiiBaseEx extends YiiBase
                         }
                     }
                 } else {
-                    @include($className . '.php');
+                    @include(ucfirst($className) . '.php');
                     if (!(class_exists($className, false) || interface_exists($className, false)) && strpos($className, '_') !== false) {
                         // Try namespaced version of class name
                         $aClassName = explode('_', strtolower($className));
@@ -44,7 +44,7 @@ class YiiBaseEx extends YiiBase
                     if (!(class_exists($className, false) || interface_exists($className, false))) {
                         throw new CException("Entity '$className' is not exist");
                     }
-                    
+
                 }
             } else {  // class name with namespace in PHP 5.3
                 $namespace = str_replace(array('\\', '_'), '.', ltrim($className, '\\'));
@@ -55,7 +55,7 @@ class YiiBaseEx extends YiiBase
             }
         }
     }
-    
+
     /**
 	 * @var array class map for core Yii classes.
 	 * NOTE, DO NOT MODIFY THIS ARRAY MANUALLY. IF YOU CHANGE OR ADD SOME CORE CLASSES,
