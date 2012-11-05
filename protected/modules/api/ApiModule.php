@@ -17,6 +17,7 @@ class ApiModule extends CWebModule {
             'api/<controller:\w+>/<_a:(list)>' => 'api/<controller>/get<_a>',
         ),
         'POST' => array(
+            'api/likes/<_a:(dislike|Like)>/<entity:\w+>' => 'api/<controller>/post<_a>',
             'api/<controller:\w+>/<_a:(update|insert|delite)>' => 'api/<controller>/<_a>', //static
             'api/<controller:\w+>/<action:\w+>/<id:\d+>' => 'api/<controller>/post<action>',
             'api/<controller:\w+>/<action:\w+>/<entity:\w+>' => 'api/<controller>/post<action>',
@@ -58,9 +59,9 @@ class ApiModule extends CWebModule {
                 return false;
             }
         }
-        var_dump($className);
-        var_dump($action);
-        die('------');
+//        var_dump($className);
+//        var_dump($action);
+//        die('------');
         if (parent::beforeControllerAction($controller, $action)) {
             // this method is called before any module controller action is performed
             // you may place customized code here
