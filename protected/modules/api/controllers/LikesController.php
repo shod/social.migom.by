@@ -97,6 +97,9 @@ class LikesController extends ERestController
             throw new ERestException(Yii::t('Likes', "Entity '{entity}' is not exist", array('{entity}' => $model)));
         }
         $userModel = Users::model()->findByPk($userId);
+        if(!$userModel){
+            throw new ERestException(Yii::t('Likes', "User #'{id}' not found", array('{id}' => $userId)));
+        }
         $user = new Likes_Embidded_Users();
         $user->id = $userId;
         $user->login = $userModel->login;
