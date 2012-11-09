@@ -241,8 +241,8 @@ a img {border: 0}
 .password-recover .cancel-link a:hover {text-decoration:none}
 
 
-.message {position: absolute; font: 13px arial; color: #fff; background: url(../images/decor/message.png) 9px bottom no-repeat; padding-bottom: 10px}
-.message div {background-color: #777; padding: 6px 10px}
+.error-message {position: absolute; font: 13px arial; color: #fff; background: url(../images/decor/message.png) 9px bottom no-repeat; padding-bottom: 10px}
+.error-message div {background-color: #777; padding: 6px 10px}
 
 .error {border-color: #f00 !important}
 
