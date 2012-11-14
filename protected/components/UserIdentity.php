@@ -10,7 +10,7 @@ class UserIdentity extends CUserIdentity
         const ERROR_USER_BLOCKED = 3;
 	protected $id;
         protected $firstTime = false;
-        
+
 	/**
 	 * Authenticates a user.
 	 * The example implementation makes sure if the username and password
@@ -36,17 +36,18 @@ class UserIdentity extends CUserIdentity
                     $user->status = array_search('active', Users::$statuses);
                     $user->save();
                 }
-                
+
                 $this->username = $user->login;
                 $this->errorCode = self::ERROR_NONE;
             }
+
             return !$this->errorCode;
 	}
-        
+
         public function getId(){
             return $this->id;
         }
-        
+
         public function setFirstTime(){
             $this->firstTime = true;
         }

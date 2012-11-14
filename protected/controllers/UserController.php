@@ -46,6 +46,7 @@ class UserController extends Controller
             $this->redirect('/site/login');
         }
 
+
         if ($id != Yii::app()->user->id) {
             $this->forward('profile');
         }
