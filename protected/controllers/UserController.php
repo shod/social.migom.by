@@ -62,6 +62,9 @@ class UserController extends Controller
     {
         $id    = Yii::app()->request->getParam('id', Yii::app()->user->id);
         $model = Users::model()->findByPk($id);
+        if(!$model){
+            throw new CHttpException(404, Yii::t('Site', 'Upps! Такой страницы нету'));
+        }
         $this->render('profile', array('model' => $model));
     }
 
