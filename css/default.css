@@ -224,6 +224,17 @@ a img {border: 0}
 .auth-question {font: 13px arial; color: #1c2530; padding: 20px 50px 0}
 .auth-question p {line-height: 18px; margin: 12px 0 20px}
 .auth-question .vk {display: inline-block; line-height: 16px; background: url(../images/vkontakte-small.png) left no-repeat; margin: 0 5px; padding-left: 20px}
+.auth-question .google_oauth, .auth-question .facebook, .auth-question .vkontakte{
+    display: inline-block;
+    line-height: 16px;
+    background: url(../images/mini-social.png) no-repeat;
+    margin: 0 5px;
+    padding-left: 20px;
+}
+.auth-question .google_oauth {background-position: 0 -32px;}
+.auth-question .facebook {background-position: 0 -16px;}
+.auth-question .vkontakte {background-position: 0 0;}
+
 .auth-question button {margin-right: 10px}
 
 .popup-fader, .popup {display: none; position: fixed;}
