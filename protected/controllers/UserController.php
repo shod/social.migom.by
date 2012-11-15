@@ -205,13 +205,19 @@ class UserController extends Controller
     {
         $user = Users::model()->findByPk($id);
         $file = Yii::app()->basePath . '/../images/users/' . $id . '/avatar.jpg';
+        $fileTemp = Yii::app()->basePath . '/../images/users/' . $id . '/avatar-temp.jpg';
         if (!file_exists($file) && $user) {
             $srcImage = UserService::uploadAvatarFromEmail($user->id, $user->email);
             $file     = Yii::app()->basePath . '/..' . $srcImage;
             $image    = Yii::app()->image->load($file);
         }
         if($user && $x && $y && file_exists($file)){
-            $res = UserService::cropAvatar($user->id, $file, $x, $y);
+            if(file_exists($fileTemp)){
+                $res = UserService::cropAvatar($user->id, $fileTemp, $x, $y);
+            } else {
+                $res = UserService::cropAvatar($user->id, $file, $x, $y);
+            }
+
             if($res['success']){
                 $image = Yii::app()->image->load($res['file']);
             }
