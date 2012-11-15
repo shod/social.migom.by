@@ -165,6 +165,7 @@
             </div>
         </div>
     </div>
+
     <?php $this->endWidget(); ?>
     <?php
         $cs = Yii::app()->getClientScript();
