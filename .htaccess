@@ -1,6 +1,9 @@
 RewriteEngine on
 RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} !-f
 RewriteRule images/users/(\d+)/avatar\.(gif|jpe?g|png|bmp) http://test4.migom.by/user/createuseravatar/id/$1 [NC,L]
+RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} !-f
+RewriteRule images/users/(\d+)/avatar_(\d+)x(\d+)\.(gif|jpe?g|png|bmp) http://test4.migom.by/user/createuseravatar/id/$1/x/$2/y/$3 [NC,L]
+RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} !-f
 RewriteRule images/users/avatar\.(gif|jpe?g|png|bmp) /images/users/default_avatar.png [NC,L]
 
 RewriteBase /
@@ -15,4 +18,4 @@ RewriteCond %{REQUEST_URI} !/favicon.ico
 RewriteCond %{REQUEST_URI} !/robots.txt
 
 # otherwise forward it to index.php
-RewriteRule . index.php
+RewriteRule . index-local.php
