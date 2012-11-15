@@ -2,7 +2,7 @@
 	<div class="category <?php if($this->active == 'news'): ?>current<?php endif; ?>">
 		<div class="heading">
             <?= CHtml::link(Yii::t('Site', 'Лента'), array('/user'), array('class' => 'title')) ?>
-			<div class="count">??</div>
+			<!--<div class="count">??</div>-->
 		</div>
 		<div class="options">
                         <label><?= CHtml::checkBox('comment', !in_array('comment', ($news)?$news->disable_entities:array()), array('class' => 'newsFilter')) ?> <span><?= Yii::t('User', 'Комментарии'); ?></span></label>
