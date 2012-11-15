@@ -146,4 +146,4 @@ abstract class Image_Driver {
 	 */
 	abstract public function sharpen($amount);
 
-} // End Image Driver
+}

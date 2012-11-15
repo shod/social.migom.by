@@ -8,4 +8,8 @@
             <?php endif; ?>
     </div>
 
+    <div class="aside">
+            <a href="javascript:"><img src="/images/content/banner.jpg"></a>
+    </div>
+
 </div>
