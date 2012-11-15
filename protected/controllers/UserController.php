@@ -46,6 +46,7 @@ class UserController extends Controller
             $this->redirect('/site/login');
         }
 
+
         if ($id != Yii::app()->user->id) {
             $this->forward('profile');
         }
@@ -91,15 +92,16 @@ class UserController extends Controller
 
         if (isset($_POST['Users_Profile'])) {
             if(file_exists($model->getAvatarPath(true))){
-                copy($model->getAvatarPath(true), $model->getAvatarPath());
-                unlink($model->getAvatarPath(true));
+                if(copy($model->getAvatarPath(true), $model->getAvatarPath())){
+                    UserService::clearTempAvatars($model->id);
+                }
             }
 
             if ($_POST['birthday']) {
                 $birthday = implode('.', $_POST['birthday']);
                 foreach ($_POST['birthday'] as $p) {
                     if (!$p) {
-                        $birthday                   = $model->profile->birthday;
+                        $birthday = $model->profile->birthday;
                     }
                 }
             }
@@ -199,7 +201,7 @@ class UserController extends Controller
         return $model;
     }
 
-    public function actionCreateUserAvatar($id)
+    public function actionCreateUserAvatar($id, $x = null, $y = null)
     {
         $user = Users::model()->findByPk($id);
         $file = Yii::app()->basePath . '/../images/users/' . $id . '/avatar.jpg';
@@ -207,8 +209,16 @@ class UserController extends Controller
             $srcImage = UserService::uploadAvatarFromEmail($user->id, $user->email);
             $file     = Yii::app()->basePath . '/..' . $srcImage;
             $image    = Yii::app()->image->load($file);
+        }
+        if($user && $x && $y && file_exists($file)){
+            $res = UserService::cropAvatar($user->id, $file, $x, $y);
+            if($res['success']){
+                $image = Yii::app()->image->load($res['file']);
+            }
+        }
+        if(isset($image)){
             $image->render();
-        } else {
+        }else {
             return false;
         }
     }

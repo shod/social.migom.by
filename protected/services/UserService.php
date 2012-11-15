@@ -50,15 +50,36 @@ class UserService {
         return $result;
     }
 
+    public static function cropAvatar($user_id, $file, $x, $y, $fileName = 'avatar'){
+        $result = array('success' => false, 'error' => 'undefined');
+        try {
+            if(is_array($file)){
+                $image = Yii::app()->image->load($file['avatar']);
+            } else {
+                $image = Yii::app()->image->load($file);
+            }
+            $image->resize($x, $y, Image::MIN)->crop($x, $y)->quality(75);
+            $path = Yii::app()->getBasePath() . DIRECTORY_SEPARATOR . '..';
+            $destination = $path . Users::AVATAR_PATH . DIRECTORY_SEPARATOR . $user_id;
+            @mkdir($destination, 0777, true);
+            $file = $destination . DIRECTORY_SEPARATOR. $fileName . '_' . $x . 'x' . $y . '.jpg';
+            $image->save($file);
+            $result = array('success' => true, 'error' => 'undefined', 'file' => $file);
+        } catch (Exception $exc) {
+            $result = array('success' => false, 'error' => $exc->getMessage());
+        }
+        return $result;
+    }
+
     public static function printAvatar($id, $login, $size = 50, $link = true){
         if($link){
             return CHtml::link(
-                CHtml::image(Yii::app()->getBaseUrl().'/images/users/'.$id.'/avatar.jpg', $login, array('width' => $size.'px;', 'height' => $size.'px;')),
+                CHtml::image(Yii::app()->getBaseUrl().'/images/users/'.$id.'/avatar_' . $size . 'x' . $size . '.jpg', $login),
                     ($id != Yii::app()->user->id) ? array('/user/profile', 'id' => $id) : array('/user/profile')
 
             );
         } else {
-            return CHtml::image(Yii::app()->getBaseUrl().'/images/users/'.$id.'/avatar.jpg', $login, array('width' => $size.'px;', 'height' => $size.'px;'));
+            return CHtml::image(Yii::app()->getBaseUrl().'/images/users/'.$id.'/avatar_' . $size . 'x' . $size . '.jpg', $login);
         }
 
     }
@@ -70,5 +91,15 @@ class UserService {
         $result = UserService::uploadAvatarFromService($user_id,
                                 'http://www.gravatar.com/avatar/'. $gravatarHash .'.jpg?d=identicon');
         return $result;
+    }
+
+    public static function clearTempAvatars($id){
+        $path = Yii::app()->getBasePath() . DIRECTORY_SEPARATOR . '..';
+        $destination = $path . Users::AVATAR_PATH . DIRECTORY_SEPARATOR . $id;
+        foreach(glob($destination."/*.jpg") as $file){
+            if(strpos($file, 'avatar.jpg') === false){
+                unlink($file);
+            }
+        }
     }
 }

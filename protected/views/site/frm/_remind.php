@@ -2,7 +2,7 @@
     <div class="close">&times;</div>
     <h1><?= Yii::t('Login', 'Забыли пароль?'); ?></h1>
     <p><?= Yii::t('Login', 'Не расстраивайтесь. Мы вышлем вам новый пароль на указанную электронную почту в ближайшее время.'); ?></p>
-    <?php $model->setScenario('remindPassword'); $form=$this->beginWidget('CActiveForm', array(
+    <?php $form=$this->beginWidget('CActiveForm', array(
                 'id'=>'formRemind',
                 'action' => array('/site/RemindPass'),
                 'enableAjaxValidation'=>true,

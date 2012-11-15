@@ -20,6 +20,7 @@ class Image {
 	const AUTO = 2;
 	const HEIGHT = 3;
 	const WIDTH = 4;
+    const MIN = 7;
 	// Flip Directions
 	const HORIZONTAL = 5;
 	const VERTICAL = 6;
@@ -120,7 +121,7 @@ class Image {
 		$driver = 'Image_'.ucfirst($this->config['driver']).'_Driver';
 
         // Load the driver
-        require("drivers/{$this->config['driver']}.php");
+        @require_once("drivers/{$this->config['driver']}.php");
 
 		// Initialize the driver
 		$this->driver = new $driver($this->config['params']);
@@ -170,6 +171,14 @@ class Image {
 
 		if (empty($width) AND empty($height))
 			throw new CException('image invalid dimensions');
+
+        if($master == Image::MIN){
+            if($this->image['width'] < $this->image['height']){
+                $master = Image::WIDTH;
+            } else {
+                $master = Image::HEIGHT;
+            }
+        }
 
 		if ($master === NULL)
 		{
@@ -339,39 +348,39 @@ class Image {
 				chmod($new_image, $chmod);
 			}
 		}
-		
+
 		// Reset actions. Subsequent save() or render() will not apply previous actions.
 		if ($keep_actions === FALSE)
 			$this->actions = array();
-		
+
 		return $status;
 	}
-	
-	/** 
-	 * Output the image to the browser. 
-	 * 
+
+	/**
+	 * Output the image to the browser.
+	 *
 	 * @param   boolean  keep or discard image process actions
-	 * @return	object 
-	 */ 
-	public function render($keep_actions = FALSE) 
-	{ 
-		$new_image = $this->image['file']; 
-	
-		// Separate the directory and filename 
-		$dir  = pathinfo($new_image, PATHINFO_DIRNAME); 
-		$file = pathinfo($new_image, PATHINFO_BASENAME); 
-	
-		// Normalize the path 
-		$dir = str_replace('\\', '/', realpath($dir)).'/'; 
-	
-		// Process the image with the driver 
-		$status = $this->driver->process($this->image, $this->actions, $dir, $file, $render = TRUE); 
-		
+	 * @return	object
+	 */
+	public function render($keep_actions = FALSE)
+	{
+		$new_image = $this->image['file'];
+
+		// Separate the directory and filename
+		$dir  = pathinfo($new_image, PATHINFO_DIRNAME);
+		$file = pathinfo($new_image, PATHINFO_BASENAME);
+
+		// Normalize the path
+		$dir = str_replace('\\', '/', realpath($dir)).'/';
+
+		// Process the image with the driver
+		$status = $this->driver->process($this->image, $this->actions, $dir, $file, $render = TRUE);
+
 		// Reset actions. Subsequent save() or render() will not apply previous actions.
 		if ($keep_actions === FALSE)
 			$this->actions = array();
-		
-		return $status; 
+
+		return $status;
 	}
 
 	/**

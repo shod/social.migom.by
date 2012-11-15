@@ -1,35 +1,32 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="ru">
 <head>
-	<title></title>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <meta http-equiv="Content-Language" content="ru" />
-        <title><?php echo $this->title; ?></title>
-        <?php
-            Yii::app()->getClientScript()->registerCssFile('/css/default.css');
-            Yii::app()->clientScript->registerScriptFile('/js/default.js');
-            Yii::app()->clientScript->registerCoreScript('jquery');
-            Yii::app()->clientScript->registerCoreScript('jquery.ui');
-        ?>
-        <!--
-            FOR EXAMPLE
+	<meta charset="utf-8" />
+	<title> </title>
+    <?php
+        Yii::app()->getClientScript()->registerCssFile('/css/default.css');
+        Yii::app()->clientScript->registerScriptFile('/js/default.js');
+        Yii::app()->clientScript->registerCoreScript('jquery');
+        Yii::app()->clientScript->registerCoreScript('jquery.ui');
+    ?>
+	<!--[if lt IE 9]>
+	<script  src="html5fix.js"></script>
+	<![endif]-->
 
-            Yii::app()->clientScript->registerCoreScript('jquery');
-            Yii::app()->clientScript->registerCoreScript('jquery.ui');
-            Yii::app()->clientScript->registerScriptFile('/js/yourscript.js');
-            Yii::app()->getClientScript()->registerCssFile('/css/default.css');
-
-        -->
-        <link rel="SHORTCUT ICON" href="/favicon.ico">
 </head>
 <body>
 
-    <!--HEAD-->
-    <?= $content ?>
+<!--<div class="wrapper_banner"> </div>-->
 
-    <div class="aside">
-            <a href="javascript:"><img src="/images/content/banner.jpg"></a>
-    </div>
+<?php CController::widget('Header'); ?>
+
+<div class="wrapper_content">
+
+    <?php CController::widget('HeaderNavigation'); ?>
+
+    <?= $content ?>
+</div>
+
 
 </body>
 </html>
