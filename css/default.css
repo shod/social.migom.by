@@ -115,7 +115,7 @@ a img {border: 0}
 .profile .summary .avatar div {}
 .profile .summary .change-avatar {margin-top:69px;padding:5px 0 10px 0 ;text-align:center;color:#fff; background-color:#000;filter:alpha(opacity=50); -khtml-opacity:0.5;-moz-opacity:0.50;opacity:0.50;}
 .profile .summary .change-avatar:hover {color:#fff; background-color:#000;filter:alpha(opacity=70); -khtml-opacity:0.7;-moz-opacity:0.70;opacity:0.70;}
-.profile .summary .name {float: left}
+.profile .summary .name {float: left; font-size: 11px}
 .profile .summary .name strong,  .profile .summary .name strong a {font: bold 25px arial;color:#000}
 .profile .info {float: right; clear: right; text-align: right; line-height: 16px}
 .profile .info + .info {margin-top: 10px}
@@ -135,7 +135,7 @@ a img {border: 0}
 .profile table a:hover, .profile .buttons .cancel-link a:hover {text-decoration:underline;}
 
 /* inputs */
-.profile input[type=text], .profile select, .profile input[type=password], 
+.profile input[type=text], .profile select, .profile input[type=password],
 .auth .signin input[type=text], .auth .signin input[type=password], .auth .signin input[type=email],
 .auth .signup input[type=email],
 .password-recover input[type=email]
@@ -170,7 +170,7 @@ a img {border: 0}
 .profile .buttons {margin-top: 40px;}
 .profile .buttons button {margin-right:20px;display:inline}
 .profile .buttons .cancel-link {display:inline}
-/*.profile .buttons .cancel-link a {color:#165f85!important;font-size:1.1em;font-family:arial, tahoma, verdana, 'sans-serif';text-decoration:none}*/
+.profile .buttons .cancel-link a {color:#165f85!important;font-size:11px;font-family:arial, tahoma, verdana, 'sans-serif';text-decoration:underline}
 .profile .buttons .cancel-link a:hover {text-decoration:none}
 
 
@@ -241,8 +241,8 @@ a img {border: 0}
 .password-recover .cancel-link a:hover {text-decoration:none}
 
 
-.message {position: absolute; font: 13px arial; color: #fff; background: url(../images/decor/message.png) 9px bottom no-repeat; padding-bottom: 10px}
-.message div {background-color: #777; padding: 6px 10px}
+.error-message {position: absolute; font: 13px arial; color: #fff; background: url(../images/decor/message.png) 9px bottom no-repeat; padding-bottom: 10px}
+.error-message div {background-color: #777; padding: 6px 10px}
 
 .error {border-color: #f00 !important}
 

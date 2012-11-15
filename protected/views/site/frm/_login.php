@@ -3,7 +3,7 @@
             'id'=>'formLogin',
             'enableAjaxValidation'=>true,
             'enableClientValidation'=>false,
-            'focus'=>array($model,'email'),
+//            'focus'=>array($model,'email'),
             'clientOptions'=>array(
                 'validateOnSubmit'=>true,
                 'inputContainer' => 'div',

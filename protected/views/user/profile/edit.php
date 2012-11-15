@@ -35,7 +35,7 @@
             <!--<div class="avatar"><?= UserService::printAvatar($model->id, $model->login, 96); ?></div>-->
             <div class="name">
                 <strong><?= $model->login; ?></strong>
-                <?= CHtml::link(Yii::t('Profile', 'назад (отмена)'), array('/profile')) ?>
+                <?= CHtml::link(Yii::t('Profile', 'Вернуться в профиль'), array('/profile')) ?>
             </div>
         </div>
         <?php $form=$this->beginWidget('CActiveForm', array(
@@ -160,6 +160,9 @@
 
         <div class="buttons">
             <button>Сохранить</button>
+            <div class="cancel-link">
+                <?= CHtml::link(Yii::t('Profile', 'Отмена, вернуться в профиль'), $this->createUrl('/profile')) ?>
+            </div>
         </div>
     </div>
     <?php $this->endWidget(); ?>

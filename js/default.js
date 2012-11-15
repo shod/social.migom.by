@@ -13,7 +13,7 @@ $(document).bind("ready", function init() {
 
     $.fn.message = function(text) {
         var error = $("<div>", {
-            "class": "message"
+            "class": "error-message"
         }).append($("<div>", {
             text: text
         }))
@@ -30,14 +30,14 @@ $(document).bind("ready", function init() {
 
     $(".auth, form").on("focusin focusout", "input", function(e) {
         if (e.type == "focusin") {
-            $(e.target).next(".message").fadeIn();
+            $(e.target).next(".error-message").fadeIn();
         } else {
-            $(e.target).next(".message").fadeOut();
+            $(e.target).next(".error-message").fadeOut();
         }
     })
 
     $.fn.validateAttrs = function(data) {
-        this.find("input").removeClass("error").next(".message").remove()
+        this.find("input").removeClass("error").next(".error-message").remove()
         for (attr in data)
         {
             $("#"+attr).addClass("error").message(data[attr]).fadeIn().delay(1500).fadeOut();
