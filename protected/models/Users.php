@@ -223,7 +223,7 @@ class Users extends ActiveRecord
         }
         $destination = Users::AVATAR_PATH.'/'.$this->id.'/';
         if($temp){
-            return $destination . 'avatar-temp.jpg';
+            return $destination . 'avatar-temp_96x96.jpg';
         }
         return $destination . 'avatar.jpg';
     }
