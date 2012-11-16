@@ -83,13 +83,6 @@ class UserController extends Controller
             Yii::app()->end();
         }
 
-//      TODO:: настроить ajax валидацию (сейчас нет ошибок в верстке (((( )
-//        if (Yii::app()->getRequest()->isAjaxRequest && Yii::app()->getRequest()->getParam('ajax') == 'profileForm') {
-//            $model->profile->setScenario('update');
-//            echo CActiveForm::validate($model->profile);
-//            Yii::app()->end();
-//        }
-
         $redirect = false;
         $success  = true;
 
@@ -101,15 +94,9 @@ class UserController extends Controller
             }
 
             if ($_POST['birthday']) {
-                $birthday = implode('.', $_POST['birthday']);
-                foreach ($_POST['birthday'] as $p) {
-                    if (!$p) {
-                        $birthday = $model->profile->birthday;
-                    }
-                }
+                $model->profile->birthday = $_POST['birthday']['year'] . '-' . $_POST['birthday']['month'] . '-' . $_POST['birthday']['day'];
             }
 
-            $model->profile->birthday   = $birthday;
             $model->profile->setScenario('update');
             $model->profile->attributes = $_POST['Users_Profile'];
             if ($model->profile->validate() && $model->profile->save()) {
@@ -118,7 +105,6 @@ class UserController extends Controller
                 $redirect = false;
                 $success  = false;
             }
-            $model->profile->birthday = Yii::app()->dateFormatter->formatDateTime($model->profile->birthday, 'medium', false);
         }
 
         if (isset($_POST['Users'])) {
