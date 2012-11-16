@@ -82,10 +82,10 @@
             <tr class="birth">
                 <th><?php echo $form->label($model->profile,'birthday'); ?>:</th>
                 <td>
-                    <?php $birthday = explode('.', $model->profile->birthday); ?>
-                    <?= CHtml::dropDownList('birthday[day]', round(array_shift($birthday)), $days, array('class' => 'day')) ?>
-                    <?= CHtml::dropDownList('birthday[month]', array_shift($birthday), $month, array('class' => 'month')) ?>
-                    <?= CHtml::dropDownList('birthday[year]', array_shift($birthday), $year, array('class' => 'year')) ?>
+                    <?php $birthday = explode('-', $model->profile->birthday);  ?>
+                    <?= CHtml::dropDownList('birthday[day]', round($birthday[2]), $days, array('class' => 'day')) ?>
+                    <?= CHtml::dropDownList('birthday[month]', $birthday[1], $month, array('class' => 'month')) ?>
+                    <?= CHtml::dropDownList('birthday[year]', $birthday[0], $year, array('class' => 'year')) ?>
 <!--                    <label>
                         <input type="checkbox" checked="checked">
                         <span>скрывать дату рождения</span>
@@ -204,6 +204,9 @@
             function createDateOptions(from, to){
                 html = \'<option value="0">'. Yii::t('Profile', 'день') .'</option>\';
                 for(i = ++from; i <= to; i++){
+                    if(i < 10){
+                       i = \'0\'+i;
+                    }
                     html += \'<option>\' + i + \'</option>\';
                 }
                 return html;

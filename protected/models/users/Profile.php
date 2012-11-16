@@ -14,8 +14,8 @@
 class Users_Profile extends CActiveRecord
 {
 
-    public $defaultAvatar = '/images/users/default_avatar.png';
-    public static $sexs          = array(0 => 'undefined', 1 => 'male', 2 => 'female', 3 => 'children', 4 => 'unisex');
+    public $defaultAvatar   = '/images/users/default_avatar.png';
+    public static $sexs     = array(0 => 'undefined', 1 => 'male', 2 => 'female', 3 => 'children', 4 => 'unisex');
 
     /**
      * Returns the static model of the specified AR class.
@@ -45,7 +45,7 @@ class Users_Profile extends CActiveRecord
         return array(
             array('user_id', 'required'),
             array('user_id, city_id', 'numerical', 'integerOnly' => true),
-            array('birthday', 'match', 'pattern' => '/[\d.]+/'),
+            array('birthday', 'date', 'format' => 'yyyy-MM-dd'),
             array('name, surname', 'length', 'max' => 255),
             array('avatar', 'file', 'types'      => 'jpg', 'allowEmpty' => true),
             // The following rule is used by search().
@@ -131,16 +131,6 @@ class Users_Profile extends CActiveRecord
         if (strlen($this->sex) > 1) {
             $this->sex = array_search($this->sex, self::$sexs);
         }
-        if ($this->birthday) {
-            $this->birthday = strtotime($this->birthday);
-        }
         return true;
     }
-
-    protected function afterFind()
-    {
-        $this->birthday = Yii::app()->dateFormatter->formatDateTime($this->birthday, 'medium', false);
-        return parent::afterFind();
-    }
-
 }
