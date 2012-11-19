@@ -229,5 +229,6 @@
                 .'"+$(this).val()).success(function(data) { $(block).next("td").remove(); $(data).insertAfter($(block));  });   return false;}); });',
           CClientScript::POS_END
         );
+
     ?>
 </div>
