@@ -42,12 +42,8 @@ class SiteController extends Controller {
     public function actionInfo() {
         phpinfo();
     }
-    /**
-     * This is the default 'index' action that is invoked
-     * when an action is not explicitly requested by users.
-     */
-    public function actionIndex() {
 
+//    public function actionIndex() {
 //        $queue = new Queue();
 //        $queue->what = 'mail send';
 //        $queue->user_id = 14;
@@ -67,17 +63,17 @@ class SiteController extends Controller {
 //            }
 //        }
 //            d(get_class_methods(__CLASS__));
-    }
+//    }
 
-    public function actionTest() {
-        d($_SESSION);
+//    public function actionTest() {
+//        d($_SESSION);
 //        $criteria = new CDbCriteria;
 //        $criteria->compare('soc_id', '105844357378365018543');
 //        $criteria->limit = 1;
 //        $provider = Users_Providers::model('g----------------------oogle_oauth');
 //        d($provider->find($criteria)->user->email);
 
-    }
+//    }
 
     /**
      * This is the action to handle external exceptions.

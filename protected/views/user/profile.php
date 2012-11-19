@@ -12,6 +12,7 @@
                 <?php endif; ?>
             </div>
             <div class="info"><?= Yii::t('Profile', 'Дата регистрации'); ?><strong><?= SiteService::timeToDate($model->date_add, true) ?></strong></div>
+            <div class="info"><?= Yii::t('Profile', 'Сейчас на сайте'); ?><strong><?= (Yii::app()->cache->get('online_user_' . $model->id)) ? Yii::t('Site', 'Да') : Yii::t('Site', 'Нет') ?></strong></div>
             <!--<div class="info"><?= Yii::t('Profile', 'Просмотров профиля'); ?><strong>326</strong></div>-->
         </div>
         <table>
