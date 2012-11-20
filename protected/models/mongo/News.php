@@ -3,6 +3,7 @@
 class News extends EMongoDocument {
 
     const NEWS_LINK = 'http://www.test3.migom.by?news_id=';
+    const PRODUCTS_LINK = 'http://www.test3.migom.by?product_id=';
 
     public $user_id;
     public $entities;
@@ -191,9 +192,42 @@ class News extends EMongoDocument {
         return $news->save();
     }
 
+    public static function pushPriceDown($user, $product, $productTitles){
+        $name = 'price_down';
+        list($news, $entity) = News::_push($user->id, $product['product_id'], $name);
+
+        if(!$entity){       // если новая запись на стене
+            $entity = new News_Entity();
+            $entity->id = $product['product_id'];
+            $entity->name = $name;
+            $entity->created_at = time();
+            $entity->template = 'priceDown';
+        }
+
+        // эти параметры следовало бы обновить в любом случае
+        $entity->link = self::getLink($name);
+        $entity->entity_id = $product['product_id'];
+        $entity->filter = $name;
+        $entity->title = $productTitles;
+//        $entity->text = '';
+        $entity->template = $name;
+
+        $news->entities[] = $entity;
+        return $news->save();
+    }
+
     public static function getLink($name){
-        if($name == 'News'){
-            return self::NEWS_LINK;
+        switch ($name) {
+            case 'News':
+                return self::NEWS_LINK;
+                break;
+
+            case 'price_down':
+                return self::PRODUCTS_LINK;
+                break;
+
+            default:
+                break;
         }
     }
 
