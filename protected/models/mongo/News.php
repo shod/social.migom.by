@@ -173,7 +173,7 @@ class News extends EMongoDocument {
         $entity->link = self::getLink($name);
         $entity->entity_id = $comment->entity_id;
         $entity->filter = 'comment';
-        $entity->title = $api->title;
+        $entity->title = ($api?$api->title:'');
         $entity->text = $parent->text;
         $entity->template = 'news';
         $entity->comment->count = $count;
