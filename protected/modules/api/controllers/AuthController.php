@@ -19,7 +19,7 @@ class AuthController extends ERestController {
      * @example json {'method':'GET','status':'OK','code':200,'content':{'suid':'3da7b280eda538c15f2bff38afd11dcd'},'format':'json','timestamp':1348645528,'version':'1.0'};
      * @expectedExceptionMessage Not auth
      */
-    public function actionGetLogin($key, $type = Render::TYPE_JSON) {
+    public function actionGetLogin($key, $type = ERestRender::TYPE_JSON) {
         $keys = $this->module->keys;
         $render = $this->render();
         $type = strtolower($type);
