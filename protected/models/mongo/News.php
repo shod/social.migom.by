@@ -169,7 +169,11 @@ class News extends EMongoDocument {
 
         // эти параметры следовало бы обновить в любом случае
         $name = array_pop(explode('_', get_class($parent)));
-        $api = ERestDocument::model($name)->findByPK($comment->entity_id);
+        $apiM = ERestDocument::model($name);
+        d($name);
+        d($comment->entity_id);
+        d($apiM);
+                $api = $apiM->findByPK($comment->entity_id);
         d($api);
         die;
         $entity->link = self::getLink($name);
