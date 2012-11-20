@@ -31,7 +31,7 @@
             </tr>
             <tr>
                 <th><?= $model->profile->getAttributeLabel('birthday') ?>:</th>
-                <td><?= $model->profile->birthday ?></td>
+                <td><?= SiteService::dateFormat($model->profile->birthday) ?></td>
             </tr>
             <?php if($model->profile->city): ?>
             <tr>
