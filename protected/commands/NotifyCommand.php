@@ -59,11 +59,13 @@ class NotifyCommand extends ConsoleCommand
             $user = Users::model()->findByPk($userId);
             $mail = new Mail();
             foreach ($products as $product) {
+                News::pushPriceDown($user, $product, $productTitles[$product['product_id']]);
                 $mail->send($user, 'notifyProductCost', array(
                     'date'        => $time,
                     'cost'        => $product['cost'],
                     'productId'   => $product['product_id'],
-                    'productName' => $productTitles[$product['product_id']]));
+                    'productName' => $productTitles[$product['product_id']]
+                ));
                 Notify::model('Product_Cost')->deleteByPk($product['subscriber_id']);
             }
         }
