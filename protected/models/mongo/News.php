@@ -226,9 +226,13 @@ class News extends EMongoDocument {
         $entity->dislikes->count = $likes->dislikes;
         $entity->dislikes->users = $userLikes['dislikesUsers'];
 
+        $name = array_pop(explode('_', get_class($comment)));
+        $api = ERestDocument::model($name)->findByPK($comment->entity_id);
+
         // эти параметры следовало бы обновить в любом случае
         $entity->filter = 'comment';
         $entity->text = $comment->text;
+        $entity->title = ($api?$api->title:'');
         $entity->template = 'news';
         $news->entities[] = $entity;
         $news->save();
