@@ -121,10 +121,10 @@ return array(
     'widgetFactory'=>array(
         'widgets'=>array(
             'Header'=>array(
-                'profileUrl'        => 'http://social.migom.tst/profile',
-                'profileEditUrl'    => 'http://social.migom.tst/profile/edit',
-                'avatarUrl'         => 'http://social.migom.tst/images/users/',
-                'profileLogoutUrl'  => 'http://social.migom.tst/logout/',
+                'profileUrl'        => 'http://test4.migom.by/profile',
+                'profileEditUrl'    => 'http://test4.migom.by/profile/edit',
+                'avatarUrl'         => 'http://test4.migom.by/images/users/',
+                'profileLogoutUrl'  => 'http://test4.migom.by/logout/',
             ),
         ),
     ),

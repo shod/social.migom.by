@@ -62,6 +62,9 @@ class UserController extends Controller
     {
         $id    = Yii::app()->request->getParam('id', Yii::app()->user->id);
         $model = Users::model()->findByPk($id);
+        if(!$model){
+            throw new CHttpException(404, Yii::t('Site', 'Upps! Такой страницы нету'));
+        }
         $this->render('profile', array('model' => $model));
     }
 
@@ -80,13 +83,6 @@ class UserController extends Controller
             Yii::app()->end();
         }
 
-//      TODO:: настроить ajax валидацию (сейчас нет ошибок в верстке (((( )
-//        if (Yii::app()->getRequest()->isAjaxRequest && Yii::app()->getRequest()->getParam('ajax') == 'profileForm') {
-//            $model->profile->setScenario('update');
-//            echo CActiveForm::validate($model->profile);
-//            Yii::app()->end();
-//        }
-
         $redirect = false;
         $success  = true;
 
@@ -98,15 +94,9 @@ class UserController extends Controller
             }
 
             if ($_POST['birthday']) {
-                $birthday = implode('.', $_POST['birthday']);
-                foreach ($_POST['birthday'] as $p) {
-                    if (!$p) {
-                        $birthday = $model->profile->birthday;
-                    }
-                }
+                $model->profile->birthday = $_POST['birthday']['year'] . '-' . $_POST['birthday']['month'] . '-' . $_POST['birthday']['day'];
             }
 
-            $model->profile->birthday   = $birthday;
             $model->profile->setScenario('update');
             $model->profile->attributes = $_POST['Users_Profile'];
             if ($model->profile->validate() && $model->profile->save()) {
@@ -115,7 +105,6 @@ class UserController extends Controller
                 $redirect = false;
                 $success  = false;
             }
-            $model->profile->birthday = Yii::app()->dateFormatter->formatDateTime($model->profile->birthday, 'medium', false);
         }
 
         if (isset($_POST['Users'])) {
@@ -205,13 +194,19 @@ class UserController extends Controller
     {
         $user = Users::model()->findByPk($id);
         $file = Yii::app()->basePath . '/../images/users/' . $id . '/avatar.jpg';
+        $fileTemp = Yii::app()->basePath . '/../images/users/' . $id . '/avatar-temp.jpg';
         if (!file_exists($file) && $user) {
             $srcImage = UserService::uploadAvatarFromEmail($user->id, $user->email);
             $file     = Yii::app()->basePath . '/..' . $srcImage;
             $image    = Yii::app()->image->load($file);
         }
         if($user && $x && $y && file_exists($file)){
-            $res = UserService::cropAvatar($user->id, $file, $x, $y);
+            if(file_exists($fileTemp)){
+                $res = UserService::cropAvatar($user->id, $fileTemp, $x, $y);
+            } else {
+                $res = UserService::cropAvatar($user->id, $file, $x, $y);
+            }
+
             if($res['success']){
                 $image = Yii::app()->image->load($res['file']);
             }

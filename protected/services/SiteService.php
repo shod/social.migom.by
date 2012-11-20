@@ -5,12 +5,26 @@ class SiteService {
     public static function timeToDate($time, $day = false)
     {
         if($day){
-            $result = date("Y-m-d", $time);
+            $result = self::getRusMonth(date("j m Y", $time), ' ', '2');
         } else {
             $result = date("Y-m-d H:i", $time);
         }
         return $result;
     }
+
+    public static function dateFormat($dbDate){
+        $aDate = explode('-', $dbDate);
+        $return = $aDate[2] . ' ' . $aDate[1] . ' ' . $aDate[0];
+        return self::getRusMonth($return, ' ', '2');
+    }
+
+    public static function getRusMonth($date,$delimiter,$month_position){
+        $temp=explode($delimiter,$date);
+        if($temp[$month_position-1] > 12 || $temp[$month_position-1] < 1) return FALSE;
+        $aMonth = array('января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря');
+        $temp[$month_position-1]= Yii::t('Site', $aMonth[$temp[$month_position-1] - 1]) . ',';
+        return implode($delimiter,$temp);
+   }
 
     public static function arrayTranslate($template, &$array)
     {
