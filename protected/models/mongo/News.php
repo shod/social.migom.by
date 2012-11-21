@@ -3,6 +3,7 @@
 class News extends EMongoDocument {
 
     const NEWS_LINK = 'http://www.test3.migom.by?news_id=';
+    const PRODUCTS_LINK = 'http://www.test3.migom.by/';
 
     public $user_id;
     public $entities;
