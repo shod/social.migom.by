@@ -20,14 +20,14 @@ class NotifyCommand extends ConsoleCommand
 
         $apiModel = new Api_Products();
         $minPriceResponce = $apiModel->getCosts('min', array('id' => $aProductId));
-        if (!$minPriceResponce || !is_array($minPriceResponce->products)) {
+        if (!$minPriceResponce || !is_array($minPriceResponce)) {
             $errors = $apiModel->getErrors();
             Yii::log($errors, CLogger::LEVEL_INFO);
             Yii::app()->end();
         }
         $productForSend = array();
         $userForNotify = array();
-        foreach ($minPriceResponce->products as $product) {
+        foreach ($minPriceResponce as $product) {
             foreach ($subscribers as $subscriber) {
                 if ($product->id == $subscriber->product_id) {
                     if ($subscriber->cost >= $product->cost) {
@@ -52,7 +52,7 @@ class NotifyCommand extends ConsoleCommand
             Yii::log($errors, CLogger::LEVEL_INFO);
             Yii::app()->end();
         }
-        $productTitles = get_object_vars($productInfo->products);
+        $productTitles = get_object_vars($productInfo);
         foreach ($userForNotify as $userId => $products) {
 
             $user = Users::model()->findByPk($userId);
