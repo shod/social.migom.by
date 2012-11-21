@@ -208,6 +208,7 @@ class News extends EMongoDocument {
         $entity->entity_id = $product['product_id'];
         $entity->filter = $name;
         $entity->title = $productTitles;
+        $entity->cost = $product['cost'];
 //        $entity->text = '';
         $entity->template = 'priceDown';
 
