@@ -28,7 +28,7 @@ class NotifyCommand extends ConsoleCommand
         }
         $productForSend = array();
         $userForNotify = array();
-        foreach ($minPriceResponce->products as $product) {
+        foreach ($minPriceResponce as $product) {
             foreach ($subscribers as $subscriber) {
                 if ($product->id == $subscriber->product_id) {
                     if ($subscriber->cost >= $product->cost) {
