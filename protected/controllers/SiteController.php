@@ -30,7 +30,7 @@ class SiteController extends Controller {
     public function accessRules() {
         return array(
             array('allow', // allow readers only access to the view file
-                'actions' => array('index', 'error', 'login', 'test', 'logout', 'registration', 'info', 'remindPass'),
+                'actions' => array('index', 'error', 'login', 'test', 'logout', 'registration', 'info', 'remindPass', 'autocomplete'),
                 'users' => array('*')
             ),
             array('deny', // deny everybody else
@@ -39,41 +39,19 @@ class SiteController extends Controller {
         );
     }
 
+    public function actionIndex(){
+        $this->render('index');
+    }
+
+    public function actionAutoComplete(){
+            $tags = array('samsung лучший телефо', 'nokia the best');
+            echo CJSON::encode($tags);
+            Yii::app()->end();
+    }
+
     public function actionInfo() {
         phpinfo();
     }
-
-//    public function actionIndex() {
-//        $queue = new Queue();
-//        $queue->what = 'mail send';
-//        $queue->user_id = 14;
-//        $queue->priority = 100;
-//        $queue->param = array('template' => 'registration', 'password' => 'd616as6df1');
-//        if(!$queue->validate()){
-//            d($queue->getErrors());
-//        }
-//        $queue->save();
-//        die('<br/>__________________________________');
-//        echo 'User Name: <b>' . Yii::app()->user->name . '</b>';
-//        echo '<br/>------------------------<br/>';
-//        foreach (get_class_methods(__CLASS__) as $methods) {
-//            if (strpos($methods, 'action') === 0 && $methods !== 'actions') {
-//                echo CHtml::link(substr($methods, 6), array('site/' . substr($methods, 6)));
-//                echo '<br/>';
-//            }
-//        }
-//            d(get_class_methods(__CLASS__));
-//    }
-
-//    public function actionTest() {
-//        d($_SESSION);
-//        $criteria = new CDbCriteria;
-//        $criteria->compare('soc_id', '105844357378365018543');
-//        $criteria->limit = 1;
-//        $provider = Users_Providers::model('g----------------------oogle_oauth');
-//        d($provider->find($criteria)->user->email);
-
-//    }
 
     /**
      * This is the action to handle external exceptions.

@@ -44,7 +44,7 @@
         <table>
             <caption><?= Yii::t('Profile', 'Активность на сайте'); ?></caption>
             <tr>
-                <th><a href="#"><?= $model->getCountComments() ?></a></th>
+                <th><?= $model->getCountComments() ?></th>
                 <td><?= SiteService::getCorectWordsT('Site', 'comments', $model->getCountComments()) ?></td>
             </tr>
 <!--            <tr>
