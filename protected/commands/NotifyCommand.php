@@ -53,7 +53,7 @@ class NotifyCommand extends ConsoleCommand
             Yii::log($errors, CLogger::LEVEL_INFO);
             Yii::app()->end();
         }
-        $productTitles = get_object_vars($productInfo->products);
+        $productTitles = get_object_vars($productInfo);
         foreach ($userForNotify as $userId => $products) {
 
             $user = Users::model()->findByPk($userId);
