@@ -201,7 +201,6 @@ class News extends EMongoDocument {
             $entity->id = $product['product_id'];
             $entity->name = $name;
             $entity->created_at = time();
-            $entity->template = 'priceDown';
         }
 
         // эти параметры следовало бы обновить в любом случае
@@ -210,7 +209,7 @@ class News extends EMongoDocument {
         $entity->filter = $name;
         $entity->title = $productTitles;
 //        $entity->text = '';
-        $entity->template = $name;
+        $entity->template = 'priceDown';
 
         $news->entities[] = $entity;
         return $news->save();
