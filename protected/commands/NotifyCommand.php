@@ -28,7 +28,7 @@ class NotifyCommand extends ConsoleCommand
         }
         $productForSend = array();
         $userForNotify = array();
-        foreach ($minPriceResponce->products as $product) {
+        foreach ($minPriceResponce as $product) {
             foreach ($subscribers as $subscriber) {
                 if ($product->id == $subscriber->product_id) {
                     if ($subscriber->cost >= $product->cost) {
@@ -59,13 +59,11 @@ class NotifyCommand extends ConsoleCommand
             $user = Users::model()->findByPk($userId);
             $mail = new Mail();
             foreach ($products as $product) {
-                News::pushPriceDown($user, $product, $productTitles[$product['product_id']]);
                 $mail->send($user, 'notifyProductCost', array(
                     'date'        => $time,
                     'cost'        => $product['cost'],
                     'productId'   => $product['product_id'],
-                    'productName' => $productTitles[$product['product_id']]
-                ));
+                    'productName' => $productTitles[$product['product_id']]));
                 Notify::model('Product_Cost')->deleteByPk($product['subscriber_id']);
             }
         }
