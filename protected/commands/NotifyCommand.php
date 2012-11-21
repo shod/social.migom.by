@@ -6,7 +6,6 @@
  */
 class NotifyCommand extends ConsoleCommand
 {
-
     public $fromQueue = false;
 
     public function actionProductCost()
@@ -21,7 +20,7 @@ class NotifyCommand extends ConsoleCommand
 
         $apiModel = new Api_Products();
         $minPriceResponce = $apiModel->getCosts('min', array('id' => $aProductId));
-        if (!$minPriceResponce) {
+        if (!$minPriceResponce || !is_array($minPriceResponce->products)) {
             $errors = $apiModel->getErrors();
             Yii::log($errors, CLogger::LEVEL_INFO);
             Yii::app()->end();
