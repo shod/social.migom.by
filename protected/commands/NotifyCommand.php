@@ -6,7 +6,6 @@
  */
 class NotifyCommand extends ConsoleCommand
 {
-
     public $fromQueue = false;
 
     public function actionProductCost()
@@ -21,7 +20,7 @@ class NotifyCommand extends ConsoleCommand
 
         $apiModel = new Api_Products();
         $minPriceResponce = $apiModel->getCosts('min', array('id' => $aProductId));
-        if (!$minPriceResponce) {
+        if (!$minPriceResponce || !is_array($minPriceResponce)) {
             $errors = $apiModel->getErrors();
             Yii::log($errors, CLogger::LEVEL_INFO);
             Yii::app()->end();
@@ -59,11 +58,13 @@ class NotifyCommand extends ConsoleCommand
             $user = Users::model()->findByPk($userId);
             $mail = new Mail();
             foreach ($products as $product) {
+                News::pushPriceDown($user, $product, $productTitles[$product['product_id']]);
                 $mail->send($user, 'notifyProductCost', array(
                     'date'        => $time,
                     'cost'        => $product['cost'],
                     'productId'   => $product['product_id'],
-                    'productName' => $productTitles[$product['product_id']]));
+                    'productName' => $productTitles[$product['product_id']]
+                ));
                 Notify::model('Product_Cost')->deleteByPk($product['subscriber_id']);
             }
         }
