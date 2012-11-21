@@ -12,6 +12,7 @@ class News_Entity extends EMongoEmbeddedDocument
     public $imageName;
     public $created_at;
     public $template;
+    public $cost;
     public $filter;
 
 
