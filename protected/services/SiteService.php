@@ -22,7 +22,7 @@ class SiteService {
         $temp=explode($delimiter,$date);
         if($temp[$month_position-1] > 12 || $temp[$month_position-1] < 1) return FALSE;
         $aMonth = array('января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря');
-        $temp[$month_position-1]= Yii::t('Site', $aMonth[$temp[$month_position-1] - 1]) . ',';
+        $temp[$month_position-1]= Yii::t('Site', $aMonth[$temp[$month_position-1] - 1]);
         return implode($delimiter,$temp);
    }
 
