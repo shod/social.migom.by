@@ -1,3 +1,4 @@
+<div class="auth form">
 <div class="panel signin">
 <?php $form=$this->beginWidget('CActiveForm', array(
             'id'=>'formLogin',
@@ -32,4 +33,4 @@
             </p>
 
 <?php $this->endWidget(); ?>
- </div>
+ </div></div>
