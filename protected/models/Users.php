@@ -59,7 +59,7 @@ class Users extends ActiveRecord
             array('login, email', 'length', 'max' => 255),
             array('password', 'length', 'max' => 32, 'min' => 6),
             array('repassword', 'compare', 'compareAttribute' => 'password', 'on' => 'general_update', 'message' => Yii::t('Site', 'Введите пароль правильно')),
-            array('old_password', 'compareOldPass', 'on' => 'general_update', 'message' => Yii::t('Site', 'Введите пароль правильно')),
+//            array('old_password', 'compareOldPass', 'on' => 'general_update', 'message' => Yii::t('Site', 'Введите пароль правильно')),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
             array('id, login, password, email, status, date_add, date_edit, role', 'safe', 'on' => 'search'),
@@ -226,5 +226,11 @@ class Users extends ActiveRecord
             return $destination . 'avatar-temp_96x96.jpg';
         }
         return $destination . 'avatar.jpg';
+    }
+
+    public function afterDelete()
+    {
+        $this->profile->delete();
+        parent::afterDelete();
     }
 }

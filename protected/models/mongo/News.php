@@ -170,7 +170,14 @@ class News extends EMongoDocument {
 
         // эти параметры следовало бы обновить в любом случае
         $name = array_pop(explode('_', get_class($parent)));
-        $api = ERestDocument::model($name)->findByPK($comment->entity_id);
+        try {
+            $api = ERestDocument::model($name)->findByPK($comment->entity_id);
+        } catch (Exception $exc) {
+            $api = new stdClass();
+            $api->title = 'ERROR CONNECTION';
+        }
+
+
         $entity->link = self::getLink($name);
         $entity->entity_id = $comment->entity_id;
         $entity->filter = 'comment';
@@ -261,7 +268,13 @@ class News extends EMongoDocument {
         $entity->dislikes->users = $userLikes['dislikesUsers'];
 
         $name = array_pop(explode('_', get_class($comment)));
-        $api = ERestDocument::model($name)->findByPK($comment->entity_id);
+        try {
+            $api = ERestDocument::model($name)->findByPK($comment->entity_id);
+        } catch (Exception $exc) {
+            $api = new stdClass();
+            $api->title = 'ERROR CONNECTION';
+        }
+
 
         // эти параметры следовало бы обновить в любом случае
         $entity->filter = 'comment';
