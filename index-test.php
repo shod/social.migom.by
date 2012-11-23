@@ -1,15 +1,22 @@
 <?php
-/**
- * This is the bootstrap file for test application.
- * This file should be removed when the application is deployed for production.
- */
-
 // change the following paths if necessary
-$yii=dirname(__FILE__).'/../../framework/yii.php';
+$yii=dirname(__FILE__).'/../framework/yii.php';
+$yiiEx  = dirname(__FILE__) . '/protected/YiiBaseEx.php';
 $config=dirname(__FILE__).'/protected/config/test.php';
 
-// remove the following line when in production mode
-// defined('YII_DEBUG') or define('YII_DEBUG',true);
+if(YII_DEBUG === true){
+    include_once 'functions.php';
+}
+
+function autoload($className){
+    $className = ucfirst($className);
+    return YiiBase::autoload($className);
+}
 
 require_once($yii);
-Yii::createWebApplication($config)->run();
+require_once($yiiEx);
+
+$yii = Yii::createWebApplication($config);
+spl_autoload_unregister(array('YiiBase', 'autoload'));
+spl_autoload_register(array('YiiBaseEx', 'autoload'));
+$yii->run();

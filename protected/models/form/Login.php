@@ -46,7 +46,7 @@ class Form_Login extends CFormModel
         public function remindEmailCheck($attribute, $params){
             $this->userModel = Users::model()->findByAttributes(array('email'=>$this->email));
             if(!$this->userModel){
-                $this->addError('email', Yii::t('Site', 'Incorrect email or password.'));
+                $this->addError('email', Yii::t('Site', 'Неверный email или пароль.'));
             }
         }
 
@@ -61,9 +61,9 @@ class Form_Login extends CFormModel
 			$this->_identity=new UserIdentity($this->email,md5($this->password));
 			if(!$this->_identity->authenticate()){
                             if($this->_identity->errorCode == UserIdentity::ERROR_USER_BLOCKED){
-                                $this->addError('password', Yii::t('Site', 'User with this email was banned.'));
+                                $this->addError('password', Yii::t('Site', 'Пользователь с этим email заблокирован.'));
                             } else {
-                                $this->addError('password', Yii::t('Site', 'Incorrect email or password.'));
+                                $this->addError('password', Yii::t('Site', 'Неверный email или пароль.'));
                             }
                         }
 		}

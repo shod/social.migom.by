@@ -142,7 +142,7 @@
             </tr>
         </table>-->
 
-        <table class="collapsible">
+        <table class="collapsible <?php if($model->getError('password') || $model->getError('repassword')): ?>expanded<?php endif; ?>">
             <caption><p><span><?= Yii::t('Profile', 'Изменение пароля'); ?></span></p></caption>
             <tr>
                 <th><?php echo $form->label($model,'old_password'); ?>:</th>
@@ -154,12 +154,15 @@
             </tr>
             <tr>
                 <th><?php echo $form->label($model,'repassword'); ?>:</th>
-                <td><?php echo $form->passwordField($model,'repassword'); ?></td>
+                <td><?php echo $form->passwordField($model,'repassword'); ?>
+                    <?= $form->error($model,'repassword'); ?>
+                </td>
+
             </tr>
         </table>
 
         <div class="buttons">
-            <button>Сохранить</button>
+            <button id="save">Сохранить</button>
             <div class="cancel-link">
                 <?= CHtml::link(Yii::t('Profile', 'Отмена, вернуться в профиль'), $this->createUrl('/profile')) ?>
             </div>

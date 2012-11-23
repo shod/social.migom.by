@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
 	<meta charset="utf-8" />
-	<title> </title>
+	<title><?= $this->title ?></title>
     <?php
         Yii::app()->getClientScript()->registerCssFile('/css/default.css');
         Yii::app()->clientScript->registerScriptFile('/js/default.js');
@@ -27,6 +27,6 @@
     <?= $content ?>
 </div>
 
-
+<?php CController::widget('Footer'); ?>
 </body>
 </html>

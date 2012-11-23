@@ -4,6 +4,7 @@ return CMap::mergeArray(
 	require(dirname(__FILE__).'/main.php'),
 	array(
             'import' => array(
+                'application.models.*',
                 'api.models.*',
                 'api.components.*',
                 'api.controllers.*',
@@ -18,10 +19,5 @@ return CMap::mergeArray(
                     'user_id' => 100,
                 ),
             ),
-//		'components'=>array(
-//			'fixture'=>array(
-//				'class'=>'system.test.CDbFixtureManager',
-//			),
-//		),
 	)
 );

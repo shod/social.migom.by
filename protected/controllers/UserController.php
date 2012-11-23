@@ -4,7 +4,7 @@ class UserController extends Controller
 {
 
     public $layout = 'user';
-    public $title  = 'User Controller Param(change in action)';
+    public $title  = '';
 
     public function filters()
     {
@@ -46,7 +46,7 @@ class UserController extends Controller
             $this->redirect('/site/login');
         }
 
-
+        $this->title = Yii::t('Social', 'Мои новости | Migom.by');
         if ($id != Yii::app()->user->id) {
             $this->forward('profile');
         }
@@ -65,6 +65,7 @@ class UserController extends Controller
         if(!$model){
             throw new CHttpException(404, Yii::t('Site', 'Upps! Такой страницы нету'));
         }
+        $this->title = Yii::t('Social', 'Профиль {login} | Migom.by', array('{login}' => $model->login));
         $this->render('profile', array('model' => $model));
     }
 
@@ -92,13 +93,15 @@ class UserController extends Controller
                     UserService::clearTempAvatars($model->id);
                 }
             }
-
-            if ($_POST['birthday']) {
+            if ($_POST['birthday'] && $_POST['birthday']['year'] && $_POST['birthday']['month'] && $_POST['birthday']['day']) {
                 $model->profile->birthday = $_POST['birthday']['year'] . '-' . $_POST['birthday']['month'] . '-' . $_POST['birthday']['day'];
+            } else {
+                $model->profile->birthday = null;
             }
 
             $model->profile->setScenario('update');
             $model->profile->attributes = $_POST['Users_Profile'];
+            $model->profile->validate();
             if ($model->profile->validate() && $model->profile->save()) {
                 $redirect = true;
             } else {
@@ -148,6 +151,8 @@ class UserController extends Controller
         for ($i = 1; $i < 32; $i++) {
             $days[$i] = $i;
         }
+
+        $this->title = Yii::t('Social', 'Редактировать профиль {login} | Migom.by', array('{login}' => $model->login));
 
         $regions = Regions::model()->findAll('parent_id = 1 OR to_menu = 1 OR id = :city ORDER BY to_menu DESC', array(':city' => $model->profile->city_id));
 

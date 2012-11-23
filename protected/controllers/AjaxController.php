@@ -10,11 +10,6 @@ class AjaxController extends Controller
 //		);
 //	}
 //
-//	/**
-//	 * Specifies the access control rules.
-//	 * This method is used by the 'accessControl' filter.
-//	 * @return array access control rules
-//	 */
 //	public function accessRules()
 //	{
 //		return array(
@@ -124,7 +119,7 @@ class AjaxController extends Controller
                 foreach ($likes->users as $user) {
                     if ($user->id == Yii::app()->user->id) {
                         echo json_encode(array('success' => false));
-            Yii::app()->end();
+                        Yii::app()->end();
                     }
                 }
             } else {
