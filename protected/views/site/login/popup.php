@@ -1,13 +1,35 @@
-<div class="wcontent" id="popupLogin">
-	<div class="contentLogin">
-		<h2>Вход на сайт</h2>
-		<div class="response" style="display:none; height: 100px; margin-bottom: 20px;">
-			<div></div>
-			<a href="javascript:void(0);" onclick='$("#popupLogin .contentLogin .response").hide();$("#formLogin").show();'>Попробовать еще раз</a>
-		</div>
-                    <?php $this->renderPartial('frm/_login', array('model' => new Form_Login())) ?>
-		<div class="social">
-		</div>
-			
-	</div><!-- /contentnLogin -->
-</div>
+<div class="panel signin">
+<?php $form=$this->beginWidget('CActiveForm', array(
+            'id'=>'formLogin',
+            'enableAjaxValidation'=>true,
+            'enableClientValidation'=>false,
+//            'focus'=>array($model,'email'),
+            'clientOptions'=>array(
+                'validateOnSubmit'=>true,
+                'inputContainer' => 'div',
+                'afterValidate' => 'js:function(form, data, hasError){ $(form).validateAttrs(data); return true; }',
+                'afterValidateAttribute' => 'js:function(form, attribute, data, hasError){ $(form).validateAttrs(data); return true; }',
+                'hideErrorMessage' => true,
+            ),
+)); ?>
+            <label>
+                <div class="hint"><?= Yii::t('Login', 'Для постоянных<br> пользователей'); ?></div>
+                <div><?= Yii::t('Login', 'Вход на сайт'); ?></div>
+                <?= $form->emailField($model,'email', array('placeholder' => Yii::t('Login', 'Электронная почта'))); ?>
+                <?php echo $form->error($model,'email', array(), true, true); ?>
+            </label>
+            <p>
+                <?= $form->passwordField($model,'password', array('placeholder' => Yii::t('Login', 'Пароль'))); ?>
+                <span class="remind"><?= Yii::t('Login', 'Напомнить'); ?></span>
+                <?= $form->error($model,'password'); ?>
+            </p>
+            <p class="buttons">
+                <button id="login"><?= Yii::t('Login', 'Войти'); ?></button>
+                <label>
+                    <?= $form->checkBox($model, 'shortSession') ?>
+                    <span><?= Yii::t('Login', 'Чужой компьютер'); ?></span>
+                </label>
+            </p>
+
+<?php $this->endWidget(); ?>
+ </div>
