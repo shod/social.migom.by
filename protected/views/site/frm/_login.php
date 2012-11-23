@@ -1,3 +1,4 @@
+<div class="auth form">
 <div class="panel signin">
 <?php $form=$this->beginWidget('CActiveForm', array(
             'id'=>'formLogin',
@@ -24,7 +25,7 @@
                 <?= $form->error($model,'password'); ?>
             </p>
             <p class="buttons">
-                <button><?= Yii::t('Login', 'Войти'); ?></button>
+                <button id="login"><?= Yii::t('Login', 'Войти'); ?></button>
                 <label>
                     <?= $form->checkBox($model, 'shortSession') ?>
                     <span><?= Yii::t('Login', 'Чужой компьютер'); ?></span>
@@ -33,3 +34,4 @@
 
 <?php $this->endWidget(); ?>
  </div>
+</div>
