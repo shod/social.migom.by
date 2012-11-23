@@ -24,9 +24,6 @@
                 </p>
                 <p class="buttons">
                     <button id="login"><?= Yii::t('Login', 'Войти'); ?></button>
-                    <label>
-                        <?= $form->checkBox($model, 'shortSession') ?>
-                    </label>
                 </p>
 
     <?php $this->endWidget(); ?>
