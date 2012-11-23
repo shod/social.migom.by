@@ -57,6 +57,7 @@ class SiteController extends Controller {
      * This is the action to handle external exceptions.
      */
     public function actionError() {
+        $this->layout = '';
         if ($error = Yii::app()->errorHandler->error) {
             if (Yii::app()->request->isAjaxRequest)
                 echo $error['message'];
@@ -111,8 +112,9 @@ class SiteController extends Controller {
                         Yii::app()->user->login($identity, 3600*24*30);
                     } elseif(Yii::app()->request->getParam('user') == 'haveALogin'){
                         if(!isset($_POST['Form_Login'])){
+                            $model = new Form_Login;
                             $this->layout = 'popup';
-                            $this->render('login/popup');
+                            $this->render('login/popup', array('model' => $model));
                             Yii::app()->end();
                         }
                         $user = $this->_preLogin(false);
