@@ -34,6 +34,11 @@ return array(
         'ext.yiiRestSuite.*',
         'ext.yiiRestSuite.server.*',
     ),
+    'controllerMap' => array(
+        'header' => array(
+            'class' => 'application.widgets.AxajWidgetController'
+        ),
+    ),
     'modules' => require(dirname(__FILE__) . '/modules.php'),
     'components' => require(dirname(__FILE__) . '/components.php'),
     'onBeginRequest' => function($event) {
