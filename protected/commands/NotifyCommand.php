@@ -45,7 +45,9 @@ class NotifyCommand extends ConsoleCommand
             echo "no notice";
             Yii::app()->end();
         }
-        $productInfo = $apiModel->getInfo('title', array('id' => $productForSend));
+        $productInfo = $apiModel->getInfo('attr', array('id' => $productForSend, 'list' => array('title', 'url', 'image'), 'image_size' => 'small'));
+        var_dump($productInfo);
+        die;
 
         if (!$productInfo) {
             $errors = $apiModel->getErrors();

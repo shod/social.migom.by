@@ -144,10 +144,10 @@
 
         <table class="collapsible <?php if($model->getError('password') || $model->getError('repassword')): ?>expanded<?php endif; ?>">
             <caption><p><span><?= Yii::t('Profile', 'Изменение пароля'); ?></span></p></caption>
-            <tr>
+<!--            <tr>
                 <th><?php echo $form->label($model,'old_password'); ?>:</th>
                 <td><?php echo $form->passwordField($model,'old_password'); ?></td>
-            </tr>
+            </tr>-->
             <tr>
                 <th><?php echo $form->label($model,'password'); ?>:</th>
                 <td><?php $model->password = ''; echo $form->passwordField($model,'password'); ?></td>
