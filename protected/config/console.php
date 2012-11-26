@@ -37,8 +37,8 @@ return array(
         'db' => array(
             'connectionString' => 'mysql:host=localhost;dbname=test4migomby',
             'emulatePrepare' => true,
-            'username' => 'root',
-            'password' => '',
+            'username' => 'test4migomby',
+            'password' => 'ET7jS8zcoAKT',
             'charset' => 'utf8',
         ),
         'mailer' => array(
