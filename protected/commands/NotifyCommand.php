@@ -46,26 +46,24 @@ class NotifyCommand extends ConsoleCommand
             Yii::app()->end();
         }
         $productInfo = $apiModel->getInfo('attr', array('id' => $productForSend, 'list' => array('title', 'url', 'image'), 'image_size' => 'small'));
-        var_dump($productInfo);
-        die;
 
         if (!$productInfo) {
             $errors = $apiModel->getErrors();
             Yii::log($errors, CLogger::LEVEL_INFO);
             Yii::app()->end();
         }
-        $productTitles = get_object_vars($productInfo);
+        $productInfo = get_object_vars($productInfo);
         foreach ($userForNotify as $userId => $products) {
 
             $user = Users::model()->findByPk($userId);
             $mail = new Mail();
             foreach ($products as $product) {
-                News::pushPriceDown($user, $product, $productTitles[$product['product_id']]);
+                News::pushPriceDown($user, $product, $productInfo[$product['product_id']]);
                 $mail->send($user, 'notifyProductCost', array(
                     'date'        => $time,
                     'cost'        => $product['cost'],
                     'productId'   => $product['product_id'],
-                    'productName' => $productTitles[$product['product_id']]
+                    'productName' => $productInfo[$product['product_id']['title']]
                 ));
                 Notify::model('Product_Cost')->deleteByPk($product['subscriber_id']);
             }

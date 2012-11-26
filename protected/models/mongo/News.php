@@ -199,7 +199,7 @@ class News extends EMongoDocument {
         return $news->save();
     }
 
-    public static function pushPriceDown($user, $product, $productTitles){
+    public static function pushPriceDown($user, $product, $productInfo){
         $name = 'price_down';
         list($news, $entity) = News::_push($user->id, $product['product_id'], $name);
 
@@ -214,7 +214,8 @@ class News extends EMongoDocument {
         $entity->link = self::getLink($name);
         $entity->entity_id = $product['product_id'];
         $entity->filter = $name;
-        $entity->title = $productTitles;
+        $entity->title = $productInfo['title'];
+        $entity->image = $productInfo['image'];
         $entity->cost = $product['cost'];
 //        $entity->text = '';
         $entity->template = 'priceDown';
