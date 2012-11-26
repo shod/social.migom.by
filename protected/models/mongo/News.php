@@ -214,8 +214,8 @@ class News extends EMongoDocument {
         $entity->link = self::getLink($name);
         $entity->entity_id = $product['product_id'];
         $entity->filter = $name;
-        $entity->title = $productInfo['title'];
-        $entity->image = $productInfo['image'];
+        $entity->title = $productInfo->title;
+        $entity->image = $productInfo->image;
         $entity->cost = $product['cost'];
 //        $entity->text = '';
         $entity->template = 'priceDown';
