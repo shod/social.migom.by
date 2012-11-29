@@ -24,7 +24,7 @@ class AuthController extends ERestController {
         $render = $this->render();
         $type = strtolower($type);
         if (!$render->isValidType($type)) {
-            $render->setStatus(render::STATUS_BAD_REQUEST)->sendResponse(array('message' => Yii::t('Api', 'Invalid type ' . $type)));
+            $render->setStatus(ERestComponent::STATUS_BAD_REQUEST)->sendResponse(array('message' => Yii::t('Api', 'Invalid type ' . $type)));
         }
         $render->setContentType($type);
 
@@ -34,7 +34,7 @@ class AuthController extends ERestController {
             $render->sendResponse(array('suid' => $suid));
             return true;
         } else {
-            $render->setStatus(render::STATUS_BAD_REQUEST)->sendResponse(array('message' => Yii::t('Api', 'Not auth')));
+            $render->setStatus(ERestComponent::STATUS_BAD_REQUEST)->sendResponse(array('message' => Yii::t('Api', 'Not auth')));
         }
 
     }
