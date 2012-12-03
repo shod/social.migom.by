@@ -2,20 +2,6 @@
 
 class SiteController extends Controller {
 
-    /**
-     * Declares class-based actions.
-     */
-//	public function actions()
-//	{
-//		return array(
-//			// captcha action renders the CAPTCHA image displayed on the contact page
-//			'captcha'=>array(
-//				'class'=>'CCaptchaAction',
-//				'backColor'=>0xFFFFFF,
-//			),
-//		);
-//	}
-
     public function filters() {
         return array(
             'accessControl',
@@ -39,23 +25,6 @@ class SiteController extends Controller {
         );
     }
 
-    public function actionIndex(){
-        $this->render('index');
-    }
-
-    public function actionAutoComplete(){
-            $tags = array('samsung лучший телефо', 'nokia the best');
-            echo CJSON::encode($tags);
-            Yii::app()->end();
-    }
-
-    public function actionInfo() {
-        phpinfo();
-    }
-
-    /**
-     * This is the action to handle external exceptions.
-     */
     public function actionError() {
         $this->layout = '';
         if ($error = Yii::app()->errorHandler->error) {
