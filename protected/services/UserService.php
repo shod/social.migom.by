@@ -2,6 +2,7 @@
 
 class UserService {
 
+    
     public static $images_mime = array('image/jpeg' => 'jpg', 'image/png' => 'png');
 
     public static function uploadAvatarFromService($user_id, $file_url){

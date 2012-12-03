@@ -6,7 +6,7 @@
 class Controller extends CController
 {
         public $layout='column2';
-    
+
 	/**
 	 * @var array context menu items. This property will be assigned to {@link CMenu::items}.
 	 */
@@ -17,7 +17,7 @@ class Controller extends CController
 	 * for more details on how to specify this property.
 	 */
 	public $breadcrumbs=array();
-    
+
     /**
 	 * @return array action filters
 	 */
@@ -40,11 +40,11 @@ class Controller extends CController
 				'actions'=>array(),
 				'roles'=>array('administrator'),
 			),
-                        array('deny',  // allow all users to perform 'index' and 'view' actions
+            array('deny',  // allow all users to perform 'index' and 'view' actions
 				'actions'=>array('delete'),
 				'roles'=>array('moderator'),
 			),
-                        array('allow',  // allow all users to perform 'index' and 'view' actions
+            array('allow',  // allow all users to perform 'index' and 'view' actions
 				'actions'=>array(),
 				'roles'=>array('moderator'),
 			),

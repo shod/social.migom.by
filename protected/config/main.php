@@ -35,8 +35,8 @@ return array(
         'ext.yiiRestSuite.server.*',
     ),
     'controllerMap' => array(
-        'header' => array(
-            'class' => 'application.widgets.AxajWidgetController'
+        'widgets' => array(
+            'class' => 'application.widgets.WidgetsController'
         ),
     ),
     'modules' => require(dirname(__FILE__) . '/modules.php'),
