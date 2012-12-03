@@ -15,6 +15,7 @@
 
 </head>
 <body>
+    <div class="boby-container">
 
 <!--<div class="wrapper_banner"> </div>-->
 
@@ -28,5 +29,6 @@
 </div>
 
 <?php CController::widget('Footer'); ?>
+    </div>
 </body>
 </html>
