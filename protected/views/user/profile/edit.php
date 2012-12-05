@@ -5,7 +5,7 @@
     <div class="main profile">
         <div class="summary">
             <div class="avatar">
-                <?php $this->widget('application.extensions.EAjaxUpload.EAjaxUpload',
+                <?php $this->widget('core.extensions.EAjaxUpload.EAjaxUpload',
                 array(
                         'id'=>'uploadFile',
                         'config'=>array(

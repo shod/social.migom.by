@@ -1,10 +1,10 @@
 RewriteEngine on
 RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} !-f
-RewriteRule images/users/(\d+)/avatar\.(gif|jpe?g|png|bmp) http://test4.migom.by/user/createuseravatar/id/$1 [NC,L]
+RewriteRule images/users/(\d+)/avatar\.(gif|jpe?g|png|bmp) http://social.migom.tst/user/createuseravatar/id/$1 [NC,L]
 RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} !-f
-RewriteRule images/users/(\d+)/avatar_(\d+)x(\d+)\.(gif|jpe?g|png|bmp) http://test4.migom.by/user/createuseravatar/id/$1/x/$2/y/$3 [NC,L]
+RewriteRule images/users/(\d+)/avatar_(\d+)x(\d+)\.(gif|jpe?g|png|bmp) http://social.migom.tst/user/createuseravatar/id/$1/x/$2/y/$3 [NC,L]
 RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} !-f
-RewriteRule images/users/(\d+)/avatar-temp_(\d+)x(\d+)\.(gif|jpe?g|png|bmp) http://test4.migom.by/user/createuseravatar/id/$1/x/$2/y/$3 [NC,L]
+RewriteRule images/users/(\d+)/avatar-temp_(\d+)x(\d+)\.(gif|jpe?g|png|bmp) http://social.migom.tst/user/createuseravatar/id/$1/x/$2/y/$3 [NC,L]
 RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} !-f
 RewriteRule images/users/avatar\.(gif|jpe?g|png|bmp) /images/users/default_avatar.png [NC,L]
 
