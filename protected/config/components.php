@@ -61,4 +61,3 @@ return array(
         'class' => 'ext.lightopenid.loid',
     ),
 );
-?>

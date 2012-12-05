@@ -13,5 +13,25 @@ return CMap::mergeArray(
         'sourceLanguage' => 'ru_RU',
         'language' => 'ru',
         'components' => require(dirname(__FILE__) . '/components.php'),
+        'import' => array(
+            'application.models.*',
+            'application.models.mongo.*',
+            'core.components.*',
+            'core.widgets.*',
+            'core.services.*',
+            'core.modules.api.components.*',
+            'core.extensions.RESTClient.*',
+            'core.extensions.yiidebugtb.*',
+            'core.extensions.eoauth.*',
+            'core.extensions.eoauth.lib.*',
+            'core.extensions.lightopenid.*',
+            'core.extensions.eauth.*',
+            'core.extensions.eauth.custom_services.*',
+            'core.extensions.YiiMongoDbSuite.*',
+            'core.extensions.YiiMongoDbSuite.extra.*',
+            'core.extensions.yiiRestSuite.*',
+            'core.extensions.yiiRestSuite.server.*',
+        ),
 	)
+
 );
