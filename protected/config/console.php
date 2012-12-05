@@ -42,9 +42,9 @@ return array(
             'charset' => 'utf8',
         ),
         'mailer' => array(
-            'class' => 'application.extensions.mailer.EMailer',
-            'pathViews' => 'application.views.email',
-            'pathLayouts' => 'application.views.email.layouts',
+            'class' => 'core.extensions.mailer.EMailer',
+            'pathViews' => 'core.extensions.mailer.views.email',
+            'pathLayouts' => 'core.extensions.mailer.views.email.layouts',
 //                    'Host'          => 'SMTP HOST',
 //                    'SMTPAuth'      => true,
 //                    'Username'      => 'yourname@163.com',

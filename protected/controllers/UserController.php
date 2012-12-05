@@ -160,7 +160,7 @@ class UserController extends Controller
     }
 
     public function actionUploadAvatar(){
-        Yii::import("application.extensions.EAjaxUpload.qqFileUploader");
+        Yii::import("core.extensions.EAjaxUpload.qqFileUploader");
         $model = $this->loadModel(Yii::app()->user->id);
         $path = Yii::app()->getBasePath() . DIRECTORY_SEPARATOR . '..';
         $folder = $path . Users::AVATAR_PATH . DIRECTORY_SEPARATOR . $model->id;
@@ -198,7 +198,7 @@ class UserController extends Controller
     public function actionCreateUserAvatar($id, $x = null, $y = null)
     {
         $user = Users::model()->findByPk($id);
-        $file = Yii::app()->basePath . '/../images/users/' . $id . '/avatar.jpg';
+        $file = Yii::app()->basePath . '/../images/users/' . $id . '/avataravatar-temp.jpg';
         $fileTemp = Yii::app()->basePath . '/../images/users/' . $id . '/avatar-temp.jpg';
         if (!file_exists($file) && $user) {
             $srcImage = UserService::uploadAvatarFromEmail($user->id, $user->email);

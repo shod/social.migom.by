@@ -25,6 +25,11 @@ class SiteController extends Controller {
         );
     }
 
+    public function actionIndex(){
+        echo 'test';
+        Widget::create('header');
+    }
+
     public function actionError() {
         $this->layout = '';
         if ($error = Yii::app()->errorHandler->error) {

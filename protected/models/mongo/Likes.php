@@ -26,7 +26,7 @@ class Likes extends EMongoDocument
     {
         return array(
             array(
-                'class' => 'ext.YiiMongoDbSuite.extra.EEmbeddedArraysBehavior',
+                'class' => 'core.extensions.YiiMongoDbSuite.extra.EEmbeddedArraysBehavior',
                 'arrayPropertyName' => 'users', // name of property
                 'arrayDocClassName' => 'Likes_Embidded_Users' // class name of documents in array
             ),
@@ -80,5 +80,5 @@ class Likes extends EMongoDocument
         }
         return parent::beforeSave();
     }
-    
+
 }

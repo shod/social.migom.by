@@ -5,3 +5,4 @@ themes/classic/views/
 !/protected/modules/ads/assets/
 !/protected/extensions/EAjaxUpload/assets/
 /images/users/
+/protected/config/components/

@@ -20,7 +20,7 @@ class News extends EMongoDocument {
     {
       return array(
         array(
-          'class'=>'ext.YiiMongoDbSuite.extra.EEmbeddedArraysBehavior',
+          'class'=>'core.extensions.YiiMongoDbSuite.extra.EEmbeddedArraysBehavior',
           'arrayPropertyName'=>'entities', // name of property
           'arrayDocClassName'=>'News_Entity' // class name of documents in array
         ),

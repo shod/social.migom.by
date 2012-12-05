@@ -1,35 +1,24 @@
 <?php
 
 return array(
-    'db'=>array(
-        'connectionString' => 'mysql:host=localhost;dbname=test4migomby',
-        'emulatePrepare' => true,
-        'username' => 'test4migomby',
-        'password' => 'ET7jS8zcoAKT',
-        'charset' => 'utf8',
-    ),
-    'mongodb' => array(
-        'class' => 'EMongoDB',
-        'connectionString' => 'mongodb://localhost',
-        'dbName' => 'smigom',
-        'fsyncFlag' => false,
-        'safeFlag' => false,
-        'useCursor' => false
-    ),
+    'db'            => require(dirname(__FILE__) . '/components/db.php'),
+    'mongodb'       => require(dirname(__FILE__) . '/components/mongodb.php'),
+    'session'       => require(dirname(__FILE__) . '/components/session.php'),
+    'eauth'         => require(dirname(__FILE__) . '/components/eauth.php'),
+    'cache'         => require(dirname(__FILE__) . '/components/cache.php'),
+    'widgetFactory' => require(dirname(__FILE__) . '/components/widgetFactory.php'),
+    'migom'         => require(dirname(__FILE__) . '/components/migom.php'),
+//    'log'           => require(dirname(__FILE__) . '/components/log.php'),
     'image' => array(
-        'class' => 'application.extensions.image.CImageComponent',
+        'class' => 'core.extensions.image.CImageComponent',
         // GD or ImageMagick
         'driver' => 'GD',
         // ImageMagick setup path
         'params' => array('directory' => '/opt/local/bin'),
     ),
-    'migom' => array(
-        'class' => 'ERestServer',
-        'connectionString' => 'http://test3.migom.by/api/api',
-        'password' => 'social',
-//                            'http_auth' => true,
-//                            'http_user' => true,
-//                            'http_pass' => true,
+    'messages' => array(
+        'class'=>'CPhpMessageSource',
+        'basePath' => '../core/messages'
     ),
     'user' => array(
         // enable cookie-based authentication
@@ -61,72 +50,14 @@ return array(
             '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
         ),
     ),
-
-    'session' => array(
-        'class' => 'CCacheHttpSession',
-        'cacheID' => 'cache',
-        'cookieParams' => array('domain' => '.migom.by'),
-        'timeout' => 3600 * 24 * 30,
-        'autoStart' => true,
-        'cookieMode' => 'only',
-    ),
-    'cache' => array(
-        'class' => 'system.caching.CMemCache',
-        'keyPrefix' => 'a1e7e8ff',
-        'servers' => array(
-            array(
-                'host' => '178.172.181.139',
-                'port' => 11211,
-            ),
-            array(
-                'host' => 'localhost',
-                'port' => 11211,
-            ),
-        ),
+    'request' => array(
+        'class' => 'HttpRequest'
     ),
     'errorHandler' => array(
         // use 'site/error' action to display errors
         'errorAction' => 'site/error',
     ),
-    'log' => array(
-        'class' => 'CLogRouter',
-        'routes' => array(
-            array(
-                'class' => 'CFileLogRoute',
-                'levels' => 'error, warning, info, api',
-                'enabled' => true,
-            ),
-//                array(
-//                    'class'=>'CEmailLogRoute',
-//                    'levels'=>'error, warning',
-//                    'emails'=>array('schevgeny@gmail.com'),
-//                ),
-//                array(
-//                        'class' => 'CProfileLogRoute',
-//                        'levels' => 'error, warning',
-//                        'enabled' => true,
-//                ),
-//                                array( // configuration for the toolbar
-//                                        'class' => 'XWebDebugRouter',
-//                                        'config' => 'alignLeft, opaque, runInDebug, fixedPos, collapsed, yamlStyle',
-//                                        'levels' => 'trace, info, profile, error, warning',
-//                                        'allowedIPs' => array('86.57.245.247','::1', '127.0.0.1'),
-//                                ),
-        ),
-    ),
     'loid' => array(
         'class' => 'ext.lightopenid.loid',
     ),
-    'eauth' => require(dirname(__FILE__) . '/components/eauth.php'),
-    'widgetFactory'=>array(
-        'widgets'=>array(
-            'Header'=>array(
-                'profileUrl'        => 'http://test4.migom.by/profile',
-                'profileEditUrl'    => 'http://test4.migom.by/profile/edit',
-                'avatarUrl'         => 'http://test4.migom.by/images/users/',
-                'profileLogoutUrl'  => 'http://test4.migom.by/logout/',
-            ),
-        ),
-    ),
 );
-?>
