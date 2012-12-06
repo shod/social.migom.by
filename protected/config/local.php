@@ -19,8 +19,6 @@ return CMap::mergeArray(
             'core.components.*',
             'core.widgets.*',
             'core.services.*',
-            'core.modules.api.components.*',
-            'core.extensions.RESTClient.*',
             'core.extensions.yiidebugtb.*',
             'core.extensions.eoauth.*',
             'core.extensions.eoauth.lib.*',
@@ -32,6 +30,7 @@ return CMap::mergeArray(
             'core.extensions.yiiRestSuite.*',
             'core.extensions.yiiRestSuite.server.*',
         ),
+        'modules' => require(dirname(__FILE__) . '/modules.php'),
 	)
 
 );

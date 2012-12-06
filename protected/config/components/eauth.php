@@ -1,7 +1,7 @@
 <?php
 
 return array(
-    'class' => 'ext.eauth.EAuth',
+    'class' => 'core.extensions.eauth.EAuth',
     'popup' => true, // Use the popup window instead of redirecting.
     'cache' => false, // Cache component name or false to disable cache. Defaults to 'cache'.
     'cacheExpire' => 0, // Cache lifetime. Defaults to 0 - means unlimited.

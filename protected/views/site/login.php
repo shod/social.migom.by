@@ -4,7 +4,7 @@
 
 	<div class="social">
 		<div class="hint"><?= Yii::t('Login', 'Вход и регистрация<br> в 3 клика'); ?></div>
-		<?php $this->widget('ext.eauth.EAuthWidget', array('action' => 'site/login')); ?>
+		<?php $this->widget('core.extensions.eauth.EAuthWidget', array('action' => 'site/login')); ?>
 	</div>
 
 	<div class="panel signup">
