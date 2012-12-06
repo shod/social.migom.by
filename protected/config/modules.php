@@ -12,7 +12,6 @@ return array(
             '127.0.0.1'),
     ),
     'api' => array(
-        'class' => 'core.modules.api.ApiModule',
         'keys' => array(
             'devel' => '86.57.245.247',
             'test3migomby' => '178.172.181.139',
@@ -22,7 +21,6 @@ return array(
         )
     ),
     'ads' => array(
-        'class' => 'core.modules.ads.AdsModule',
         'ipFilters' => array(
             '86.57.245.247',
             '::1',
