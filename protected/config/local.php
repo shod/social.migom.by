@@ -29,6 +29,7 @@ return CMap::mergeArray(
             'core.extensions.YiiMongoDbSuite.extra.*',
             'core.extensions.yiiRestSuite.*',
             'core.extensions.yiiRestSuite.server.*',
+            'core.models.api.*',
         ),
         'modules' => require(dirname(__FILE__) . '/modules.php'),
 	)
