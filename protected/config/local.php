@@ -14,6 +14,7 @@ return CMap::mergeArray(
         'language' => 'ru',
         'components' => require(dirname(__FILE__) . '/components.php'),
         'import' => array(
+            'core.models.api.*',
             'application.models.*',
             'application.models.mongo.*',
             'core.components.*',
@@ -29,7 +30,6 @@ return CMap::mergeArray(
             'core.extensions.YiiMongoDbSuite.extra.*',
             'core.extensions.yiiRestSuite.*',
             'core.extensions.yiiRestSuite.server.*',
-            'core.models.api.*',
         ),
         'modules' => require(dirname(__FILE__) . '/modules.php'),
 	)
