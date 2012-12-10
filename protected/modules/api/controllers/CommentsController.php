@@ -140,15 +140,16 @@ class CommentsController extends ERestController
 
     public function actionPostEntity($entity)
     {
+	
         $comment = Comments::model($entity, true);//new Comments_News();
+		
         $comment->attributes = $_POST;
-
-        $comment->parent_id = (isset($_POST['parent_id']) && $_POST['parent_id'] > 0) ? $_POST['parent_id'] : 0;
-        if ($comment->save()) {
-            $content = array(self::CONTENT_COMMENT => $comment->attributes);
+		$comment->parent_id = (isset($_POST['parent_id']) && $_POST['parent_id'] > 0) ? $_POST['parent_id'] : 0;
+		if ($comment->save()) {
+		    $content = array(self::CONTENT_COMMENT => $comment->attributes);
             $this->render()->sendResponse($content);
         } else {
-            throw new ERestException(Yii::t('Likes', $comment->getErrors()));
+		    throw new ERestException(Yii::t('Likes', $comment->getErrors()));
         }
     }
 

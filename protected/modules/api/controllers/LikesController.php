@@ -108,6 +108,12 @@ class LikesController extends ERestController
         $likes->users[] = $user;
         $likes->setWeightInc($weight);
         if($likes->save()){
+			if($weight > 0){
+				$comment->likes++;
+			}else{
+				$comment->dislikes++;
+			}$comment->save();
+				
                 News::pushLike($comment, $likes);
                 return true;
         }  else {
