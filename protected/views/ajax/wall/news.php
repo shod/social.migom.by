@@ -3,7 +3,7 @@
 
 <?php foreach($comments as $comment): ?>
     <div class="comment">
-        <?php $this->render('application.widgets.views.news.comment._comment', array(
+        <?php $this->render('core.widgets.views.news.comment._comment', array(
                 'user_id' => $comment->user_id,
                 'login' => $comment->user->login,
                 'created_at' => $comment->created_at,

@@ -32,6 +32,10 @@ return CMap::mergeArray(
             'core.extensions.yiiRestSuite.server.*',
         ),
         'modules' => require(dirname(__FILE__) . '/modules.php'),
+		'params' => array(
+			'socialBaseUrl' => 'http://www.test4.migom.by',
+			'migomBaseUrl' => 'http://www.test3.migom.by',
+		),
 	)
 
 );
