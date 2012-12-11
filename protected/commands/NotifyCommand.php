@@ -2,7 +2,7 @@
 
 /**
  * Notify command
- * @example yiic notify actionName --models=comments_news --models=comments_news2...
+ * @example yiic notify productcost --models=comments_news --models=comments_news2...
  */
 class NotifyCommand extends ConsoleCommand
 {
