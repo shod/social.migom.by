@@ -15,7 +15,7 @@
                 //                'minSizeLimit'=>10*1024*1024,// minimum file size in bytes
                             'onComplete'=>"js:function(id, fileName, responseJSON){ tempImage = '".
                                     $model->getAvatarUrl(true)
-                                ."'; $('#uploadAvatar a img').attr('src', tempImage + '?' + fileName); }",
+                                ."'; $('#uploadAvatar a img').attr('src', tempImage + '?' + fileName + '&' + Math.floor((Math.random()*99999)+1)); }",
                             'template' => '<div class="qq-uploader">
                                     <div class="qq-upload-drop-area"><span>' . Yii::t('Profile', 'Перетащите файл сюда') . '</span></div>
                                     <div id="uploadAvatar" class="qq-upload-button">' . UserService::printAvatar($model->id, $model->login, 96) . '</div>

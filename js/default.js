@@ -1,15 +1,4 @@
 $(document).bind("ready", function init() {
-	$(document).on("click", ".post .expand", function() {
-		$(this).siblings(".body").toggleClass("expanded")
-		$(this).remove()
-	})
-
-	$(document).on("click", ".comments .show-more", function() {
-		for (var i = 0; i < 4; i++) {
-			$(this).next(".comment").clone().insertAfter(this)
-		}
-		$(this).remove()
-	})
 
     $.fn.message = function(text) {
         var error = $("<div>", {

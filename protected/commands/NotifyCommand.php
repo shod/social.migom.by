@@ -46,7 +46,9 @@ class NotifyCommand extends ConsoleCommand
             Yii::app()->end();
         }
         $productInfo = $apiModel->getInfo('attr', array('id' => $productForSend, 'list' => array('title', 'url', 'image'), 'image_size' => 'small'));
-
+		var_dump($productInfo);
+		die('dddddddd');
+		
         if (!$productInfo) {
             $errors = $apiModel->getErrors();
             Yii::log($errors, CLogger::LEVEL_INFO);

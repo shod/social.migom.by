@@ -60,6 +60,10 @@ class UserController extends Controller
 
     public function actionProfile()
     {
+		Header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); //Дата в прошлом 
+		Header("Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0"); // HTTP/1.1 
+		Header("Pragma: no-cache"); // HTTP/1.1 
+		Header("Last-Modified: ".gmdate("D, d M Y H:i:s")."GMT");
         $id    = Yii::app()->request->getParam('id', Yii::app()->user->id);
         $model = Users::model()->findByPk($id);
         if(!$model){
@@ -71,7 +75,10 @@ class UserController extends Controller
 
     public function actionEdit()
     {
-        header('Cache-Control: no-cache, must-revalidate');
+        Header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); //Дата в прошлом 
+		Header("Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0"); // HTTP/1.1 
+		Header("Pragma: no-cache"); // HTTP/1.1 
+		Header("Last-Modified: ".gmdate("D, d M Y H:i:s")."GMT");
         if (Yii::app()->user->getIsGuest()) {
             throw new CHttpException(404, 'The requested page does not exist.');
         }
@@ -108,7 +115,9 @@ class UserController extends Controller
                 $redirect = false;
                 $success  = false;
             }
-        }
+        } else {
+			UserService::clearTempAvatars($model->id);
+		}
 
         if (isset($_POST['Users'])) {
             $model->setScenario('general_update');
@@ -195,10 +204,14 @@ class UserController extends Controller
         return $model;
     }
 
-    public function actionCreateUserAvatar($id, $x = null, $y = null)
+    public function actionCreateUserAvatar($id, $x = null, $y = null, $tempFlag = false)
     {
+		Header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); //Дата в прошлом 
+		Header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1 
+		Header("Pragma: no-cache"); // HTTP/1.1 
+		Header("Last-Modified: ".gmdate("D, d M Y H:i:s")."GMT");
         $user = Users::model()->findByPk($id);
-        $file = Yii::app()->basePath . '/../images/users/' . $id . '/avataravatar-temp.jpg';
+        $file = Yii::app()->basePath . '/../images/users/' . $id . '/avatar.jpg';
         $fileTemp = Yii::app()->basePath . '/../images/users/' . $id . '/avatar-temp.jpg';
         if (!file_exists($file) && $user) {
             $srcImage = UserService::uploadAvatarFromEmail($user->id, $user->email);
@@ -206,14 +219,18 @@ class UserController extends Controller
             $image    = Yii::app()->image->load($file);
         }
         if($user && $x && $y && file_exists($file)){
-            if(file_exists($fileTemp)){
-                $res = UserService::cropAvatar($user->id, $fileTemp, $x, $y);
+            if(file_exists($fileTemp) && $tempFlag){
+                $res = UserService::cropAvatar($user->id, $fileTemp, $x, $y, 'avatar-temp');
             } else {
                 $res = UserService::cropAvatar($user->id, $file, $x, $y);
             }
 
             if($res['success']){
-                $image = Yii::app()->image->load($res['file']);
+				$image = $res['image'];
+				if(!$tempFlag){
+					$image->save($res['file']);
+					$image = Yii::app()->image->load($res['file']);
+				}
             }
         }
         if(isset($image)){
