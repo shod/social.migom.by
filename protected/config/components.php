@@ -32,6 +32,16 @@ return array(
         'class' => 'PhpAuthManager',
         'defaultRoles' => array('guest'),
     ),
+	'mailer' => array(
+        'class' => 'application.extensions.mailer.EMailer',
+        'pathViews' => 'application.views.email',
+        'pathLayouts' => 'application.views.email.layouts',
+//                    'Host'          => 'SMTP HOST',
+//                    'SMTPAuth'      => true,
+//                    'Username'      => 'yourname@163.com',
+//                    'Password'      => 'yourpassword',
+//                    'From'          => 'support@migom.by',
+    ),
     // uncomment the following to enable URLs in path-format
     'urlManager' => array(
         'urlFormat' => 'path',
