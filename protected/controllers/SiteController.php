@@ -144,7 +144,7 @@ class SiteController extends Controller {
      */
     public function actionLogout() {
         Yii::app()->user->logout();
-        $this->redirect($_SERVER['HTTP_REFERER']);
+        $this->redirect((isset($_SERVER['HTTP_REFERER']))?$_SERVER['HTTP_REFERER']:Yii::app()->params['migomBaseUrl']);
     }
 
     public function actionRegistration() {

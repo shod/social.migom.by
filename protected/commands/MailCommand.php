@@ -14,6 +14,7 @@ class MailCommand extends ConsoleCommand {
 //        } else {
             $mailer->IsMail();
 //        }
+
         $mailer->AddAddress($user->email);
         $mailer->FromName = 'Social.Migom.By';
         $mailer->CharSet = 'UTF-8';
