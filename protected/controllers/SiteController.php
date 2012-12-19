@@ -29,6 +29,10 @@ class SiteController extends Controller {
         echo 'test';
         Widget::create('header');
     }
+	
+	public function actionInfo(){
+        phpinfo();
+    }
 
     public function actionError() {
         $this->layout = '';

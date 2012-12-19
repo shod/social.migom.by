@@ -25,7 +25,7 @@ return array(
         // enable cookie-based authentication
         'allowAutoLogin' => true,
         'class' => 'WebUser',
-        'loginUrl' => array('site/login'),
+        'loginUrl' => array('login'),
         'defaultRole' => 'guest',
     ),
     'authManager' => array(
@@ -55,7 +55,7 @@ return array(
             'profile' => 'user/profile',
             'profile/edit' => 'user/edit',
             '' => 'user/index',
-            '<action:(login|logout)>' => 'site/<action>',
+			'<action:(login|logout)>' => 'site/<action>',
             '<controller:\w+>/<id:\d+>' => '<controller>/view',
             '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
             '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',

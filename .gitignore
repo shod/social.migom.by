@@ -4,5 +4,6 @@ themes/classic/views/
 !/protected/extensions/eauth/assets/
 !/protected/modules/ads/assets/
 !/protected/extensions/EAjaxUpload/assets/
-/images/users/
-/protected/config/components/
+images/users/
+protected/config/components/
+protected/config/params.php
