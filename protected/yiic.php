@@ -2,13 +2,12 @@
 
 // change the following paths if necessary
 $config=dirname(__FILE__).'/config/console.php';
+defined('YII_DEBUG') or define('YII_DEBUG',true);
 
 if (YII_DEBUG === true) {
     include_once '../../core/functions.php';
 }
 defined('STDIN') or define('STDIN', fopen('php://stdin', 'r'));
-
-defined('YII_DEBUG') or define('YII_DEBUG',true);
 
 require_once(dirname(__FILE__).'/../../framework/yii.php');
 require_once(dirname(__FILE__) . '/../../core/YiiBaseEx.php');

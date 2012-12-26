@@ -40,7 +40,7 @@ return array(
 //                    'SMTPAuth'      => true,
 //                    'Username'      => 'yourname@163.com',
 //                    'Password'      => 'yourpassword',
-//                    'From'          => 'support@migom.by',
+                    'From'          => 'support@migom.by',
     ),
     // uncomment the following to enable URLs in path-format
     'urlManager' => array(

@@ -58,6 +58,7 @@ class Form_Login extends CFormModel
 	{
 		if(!$this->hasErrors())
 		{
+			$this->password = trim($this->password);
 			$this->_identity=new UserIdentity($this->email,md5($this->password));
 			if(!$this->_identity->authenticate()){
                             if($this->_identity->errorCode == UserIdentity::ERROR_USER_BLOCKED){

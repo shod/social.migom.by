@@ -7,6 +7,7 @@ class MailCommand extends ConsoleCommand {
         if(!$user || !$user->email){
             $errors = array('message' => 'User not found or empty email');
             Yii::log($errors, CLogger::LEVEL_INFO);
+			return true;
         }
         $mailer = Yii::app()->mailer;
 //        if($mailer->Host){
@@ -15,7 +16,7 @@ class MailCommand extends ConsoleCommand {
             $mailer->IsMail();
 //        }
 
-        $mailer->AddAddress($user->email);
+		$mailer->AddAddress($user->email);
         $mailer->FromName = 'Social.Migom.By';
         $mailer->CharSet = 'UTF-8';
         $mailer->Subject = Yii::t('Mail', 'Social.Migom.By');

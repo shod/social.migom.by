@@ -49,7 +49,10 @@ class SiteController extends Controller {
      */
     public function actionLogin() {
         if (!Yii::app()->user->getIsGuest()) {
-            $this->redirect('/user/index');
+			if(!isset($_SERVER['HTTP_REFERER'])){
+				$this->redirect('/user/index');
+			}
+			$this->redirect($_SERVER['HTTP_REFERER']);	
         }
         if(isset($_SERVER['HTTP_REFERER']) && !Yii::app()->request->isAjaxRequest && !Yii::app()->request->isPostRequest && !Yii::app()->request->getQuery('service')){
             Yii::app()->user->setReturnUrl($_SERVER['HTTP_REFERER']);
