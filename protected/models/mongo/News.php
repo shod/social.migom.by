@@ -2,9 +2,6 @@
 
 class News extends EMongoDocument {
 
-    const NEWS_LINK = 'http://www.test3.migom.by?news_id=';
-    const PRODUCTS_LINK = 'http://www.test3.migom.by/';
-
     public $user_id;
     public $entities;
     public $disable_entities;
@@ -227,11 +224,11 @@ class News extends EMongoDocument {
     public static function getLink($name){
         switch ($name) {
             case 'News':
-                return self::NEWS_LINK;
+                return Yii::app()->params['migomBaseUrl'].'?news_id=';
                 break;
 
             case 'price_down':
-                return self::PRODUCTS_LINK;
+                return Yii::app()->params['migomBaseUrl'];
                 break;
 
             default:
@@ -278,6 +275,8 @@ class News extends EMongoDocument {
 
 
         // эти параметры следовало бы обновить в любом случае
+		$entity->link = self::getLink($name);
+		$entity->entity_id = $comment->entity_id;
         $entity->filter = 'comment';
         $entity->text = $comment->text;
         $entity->title = ($api?$api->title:'');

@@ -52,6 +52,7 @@ class UserController extends Controller
         }
 
         $model    = $this->loadModel($id);
+		
         $criterea = new EMongoCriteria();
         $criterea->addCond('user_id', '==', Yii::app()->user->id);
         $news     = News::model()->find($criterea);
@@ -199,8 +200,10 @@ class UserController extends Controller
     public function loadModel($id)
     {
         $model = Users::model()->findByPk($id);
-        if ($model === null)
-            throw new CHttpException(404, 'The requested page does not exist.');
+        if ($model === null){
+			Yii::app()->user->logout();
+			throw new CHttpException(404, 'The requested page does not exist.');
+		}
         return $model;
     }
 

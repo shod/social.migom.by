@@ -20,6 +20,7 @@ class MailCommand extends ConsoleCommand {
         $mailer->FromName = 'Social.Migom.By';
         $mailer->CharSet = 'UTF-8';
         $mailer->Subject = Yii::t('Mail', 'Social.Migom.By');
+		$mailer->Mailer = 'sendmail';
         $this->params['user'] = $user;
         $mailer->getView($template, $this->params);
         if(!$result = $mailer->Send()){

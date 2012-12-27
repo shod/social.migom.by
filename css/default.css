@@ -179,7 +179,7 @@ a img {border: 0}
 .auth, .auth table {font-family: arial;}
 .auth > *, .auth table {font-size: 15px}
 .auth {text-align: center; margin-top: 23px; font-size: 0}
-.auth .logo, .auth-question .logo {background: url(../images/logo.png) center no-repeat; display: inline-block; width: 223px; height: 61px}
+.auth .logo, .auth-question .logo {background: url(../images/logo.gif) center no-repeat; display: inline-block; width: 223px; height: 61px}
 .auth .logo {margin-left: -15px}
 .auth p {margin: 0}
 .auth > p {margin: 28px 0 16px}
