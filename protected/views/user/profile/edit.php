@@ -146,18 +146,17 @@
             <caption><p><span><?= Yii::t('Profile', 'Изменение пароля'); ?></span></p></caption>
 <!--            <tr>
                 <th><?php echo $form->label($model,'old_password'); ?>:</th>
-                <td><?php echo $form->passwordField($model,'old_password'); ?></td>
+                <td><?php echo $form->passwordField($model,'old_password', array('disabled' => 'disabled')); ?></td>
             </tr>-->
             <tr>
                 <th><?php echo $form->label($model,'password'); ?>:</th>
-                <td><?php $model->password = ''; echo $form->passwordField($model,'password'); ?></td>
+                <td><?php $model->newpassword = ''; echo $form->passwordField($model, 'newpassword', array('disabled' => 'disabled')); ?></td>
             </tr>
             <tr>
                 <th><?php echo $form->label($model,'repassword'); ?>:</th>
-                <td><?php echo $form->passwordField($model,'repassword'); ?>
+                <td><?php echo $form->passwordField($model,'repassword', array('disabled' => 'disabled')); ?>
                     <?= $form->error($model,'repassword'); ?>
                 </td>
-
             </tr>
         </table>
 
@@ -221,6 +220,14 @@
             'showOptions',
             '$(".collapsible").on("click", "caption", function(e) {
                 $(e.delegateTarget).toggleClass("expanded")
+				if($(e.delegateTarget).hasClass("expanded")){
+					$(e.delegateTarget).find("input").prop("disabled", false)
+				} else {
+					$(e.delegateTarget).find("input").val("");
+					$(e.delegateTarget).find("input").prop("disabled", true)
+					$(e.delegateTarget).find("input").attr("disabled", "disabled")
+					$(e.delegateTarget).find("input").removeClass("error")
+				}
             });',
           CClientScript::POS_END
         );

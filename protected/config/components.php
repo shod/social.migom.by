@@ -40,9 +40,10 @@ return array(
 //                    'SMTPAuth'      => true,
 //                    'Username'      => 'yourname@163.com',
 //                    'Password'      => 'yourpassword',
-        'From'          => 'support@migom.by',
-		'CharSet' => 'UTF-8',
-		'Hostname' => 'migom.by',
+        'From'   	=> 'noreply@migom.by',
+		'Sender' 	=> 'noreply@migom.by',
+		'CharSet' 	=> 'UTF-8',
+		'Hostname' 	=> 'migom.by',
 		
     ),
     // uncomment the following to enable URLs in path-format

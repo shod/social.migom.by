@@ -65,9 +65,11 @@ class CommentsController extends ERestController
             foreach ($value as $key => $attr) {
                 $row[$key] = $attr;
             }
-            foreach ($value->user as $key => $attr) {
-                $row['user'][$key] = $attr;
-            }
+			if(isset($value->user)){
+				foreach ($value->user as $key => $attr) {
+					$row['user'][$key] = $attr;
+				}
+			}
 //            foreach ($value->profile as $key => $attr) {
 //                $row['users']['profile'][$key] = $attr;
 //            }
@@ -121,11 +123,12 @@ class CommentsController extends ERestController
     public function actionGetEntityCount($entity)
     {
         $res = array();
+		$userId = (int) Yii::app()->request->getParam('user_id');
         $criteria = new CDbCriteria;
         $criteria->select = 'entity_id, count(*) as cnt';
         $criteria->addInCondition('entity_id', $_GET['id']);
-        $criteria->condition = '`t`.`status` != :status';
-        $criteria->params = array(':status' => Comments::STATUS_DELETED,);
+        $criteria->condition = '`t`.`status` = :status or (user_id = :user_id and `t`.`status` != :statusUser)';
+		$criteria->params = array(':status' => Comments::STATUS_PUBLISHED, ':user_id' => $userId, ':statusUser' => Comments::STATUS_DELETED);
         $criteria->group = '`t`.`entity_id`';
         $rawData = Comments::model($entity)->findAll($criteria);
         foreach ($rawData as $value) {

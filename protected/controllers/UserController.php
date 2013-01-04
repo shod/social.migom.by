@@ -83,6 +83,7 @@ class UserController extends Controller
         if (Yii::app()->user->getIsGuest()) {
             throw new CHttpException(404, 'The requested page does not exist.');
         }
+
         $id    = Yii::app()->user->id;
         $model = $this->loadModel($id);
         $model->setScenario('general_update');

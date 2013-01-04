@@ -19,7 +19,8 @@ class Users extends ActiveRecord
 
     public static $roles = array(1         => 'user', 2         => 'moderator', 3         => 'administrator');
     public static $statuses = array(1 => 'active', 2 => 'noactive', 3 => 'ban');
-    public $repassword;
+    public $newpassword;
+	public $repassword;
     public $old_password;
     public $reemail;
 
@@ -58,13 +59,12 @@ class Users extends ActiveRecord
             array('status, date_add, date_edit', 'numerical', 'integerOnly' => true),
             array('login, email', 'length', 'max' => 255),
             array('password', 'length', 'max' => 32, 'min' => 6),
-            array('repassword', 'compare', 'compareAttribute' => 'password', 'on' => 'general_update', 'message' => Yii::t('Site', 'Введите пароль правильно')),
-//            array('old_password', 'compareOldPass', 'on' => 'general_update', 'message' => Yii::t('Site', 'Введите пароль правильно')),
+            array('repassword', 'compare', 'compareAttribute' => 'newpassword', 'on' => 'general_update', 'message' => Yii::t('Site', 'Введенные пароли не совпадают')),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
             array('id, login, password, email, status, date_add, date_edit, role', 'safe', 'on' => 'search'),
             array('login, email', 'safe', 'on' => 'regByApi'),
-            array('password, email, reemail', 'safe', 'on' => 'general_update'),
+            array('password, email, reemail, repassword, newpassword', 'safe', 'on' => 'general_update'),
         );
     }
 
@@ -162,8 +162,8 @@ class Users extends ActiveRecord
                 $this->login = $name[0];
             }
         } else {
-            if ($this->scenario == 'general_update' && $this->password) {
-                $this->password = md5($this->password);
+            if ($this->scenario == 'general_update' && $this->newpassword) {
+                $this->password = md5($this->newpassword);
             }
             if (!$this->password) {
                 $this->password = $this->oldAttributes['password'];

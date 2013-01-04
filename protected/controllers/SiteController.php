@@ -185,7 +185,7 @@ class SiteController extends Controller {
         if (isset($_POST['Form_Remind']) && Yii::app()->getRequest()->isAjaxRequest) {
             $form->attributes = $_POST['Form_Remind'];
             if($form->validate() && isset($_POST['remind']) && $form->userModel->remindPassword()){
-                echo json_encode(array('success' => true, 'message' => Yii::t('Site', 'Новый пароль был выслан на почту')));
+                echo json_encode(array('success' => true, 'message' => Yii::t('Site', 'Новый пароль будет выслан на почту')));
                 Yii::app()->end();
             } else {
                 echo CActiveForm::validate($form);
