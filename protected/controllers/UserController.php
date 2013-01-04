@@ -215,8 +215,12 @@ class UserController extends Controller
 		Header("Pragma: no-cache"); // HTTP/1.1 
 		Header("Last-Modified: ".gmdate("D, d M Y H:i:s")."GMT");
         $user = Users::model()->findByPk($id);
-        $file = Yii::app()->basePath . '/../images/users/' . $id . '/avatar.jpg';
-        $fileTemp = Yii::app()->basePath . '/../images/users/' . $id . '/avatar-temp.jpg';
+		if(!$user){
+			$user = new Users();
+			$user->id = 0;
+		}
+        $file = Yii::app()->basePath . '/../images/users/' . $user->id . '/avatar.jpg';
+        $fileTemp = Yii::app()->basePath . '/../images/users/' . $user->id . '/avatar-temp.jpg';
         if (!file_exists($file) && $user) {
             $srcImage = UserService::uploadAvatarFromEmail($user->id, $user->email);
             $file     = Yii::app()->basePath . '/..' . $srcImage;
