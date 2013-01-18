@@ -14,6 +14,7 @@ return array(
         'core.extensions.YiiMongoDbSuite.*',
         'core.extensions.YiiMongoDbSuite.extra.*',
     ),
+	'preload'=>array('log'),
     'basePath' => dirname(__FILE__) . DIRECTORY_SEPARATOR . '..',
     'name' => 'Social Migom By Console',
     'modules' => require(dirname(__FILE__) . '/modules.php'),

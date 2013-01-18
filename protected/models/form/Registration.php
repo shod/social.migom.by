@@ -55,7 +55,7 @@ class Form_Registration extends CFormModel
 	}
 
         public function registration($identity = null, $service = null){
-            $pass = substr(md5(time() . 'intwall was here'), 6, 8); // send to email
+            $pass = substr(md5(time() . 'eugen was here'), 6, 8); // send to email
             if($service){
                 $user = new Users('regByApi');
                 $user->password = $pass;

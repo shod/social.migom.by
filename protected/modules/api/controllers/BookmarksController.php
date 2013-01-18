@@ -15,12 +15,12 @@ class BookmarksController extends ERestController
      */
     public function actionPostSinchronize($entity)
     {
-		d($entity);
-		die('ssss');
+		
         $userId = (int) Yii::app()->request->getParam('user_id');
 		$data = Yii::app()->request->getParam('data');
-        Bookmarks::update($entity, $userId, $data);
-        $this->render()->sendResponse(array(ERestComponent::CONTENT_SUCCESS => true));
+		
+        $res = Bookmarks::sinchronize($entity, $userId, $data);
+		$this->render()->sendResponse(array(ERestComponent::CONTENT_SUCCESS => true));
     }
 
 }

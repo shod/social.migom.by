@@ -3,15 +3,15 @@
 return array(
         'class' => 'CLogRouter',
         'routes' => array(
-//            array(
-//                'class' => 'CFileLogRoute',
-//                'levels' => 'error, warning, info, api',
-//                'enabled' => true,
-//            ),
+            array(
+                'class' => 'CFileLogRoute',
+                'levels' => 'error, warning, info, api',
+                'enabled' => true,
+            ),
 //            array(
 //                'class'=>'CEmailLogRoute',
-//                'levels'=>'error, warning',
-//                'emails'=>array('schevgeny@gmail.com'),
+//                'levels'=>'error, warning, info, api',
+//                'emails'=>array('evgeniy.kazak@gmail.com'),
 //            ),
 //            array(
 //                    'class' => 'CProfileLogRoute',

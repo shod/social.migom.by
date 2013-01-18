@@ -6,7 +6,7 @@ class MailCommand extends ConsoleCommand {
         $user = Users::model()->findByPk($user_id);
         if(!$user || !$user->email){
             $errors = array('message' => 'User not found or empty email');
-            Yii::log($errors, CLogger::LEVEL_INFO);
+            Yii::log($errors, CLogger::LEVEL_ERROR, 'console');
 			return true;
         }
         $mailer = Yii::app()->mailer;
@@ -33,10 +33,18 @@ class MailCommand extends ConsoleCommand {
 		//$mailer->AddCustomHeader('Return-Path: <noreply@migom.by>');
 
         $this->params['user'] = $user;
-        $mailer->getView($template, $this->params);
-        if(!$result = $mailer->Send()){
+		try {
+            $mailer->getView($template, $this->params);
+			$result = $mailer->Send();
+        } catch (CException $exc) {
+			$errors = array('message' => Yii::t('Command', 'Email error: {ex}', array('{ex}' => $exc->getTraceAsString())));
+            Yii::log($errors['message'], CLogger::LEVEL_ERROR, 'console');
+			$result = false;
+        }
+        
+        if(!$result){
             $errors = array('message' => Yii::t('Command', 'Email not send (email = :email, template = :template)', array(':email' => $user->email, ':template' => $template)));
-            Yii::log($errors, CLogger::LEVEL_INFO);
+            Yii::log($errors['message'], CLogger::LEVEL_ERROR, 'console');
         }
         return $result;
     }
@@ -45,7 +53,7 @@ class MailCommand extends ConsoleCommand {
 		$user = Users::model()->findByPk($user_id);
         if(!$user || !$user->email){
             $errors = array('message' => 'User not found or empty email');
-            Yii::log($errors, CLogger::LEVEL_INFO);
+            Yii::log($errors, CLogger::LEVEL_ERROR, 'console');
 			return true;
         }
         $mailer = Yii::app()->mailer;
@@ -75,7 +83,7 @@ class MailCommand extends ConsoleCommand {
         $mailer->getView($template, $this->params);
         if(!$result = $mailer->Send()){
             $errors = array('message' => Yii::t('Command', 'Email not send (email = :email, template = :template)', array(':email' => $user->email, ':template' => $template)));
-            Yii::log($errors, CLogger::LEVEL_INFO);
+            Yii::log($errors, CLogger::LEVEL_ERROR, 'console');
         }
         return $result;
 	}

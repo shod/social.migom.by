@@ -2,7 +2,7 @@
 
 // change the following paths if necessary
 $config=dirname(__FILE__).'/config/console.php';
-defined('YII_DEBUG') or define('YII_DEBUG',true);
+defined('YII_DEBUG') or define('YII_DEBUG',false);
 
 if (YII_DEBUG === true) {
     include_once dirname(__FILE__).'/../../core/functions.php';
@@ -14,6 +14,8 @@ require_once(dirname(__FILE__) . '/../../core/YiiBaseEx.php');
 
 
 Yii::setPathOfAlias("core", dirname(__FILE__).'/../../core');
+Yii::getLogger()->autoDump = true;
+Yii::getLogger()->autoFlush=1;
 if(isset($config))
 {
 	$app=Yii::createConsoleApplication($config);

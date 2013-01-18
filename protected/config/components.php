@@ -9,7 +9,7 @@ return array(
     'widgetFactory' => require(dirname(__FILE__) . '/components/widgetFactory.php'),
     'migom'         => require(dirname(__FILE__) . '/components/migom.php'),
 	'tags'          => require(dirname(__FILE__) . '/components/tags.php'),
-//    'log'           => require(dirname(__FILE__) . '/components/log.php'),
+    'log'           => require(dirname(__FILE__) . '/components/log.php'),
     'image' => array(
         'class' => 'core.extensions.image.CImageComponent',
         // GD or ImageMagick
