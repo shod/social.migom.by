@@ -176,6 +176,11 @@ a img {border: 0}
 .profile .buttons .cancel-link a {color:#777777!important;font-size:11px;text-decoration:underline}
 .profile .buttons .cancel-link a:hover {text-decoration:none}
 
+.profile .google_oauth, .profile .facebook, .profile .vkontakte {display: inline-block;line-height: 16px;background: url(../images/mini-social.png) no-repeat;margin: 0 0px;padding-left: 14px;}
+
+.profile .google_oauth {background-position: 0 -32px;}
+.profile .facebook {background-position: 0 -16px;}
+.profile .vkontakte {background-position: 0 0;}
 
 /* 01.11.2012 */
 

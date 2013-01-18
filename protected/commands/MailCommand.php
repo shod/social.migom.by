@@ -33,6 +33,7 @@ class MailCommand extends ConsoleCommand {
 		//$mailer->AddCustomHeader('Return-Path: <noreply@migom.by>');
 
         $this->params['user'] = $user;
+		$this->params['mailer'] = $mailer;
 		try {
             $mailer->getView($template, $this->params);
 			$result = $mailer->Send();
@@ -67,10 +68,10 @@ class MailCommand extends ConsoleCommand {
 		$mailer->AddAddress($user->email);
         $mailer->FromName = 'Social.Migom.By';
         $mailer->CharSet = 'UTF-8';
-        $mailer->Subject = Yii::t('Mail', 'Social.Migom.By');
 		$mailer->SingleTo = true;
 		$mailer->Mailer = 'mail';
 		$mailer->Sender = 'noreply@social.migom.by';
+		$mailer->Subject = Yii::t('Mail', 'Social.Migom.By');
 		$mailer->ClearCustomHeaders();
 		//$mailer->AddCustomHeader('Return-path: <evgeniy.kazak@gmail.com>');
 		$mailer->AddCustomHeader('Errors-To: <noreply@social.migom.by>');
@@ -80,6 +81,7 @@ class MailCommand extends ConsoleCommand {
 		//$mailer->AddCustomHeader('Return-Path: <noreply@migom.by>');
         
 		$this->params['user'] = $user;
+		$this->params['mailer'] = $mailer;
         $mailer->getView($template, $this->params);
         if(!$result = $mailer->Send()){
             $errors = array('message' => Yii::t('Command', 'Email not send (email = :email, template = :template)', array(':email' => $user->email, ':template' => $template)));
