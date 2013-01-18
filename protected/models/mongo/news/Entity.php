@@ -14,6 +14,7 @@ class News_Entity extends EMongoEmbeddedDocument
     public $template;
     public $cost;
     public $filter;
+	public $deleted = 0;
 
 
     public $params;

@@ -49,7 +49,7 @@ class Form_Registration extends CFormModel
 		{
                     $user = Users::model()->find('LOWER(email)=?', array(strtolower($this->email)));
                     if($user){
-                        $this->addError('email', Yii::t('Site', 'User with this email was registered'));
+                        $this->addError('email', Yii::t('Site', 'Пользователь с таким эл. адресом уже существует'));
                     }
 		}
 	}
@@ -104,6 +104,7 @@ class Form_Registration extends CFormModel
                 $mail = new Mail();
                 $mail->send($user, 'registration', array('password' => $pass), true);
             }
+			News::pushHellow($user);
             return $identity;
         }
 }

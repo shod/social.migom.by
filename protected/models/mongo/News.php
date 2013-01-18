@@ -145,7 +145,7 @@ class News extends EMongoDocument {
     public static function pushComment($comment, $count){
         $parent = $comment->parent;
         list($news, $entity) = News::_push($parent->user_id, $parent->id, get_class($parent));
-
+	
         if(!$entity){       // если новая запись на стене
             $entity = new News_Entity();
             $entity->id = $parent->id;
@@ -153,6 +153,7 @@ class News extends EMongoDocument {
             $entity->created_at = $parent->created_at;
             $entity->template = 'news';
         }
+		
 //        $criteria = new EMongoCriteria();
 //        $criteria->entity_id = "1";
 
@@ -174,7 +175,6 @@ class News extends EMongoDocument {
             $api->title = 'ERROR CONNECTION';
         }
 
-
         $entity->link = self::getLink($name);
         $entity->entity_id = $comment->entity_id;
         $entity->filter = 'comment';
@@ -191,6 +191,13 @@ class News extends EMongoDocument {
             $entity->comment->likes->count = $likesModel->likes;
             $entity->comment->dislikes->count = $likesModel->dislikes;
         }
+		
+		// письмо "На Ваш комментарий ответили"
+		if(!Yii::app()->cache->get('online_user_' . $parent->user_id)){
+			$mail = new Mail;
+			$mail->sendCommentsNotification($comment, 'News', $entity->title);
+		}
+		UserService::addNotification($parent->user_id);
 
         $news->entities[] = $entity;
         return $news->save();
@@ -216,6 +223,31 @@ class News extends EMongoDocument {
         $entity->cost = $product['cost'];
 //        $entity->text = '';
         $entity->template = 'priceDown';
+
+        $news->entities[] = $entity;
+        return $news->save();
+    }
+	
+	public static function pushHellow($user){
+        $name = 'migom_hellow';
+        list($news, $entity) = News::_push($user->id, 1, $name);
+
+        if(!$entity){       // если новая запись на стене
+            $entity = new News_Entity();
+            $entity->id = 1;
+            $entity->name = $name;
+            $entity->created_at = time();
+        }
+
+        // эти параметры следовало бы обновить в любом случае
+        $entity->link = Yii::app()->params['migomBaseUrl'];
+        $entity->entity_id = 1;
+        $entity->filter = $name;
+        $entity->title = Yii::t('Social', 'Добро пожаловать на Migom.by!');
+        //$entity->image = $productInfo->image;
+        //$entity->cost = $product['cost'];
+//        $entity->text = '';
+        $entity->template = 'migomHello';
 
         $news->entities[] = $entity;
         return $news->save();
@@ -284,7 +316,14 @@ class News extends EMongoDocument {
         $news->entities[] = $entity;
         $news->save();
         self::_updateChildLikes($comment, $likes);
-        return true;;
+		
+		if(!Yii::app()->cache->get('online_user_' . $comment->user_id)){
+			Mail::addActivityNotification($comment->user_id);
+		} else {
+			Mail::deleteActivityNotification($comment->user_id);
+		}
+		UserService::addNotification($comment->user_id);
+        return true;
     }
 
 //    public static function pushLikeDislike($user_id, $entity_id, $name){

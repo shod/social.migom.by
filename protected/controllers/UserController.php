@@ -12,6 +12,15 @@ class UserController extends Controller
             'accessControl',
         );
     }
+	
+	public function init(){
+		$breadCrumbs = Widget::create('Breadcrumbs', 'Breadcrumbs');
+		$bc = array(
+				array('url' => Yii::app()->params['migomBaseUrl'], 'title' => Yii::t('Social','Главная')),
+				array('url' => Yii::app()->params['socialBaseUrl'], 'title' =>  Yii::t('Social','Мои новости')),
+		);
+		$breadCrumbs->setBreadcrumbs($bc);
+	}
 
     /**
      * Specifies the access control rules.
@@ -46,16 +55,30 @@ class UserController extends Controller
             $this->redirect('/site/login');
         }
 
-        $this->title = Yii::t('Social', 'Мои новости | Migom.by');
         if ($id != Yii::app()->user->id) {
             $this->forward('profile');
         }
-
+		
+		$this->title = Yii::t('Social', 'Мои новости | Migom.by');
         $model    = $this->loadModel($id);
 		
         $criterea = new EMongoCriteria();
         $criterea->addCond('user_id', '==', Yii::app()->user->id);
         $news     = News::model()->find($criterea);
+		$saveFlag = false;
+		if ($news && is_array($news->entities)) {
+            foreach ($news->entities as $key => $en) {
+				if($en->deleted == 1){
+					unset($news->entities[$key]);
+					$saveFlag = true;
+				}
+            }
+        }
+		
+		if($saveFlag == true){
+			$news->save();
+		}
+		
         $this->render('index', array('model' => $model, 'news'  => $news));
     }
 
@@ -63,10 +86,11 @@ class UserController extends Controller
     {
 		Header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); //Дата в прошлом 
 		Header("Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0"); // HTTP/1.1 
-		Header("Pragma: no-cache"); // HTTP/1.1 
+		Header("Pragma: no-cache"); // HTTP/1.1
 		Header("Last-Modified: ".gmdate("D, d M Y H:i:s")."GMT");
         $id    = Yii::app()->request->getParam('id', Yii::app()->user->id);
         $model = Users::model()->findByPk($id);
+		Widget::get('Breadcrumbs')->addBreadcrumbs(array('url' => '#', 'title' => Yii::t('Social', 'Профиль: :user_name', array(':user_name' => $model->login))));
         if(!$model){
             throw new CHttpException(404, Yii::t('Site', 'Upps! Такой страницы нету'));
         }
@@ -80,6 +104,7 @@ class UserController extends Controller
 		Header("Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0"); // HTTP/1.1 
 		Header("Pragma: no-cache"); // HTTP/1.1 
 		Header("Last-Modified: ".gmdate("D, d M Y H:i:s")."GMT");
+		Widget::get('Breadcrumbs')->addBreadcrumbs(array('url' => '#', 'title' => Yii::t('Social', 'Редактирование профиля')));
         if (Yii::app()->user->getIsGuest()) {
             throw new CHttpException(404, 'The requested page does not exist.');
         }
@@ -136,10 +161,10 @@ class UserController extends Controller
         }
 
         $days = array(
-            '0'    => Yii::t('Profile', 'день'),
+            '0'    => Yii::t('Profile', 'дд'),
         );
         $month = array(
-            '0'   => Yii::t('Profile', 'месяц'),
+            '0'   => Yii::t('Profile', 'мм'),
             '01'  => Yii::t('Profile', 'январь'),
             '02'  => Yii::t('Profile', 'февраль'),
             '03'  => Yii::t('Profile', 'март'),
@@ -154,7 +179,7 @@ class UserController extends Controller
             '12'  => Yii::t('Profile', 'декабрь'),
         );
         $year = array(
-            '0' => Yii::t('Profile', 'год')
+            '0' => Yii::t('Profile', 'гггг')
         );
         for ($i = date('Y') - 100; $i < date('Y') - 14; $i++) {
             $year[$i] = $i;

@@ -3,9 +3,9 @@ a {text-decoration: none}
 a:hover {text-decoration:underline}
 a img {border: 0}
 
-.lenta {position: relative; padding: 10px 300px 65px 0;background:url(/images/lenta-line.png) repeat-y 210px top;min-height:900px}
+.lenta {position: relative; padding: 30px 300px 65px 0;background:url(/images/lenta-line.png) repeat-y 210px top;min-height:500px; font: 11px tahoma}
 
-.navigation {float: left; width: 210px;position:absolute}
+.navigation {float: left; width: 210px;position:absolute;}
 
 .navigation .heading {padding-left: 30px; padding-right: 10px}
 .navigation .category {padding-bottom: 10px}
@@ -35,7 +35,7 @@ a img {border: 0}
 .wall .show-more:hover span {text-decoration:underline}
 .wall > .show-more {margin-top: 20px}
 
-.post {padding: 0 0 20px 70px; color: #333; border-top: 1px solid #ebebeb}
+.post {padding: 0 0 20px 70px; color: #333; border-top: 1px solid #ebebeb; margin-right: 20px;}
 .post:first-child {border: 0}
 .post img {display: block}
 .post a {color: #165f85}
@@ -61,7 +61,8 @@ a img {border: 0}
 .post .author:hover {/*text-decoration:underline*/}
 .post .date {color: #777; margin-left: 5px}
 .post .date:hover {/*text-decoration:underline*/}
-.post .body {margin-top:3px!important;white-space: pre-line; max-height: 50px; overflow: hidden;line-height:1.35em}
+.post .body {margin-top:10px!important;white-space: pre-line;  overflow: hidden;line-height:1.35em}
+.post .body.short {max-height: 50px;}
 .post .body.expanded {max-height: none}
 
 .post .message {position: relative}
@@ -102,31 +103,33 @@ a img {border: 0}
 .thing .owners a:hover {text-decoration:none}
 .thing:hover .close {display: block}
 
-.aside {position: absolute; top: 10px; right: 0; width: 300px; text-align: center; }
+.aside {position: absolute; top: 30px; right: 0; width: 300px; text-align: center;  }
 
 
 /* 29.10.2012 */
 
 .profile {padding-left: 30px}
-.profile, .profile a, .profile table th {color: #777}
+.profile, .profile a, .profile a:hover, .profile a:visited, .profile table th {color: #777}
 .profile strong, .profile table caption {color: #1c2530}
-.profile .summary {overflow: hidden}
+.profile .summary {overflow: hidden; padding-left:34px;}
 .profile .summary .avatar {margin-right:20px;width: 96px; height: 96px;float: left; }
 .profile .summary .avatar div {}
 .profile .summary .change-avatar {margin-top:69px;padding:5px 0 10px 0 ;text-align:center;color:#fff; background-color:#000;filter:alpha(opacity=50); -khtml-opacity:0.5;-moz-opacity:0.50;opacity:0.50;}
 .profile .summary .change-avatar:hover {color:#fff; background-color:#000;filter:alpha(opacity=70); -khtml-opacity:0.7;-moz-opacity:0.70;opacity:0.70;}
 .profile .summary .name {float: left; font-size: 11px}
 .profile .summary .name strong,  .profile .summary .name strong a {font: bold 25px arial;color:#000}
-.profile .info {float: right; clear: right; text-align: right; line-height: 16px}
+.profile .info {float: right; clear: right; text-align: right; line-height: 16px; padding-top: 6px;}
 .profile .info + .info {margin-top: 10px}
+.profile .info strong {margin-top: 3px}
+.profile .name .online {color: #81B400;}
 .profile a {text-decoration:underline}
 .profile a:hover {text-decoration:none}
-.profile strong {display: block; font-weight: normal}
+.profile strong {display: block; font-weight: normal; margin-top: -5px;}
 .profile table, .profile input, .profile select {font-size: 13px; font-family: arial}
 .profile table {width: 100%; border-collapse: collapse; table-layout: fixed; margin-top: -41px}
 .profile table caption {font-size: 15px; line-height: 30px; border-bottom: 1px solid #ebebeb; text-align: left; margin-bottom: 10px; padding-top: 10px}
 .profile table th, .profile table td {line-height: 28px; padding: 0}
-.profile table th {font-weight: normal; text-align: right; width: 95px; padding-right: 20px}
+.profile table th {font-weight: normal; text-align: right; width: 130px; padding-right: 20px}
 .profile table td, .profile input, .profile select {color: #333}
 .profile table + table {margin-top: 20px}
 .profile table a {color: #195e85;text-decoration:none;}
@@ -146,11 +149,11 @@ a img {border: 0}
 .profile label input[type=checkbox], .profile label input[type=radio], .profile label span {vertical-align: middle}
 
 .profile .birth th {vertical-align: top; line-height: 38px}
-.profile .birth select {float: left}
+/*.profile .birth select {float: left}*/
 .profile .birth select + select {margin-left: 11px}
 .profile .birth label {float: left; clear: left; line-height: normal; margin-bottom: 10px}
 .profile .birth label span, .profile .collapsible label span {cursor:pointer}
-.profile .birth .day, .profile .birth .month {width: 60px}
+.profile .birth .day, .profile .birth .month {width: 56px}
 .profile .birth .year {width: 80px}
 
 .profile .collapsible caption  {color: #195e85;border-top: 1px solid #ebebeb; border-bottom: 0; padding-bottom: 10px; margin-bottom: 0;}
@@ -166,11 +169,11 @@ a img {border: 0}
 .profile .collapsible.expanded caption span {border-color: #1c2530}
 .profile .collapsible.expanded caption p {padding-right:10px;display:inline;background:url(../images/arr-up.png) no-repeat right 10px;}
 
-.profile .buttons, .profile table caption {padding-left: 115px}
+.profile .buttons, .profile table caption {margin-left: 150px}
 .profile .buttons {margin-top: 40px;}
 .profile .buttons button {margin-right:20px;display:inline}
 .profile .buttons .cancel-link {display:inline}
-.profile .buttons .cancel-link a {color:#165f85!important;font-size:11px;font-family:arial, tahoma, verdana, 'sans-serif';text-decoration:underline}
+.profile .buttons .cancel-link a {color:#777777!important;font-size:11px;text-decoration:underline}
 .profile .buttons .cancel-link a:hover {text-decoration:none}
 
 
@@ -179,14 +182,18 @@ a img {border: 0}
 .auth, .auth table {font-family: arial;}
 .auth > *, .auth table {font-size: 15px}
 .auth {text-align: center; margin-top: 23px; font-size: 0}
-.auth .logo, .auth-question .logo {background: url(../images/logo.gif) center no-repeat; display: inline-block; width: 223px; height: 61px}
-.auth .logo {margin-left: -15px}
+.auth-question .logo {background: url("http://static.migom.by/img/design/logo_new.png")  scroll left top no-repeat; display: inline-block; width: 223px; height: 54px}
+.auth .logo {margin-left: -15px; 
+background: url("http://static.migom.by/img/design/logo_new.png") no-repeat scroll left top ;
+height: 54px;
+display: inline-block; width: 223px;
+}
 .auth p {margin: 0}
-.auth > p {margin: 28px 0 16px}
+.auth > p {margin: 18px 0 16px}
 .auth label {display: inline-block}
 .auth label input[type=text] {margin-top: 5px}
 .auth em {display: block; height: 28px; font-style: normal; font-size: 13px}
-.auth input[type=text], .auth input[type=password] {width: 100%; height:  margin: 0; -moz-box-sizing: border-box; box-szinig: border-box}
+/*.auth input[type=text], .auth input[type=password] {width: 100%; height:  margin: 0; -moz-box-sizing: border-box; box-szinig: border-box} разные инпуты в фф в форме авторизации*/
 .auth .social {display: table; margin: 0 auto 50px; font-size: 0}
 .auth .social a {display: inline-block; vertical-align: middle}
 .auth .social a + a {margin-left: 10px}
@@ -200,7 +207,7 @@ a img {border: 0}
 .auth .signup input[type=email] {width:247px;margin-left:1px}
 .auth .signup {border-color: #e5e5e5}
 .auth .signup label {margin-bottom: 7px}
-.auth .signup label span, .auth .signin label div {display:block;margin-bottom: 3px}
+.auth .signup label span, .auth .signin label div {display:block;}
 .auth .signup p + p {margin-top: 16px}
 
 .auth .signin {margin-top:1px;padding-bottom:22px}

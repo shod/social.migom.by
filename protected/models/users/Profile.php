@@ -74,7 +74,7 @@ class Users_Profile extends CActiveRecord
     {
         return array(
             'user_id'  => 'User',
-            'name'     => Yii::t('Site', 'Имя'),
+            'name'     => Yii::t('Site', 'Реальное имя'),
             'surname'  => Yii::t('Site', 'Фамилия'),
             'city_id'  => Yii::t('Site', 'Город'),
             'sex'      => Yii::t('Site', 'Пол'),

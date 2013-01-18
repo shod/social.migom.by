@@ -9,30 +9,43 @@
                 <strong><?= $model->login; ?></strong>
                 <?php if($model->id == Yii::app()->user->id): ?>
                     <?= CHtml::link(Yii::t('Profile', 'Редактировать профиль'), array('/profile/edit')) ?>
+				<?php else: ?>
+					<?= (Yii::app()->cache->get('online_user_' . $model->id)) ? '<span class="online">'.Yii::t('Profile', 'Сейчас на сайте').'</span>' : (($model->profile->sex == 2) ? Yii::t('Profile', 'Отошла'):Yii::t('Profile', 'Отошёл')) ?>
                 <?php endif; ?>
             </div>
             <div class="info"><?= Yii::t('Profile', 'Дата регистрации'); ?><strong><?= SiteService::timeToDate($model->date_add, true) ?></strong></div>
-            <div class="info"><?= Yii::t('Profile', 'Сейчас на сайте'); ?><strong><?= (Yii::app()->cache->get('online_user_' . $model->id)) ? Yii::t('Site', 'Да') : Yii::t('Site', 'Нет') ?></strong></div>
             <!--<div class="info"><?= Yii::t('Profile', 'Просмотров профиля'); ?><strong>326</strong></div>-->
         </div>
         <table>
             <caption><?= Yii::t('Profile', 'Общая информация'); ?></caption>
+			<tr>
+				<th><?= $model->getAttributeLabel('nickName') ?>:</th>
+				<td><?= $model->login; ?></td>
+			</tr>
+			<?php if($model->profile->name): ?>
             <tr>
                 <th><?= $model->profile->getAttributeLabel('name') ?>:</th>
                 <td><?= $model->profile->name; ?></td>
             </tr>
+			<?php endif; ?>
+			<?php if($model->profile->surname): ?>
             <tr>
                 <th><?= $model->profile->getAttributeLabel('surname') ?>:</th>
                 <td><?= $model->profile->surname; ?></td>
             </tr>
+			<?php endif; ?>
+			<?php if($model->profile->sex): ?>
             <tr>
                 <th><?= $model->profile->getAttributeLabel('sex') ?>:</th>
                 <td><?= Yii::t('Profile', Users_Profile::$sexs[$model->profile->sex]); ?></td>
             </tr>
+			<?php endif; ?>
+			<?php if(SiteService::dateFormat($model->profile->birthday)): ?>
             <tr>
                 <th><?= $model->profile->getAttributeLabel('birthday') ?>:</th>
                 <td><?= SiteService::dateFormat($model->profile->birthday) ?></td>
             </tr>
+			<?php endif; ?>
             <?php if($model->profile->city): ?>
             <tr>
                 <th><?= $model->profile->getAttributeLabel('city_id') ?>:</th>
@@ -40,7 +53,7 @@
             </tr>
             <?php endif; ?>
         </table>
-
+		<?php if($model->getCountComments()): ?>
         <table>
             <caption><?= Yii::t('Profile', 'Активность на сайте'); ?></caption>
             <tr>
@@ -56,6 +69,7 @@
                 <td>отзывов на продавца</td>
             </tr>-->
         </table>
+		<?php endif; ?>
     </div>
 
 </div>

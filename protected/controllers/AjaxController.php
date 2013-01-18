@@ -56,6 +56,7 @@ class AjaxController extends Controller
 
     public function actionDeleteNew($entity)
     {
+		$entId = $entity;
         $aEntity = explode('_', $entity);
         array_pop($aEntity); // удаляем постфикс
         $id      = array_pop($aEntity);
@@ -63,13 +64,38 @@ class AjaxController extends Controller
 
         $criteria = new EMongoCriteria;
         $criteria->addCond('user_id', 'equals', Yii::app()->user->id);
-        $news     = News::model()->find($criteria);
+        $news  = News::model()->find($criteria);
+		$new = false;
         foreach ($news->entities as $key => $en) {
             if ($en->name == $entity && $en->id == $id) {
-                unset($news->entities[$key]);
+				$new = $news->entities[$key];
+				$news->entities[$key]->deleted = 1;
             }
         }
-        return $news->save();
+		$success = $news->save();
+        echo CJSON::encode(array('success' => $success, 'html' => $this->renderPartial('wall/confirm', array('model' => $new), true, false)));
+    }
+	
+	public function actionUndeleteNew($entity)
+    {
+		$entId = $entity;
+        $aEntity = explode('_', $entity);
+        $id      = array_pop($aEntity);
+        $entity  = implode('_', $aEntity);
+
+        $criteria = new EMongoCriteria;
+        $criteria->addCond('user_id', 'equals', Yii::app()->user->id);
+        $news  = News::model()->find($criteria);
+		$new = false;
+        foreach ($news->entities as $key => $en) {
+            if ($en->name == $entity && $en->id == $id) {
+				$new = $news->entities[$key];
+				$news->entities[$key]->deleted = 0;
+            }
+        }
+		$success = $news->save();
+		$template = 'core.widgets.views.news._'.$new->template;
+        echo CJSON::encode(array('success' => $success, 'html' => $this->renderPartial($template, array('model' => $new), true, false)));
     }
 
     public function actionShowComments($entity)
@@ -98,7 +124,8 @@ class AjaxController extends Controller
         $weight  = array_pop($aEntity);
         $id      = array_pop($aEntity);
         $entity  = implode('_', $aEntity);
-
+		$isNew 	 = true;
+		
         switch ($weight) {
             case 'like':
                 $weight = 1;
@@ -118,9 +145,16 @@ class AjaxController extends Controller
             if ($likes = Likes::model($entity)->findByPk($id)) {
                 foreach ($likes->users as $user) {
                     if ($user->id == Yii::app()->user->id) {
-                        echo json_encode(array('success' => false));
-                        Yii::app()->end();
+						if($user->weight != $weight){
+							$user->weight = $weight;
+							$isNew = false;
+						}else{
+							echo json_encode(array('success' => false));
+							Yii::app()->end();
+						}
+                        
                     }
+					
                 }
             } else {
                 $model            = 'Likes_' . $entity;
@@ -131,16 +165,18 @@ class AjaxController extends Controller
             echo json_encode(array('success' => false));
             Yii::app()->end();
         }
-        $user         = new Likes_Embidded_Users();
-        $user->id     = Yii::app()->user->id;
-        $user->login  = Yii::app()->user->name;
-        $user->weight = $weight;
+		if($isNew){
+			$user         = new Likes_Embidded_Users();
+			$user->id     = Yii::app()->user->id;
+			$user->login  = Yii::app()->user->name;
+			$user->weight = $weight;
 
-        $likes->users[] = $user;
-        $likes->setWeightInc($weight);
+			$likes->users[] = $user;
+		}
+        $likes->setWeightInc($weight, $isNew);
         if ($likes->save()) {
             News::pushLike($comment, $likes);
-            echo json_encode(array('success' => true));
+            echo json_encode(array('success' => true, 'new' => $isNew));
             Yii::app()->end();
         }
         echo json_encode(array('success' => false));
@@ -154,8 +190,6 @@ class AjaxController extends Controller
         if(count($regions)){
             $this->renderPartial('regions', array('regions' => $regions));
         }
-
-
     }
 
 }

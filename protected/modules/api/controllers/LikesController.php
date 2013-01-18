@@ -55,7 +55,7 @@ class LikesController extends ERestController
     public function actionPostLike($entity)
     {
         $res = $this->_likeUpdate($_REQUEST['id'], $entity, 1);
-        $this->render()->sendResponse(array(self::CONTENT_IS_UPDATE => $res));
+        $this->render()->sendResponse($res);
     }
 
     /**
@@ -68,13 +68,13 @@ class LikesController extends ERestController
     public function actionPostDislike($entity)
     {
         $res = $this->_likeUpdate($_REQUEST['id'], $entity, -1);
-        $this->render()->sendResponse(array(self::CONTENT_IS_UPDATE => $res));
+        $this->render()->sendResponse($res);
     }
 
     private function _likeUpdate($entity_id, $entity, $weight)
     {
         //assert(is_int($entity_id));
-
+		$isNew = true;
         $userId = (int) $_REQUEST['user_id'];
         $comment = $entity::model()->findByPk($entity_id);
         if(!$comment){
@@ -85,8 +85,13 @@ class LikesController extends ERestController
             if ($likes = Likes::model($entity)->findByPk($entity_id)) {
                 foreach ($likes->users as $user) {
                     if ($user->id == $userId) {
-                        return false;
-                    }
+						if($user->weight != $weight){
+							$user->weight = $weight;
+							$isNew = false;
+						}else{
+							return array(self::CONTENT_IS_UPDATE => false);
+						}
+					}
                 }
             } else {
                 $model = $this->_getModelName($entity);
@@ -96,30 +101,41 @@ class LikesController extends ERestController
         } catch (Exception $exc) {
             throw new ERestException(Yii::t('Likes', "Entity '{entity}' is not exist", array('{entity}' => $model)));
         }
-        $userModel = Users::model()->findByPk($userId);
-        if(!$userModel){
-            throw new ERestException(Yii::t('Likes', "User #{id} not found", array('{id}' => $userId)));
-        }
-        $user = new Likes_Embidded_Users();
-        $user->id = $userId;
-        $user->login = $userModel->login;
-        $user->weight = $weight;
+		if($isNew){
+			$userModel = Users::model()->findByPk($userId);
+			if(!$userModel){
+				throw new ERestException(Yii::t('Likes', "User #{id} not found", array('{id}' => $userId)));
+			}
+			$user = new Likes_Embidded_Users();
+			$user->id = $userId;
+			$user->login = $userModel->login;
+			$user->weight = $weight;
 
-        $likes->users[] = $user;
-        $likes->setWeightInc($weight);
+			$likes->users[] = $user;
+		}
+			
+        $likes->setWeightInc($weight, $isNew);
         if($likes->save()){
 			if($weight > 0){
 				$comment->likes++;
 			}else{
 				$comment->dislikes++;
-			}$comment->save();
+			}
+			if(!$isNew){
+				if($weight > 0){
+					$comment->dislikes--;
+				}else{
+					$comment->likes--;
+				}
+			}
+			$comment->save();
 				
-                News::pushLike($comment, $likes);
-                return true;
+            News::pushLike($comment, $likes);
+            return array(self::CONTENT_IS_UPDATE => true, 'new' => $isNew);
         }  else {
             throw new ERestException(Yii::t('Likes', $likes->getErrors()));
         }
-        return false;
+        return array(self::CONTENT_IS_UPDATE => false);
     }
 
     /**

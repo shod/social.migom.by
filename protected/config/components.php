@@ -40,10 +40,10 @@ return array(
 //                    'SMTPAuth'      => true,
 //                    'Username'      => 'yourname@163.com',
 //                    'Password'      => 'yourpassword',
-        'From'   	=> 'noreply@migom.by',
-		'Sender' 	=> 'noreply@migom.by',
+        'From'   	=> 'noreply@social.migom.by',
+		'Sender' 	=> 'noreply@social.migom.by',
 		'CharSet' 	=> 'UTF-8',
-		'Hostname' 	=> 'migom.by',
+		'Hostname' 	=> 'social.migom.by',
 		
     ),
     // uncomment the following to enable URLs in path-format
@@ -53,6 +53,9 @@ return array(
         'rules' => array(
             'api' => 'api/default/index',
             'ads' => 'ads/default/index',
+			'gii'=>'gii',
+            'gii/<controller:\w+>'=>'gii/<controller>',
+            'gii/<controller:\w+>/<action:\w+>'=>'gii/<controller>/<action>',
             'user/<id:\d+>' => 'user/index',
             'user' => 'user/index',
             'profile/<id:\d+>' => 'user/profile',
@@ -63,6 +66,7 @@ return array(
             '<controller:\w+>/<id:\d+>' => '<controller>/view',
             '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
             '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
+			'<url\w*>' => 'site/static',
         ),
     ),
     'request' => array(

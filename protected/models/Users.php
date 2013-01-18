@@ -108,8 +108,9 @@ class Users extends ActiveRecord
         return array(
             'id'           => 'ID',
             'login'        => Yii::t('Site', 'Login'),
+			'nickName'     => Yii::t('Site', 'Имя пользователя'),
             'password'     => Yii::t('Site', 'Новый пароль'),
-            'email'        => Yii::t('Site', 'Эл. почта'),
+            'email'        => Yii::t('Site', 'Логин (эл. почта)'),
             'reemail'      => Yii::t('Site', 'Повторите'),
             'status'       => Yii::t('Site', 'Status'),
             'date_add'     => Yii::t('Site', 'Date Add'),

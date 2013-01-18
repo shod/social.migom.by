@@ -3,6 +3,7 @@
 <head>
 	<title></title>
 	<meta charset="utf-8">
+	<link rel="SHORTCUT ICON" href="http://static.migom.by/img/favicon.ico">
 	<?php
 	Yii::app()->getClientScript()->registerCssFile('/css/default.css');
 	Yii::app()->clientScript->registerCoreScript('jquery');

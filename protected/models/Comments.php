@@ -96,16 +96,6 @@ class Comments extends ActiveRecord
     }
 
     protected function beforeSave() {
-        if ($this->getIsNewRecord()) {
-            if ($this->hasAttribute('created_at')) {
-                $this->created_at = time();
-            }
-
-        } else {
-            if ($this->hasAttribute('updated_at')) {
-                $this->updated_at = time();
-            }
-        }
         return parent::beforeSave();
     }
 

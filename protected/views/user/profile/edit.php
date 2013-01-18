@@ -53,8 +53,12 @@
         )); ?>
         <table>
             <caption><?= Yii::t('Profile', 'Редактирование профиля') ?></caption>
+			<tr>
+                <th><?php echo $form->label($model,'email'); ?>:</th>
+                <td><?php echo $form->textField($model,'email', array('disabled' => 'disabled')); ?></td>
+            </tr>
             <tr>
-                <th><?php echo $form->label($model,'login'); ?>:</th>
+                <th><?php echo $form->label($model,'nickName'); ?>:</th>
                 <td><?php echo $form->textField($model,'login'); ?></td>
                 <?php echo $form->error($model,'login'); ?>
             </tr>
@@ -79,9 +83,9 @@
                     </label>
                 </td>
             </tr>
-            <tr class="birth">
+            <tr>
                 <th><?php echo $form->label($model->profile,'birthday'); ?>:</th>
-                <td>
+                <td class="birth">
                     <?php $birthday = explode('-', $model->profile->birthday);  ?>
                     <?= CHtml::dropDownList('birthday[day]', round($birthday[2]), $days, array('class' => 'day')) ?>
                     <?= CHtml::dropDownList('birthday[month]', $birthday[1], $month, array('class' => 'month')) ?>
@@ -161,7 +165,7 @@
         </table>
 
         <div class="buttons">
-            <button id="save">Сохранить</button>
+            <button id="save" class="button_yellow search-button">Сохранить</button>
             <div class="cancel-link">
                 <?= CHtml::link(Yii::t('Profile', 'Отмена, вернуться в профиль'), $this->createUrl('/profile')) ?>
             </div>
@@ -204,7 +208,7 @@
             })
 
             function createDateOptions(from, to){
-                html = \'<option value="0">'. Yii::t('Profile', 'день') .'</option>\';
+                html = \'<option value="0">'. Yii::t('Profile', 'дд') .'</option>\';
                 for(i = ++from; i <= to; i++){
                     if(i < 10){
                        i = \'0\'+i;

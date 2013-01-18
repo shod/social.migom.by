@@ -143,12 +143,15 @@ class CommentsController extends ERestController
 
     public function actionPostEntity($entity)
     {
-	
         $comment = Comments::model($entity, true);//new Comments_News();
 		
         $comment->attributes = $_POST;
 		$comment->parent_id = (isset($_POST['parent_id']) && $_POST['parent_id'] > 0) ? $_POST['parent_id'] : 0;
 		if ($comment->save()) {
+			$count = Comments::model($entity)->count('parent_id = :parent_id', array(':parent_id' => $comment->parent_id));
+			if($comment->parent){
+                News::pushComment($comment, $count);
+            }
 		    $content = array(self::CONTENT_COMMENT => $comment->attributes);
             $this->render()->sendResponse($content);
         } else {

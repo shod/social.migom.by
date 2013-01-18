@@ -27,6 +27,7 @@ class AdsModule extends CWebModule
 			'ads.models.*',
 			'ads.components.*',
             'ads.services.*',
+			'core.widgets.*',
 		));
 	}
 

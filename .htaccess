@@ -1,11 +1,11 @@
 RewriteEngine on
-RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} !-f
-RewriteRule images/users/(\d+)/avatar\.(gif|jpe?g|png|bmp) http://www.test.social.migom.by/user/createuseravatar/id/$1 [NC,L]
-RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} !-f
+#RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} !-f
+#RewriteRule images/users/(\d+)/avatar\.(gif|jpe?g|png|bmp) http://www.test.social.migom.by/user/createuseravatar/id/$1 [NC,L]
+RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule images/users/(\d+)/avatar_(\d+)x(\d+)\.(gif|jpe?g|png|bmp) http://www.test.social.migom.by/user/createuseravatar/id/$1/x/$2/y/$3 [NC,L]
-RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} !-f
+RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule images/users/(\d+)/avatar-temp_(\d+)x(\d+)\.(gif|jpe?g|png|bmp) http://www.test.social.migom.by/user/createuseravatar/id/$1/x/$2/y/$3/tempFlag/1 [NC,L]
-RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} !-f
+RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule images/users/avatar\.(gif|jpe?g|png|bmp) /images/users/default_avatar.png [NC,L]
 
 #RewriteRule ^(.*)$ http://www.test.social.migom.by/widgets/load/?name=$1 [R=301,L]

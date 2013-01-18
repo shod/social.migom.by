@@ -3,6 +3,7 @@
 <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
     <META http-equiv="Content-Language" CONTENT="RU">
+	<link rel="SHORTCUT ICON" href="http://static.migom.by/img/favicon.ico">
     <meta http-equiv="Pragma" content="no-cache" />
 
     <title>Добро пожаловать</title>

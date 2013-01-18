@@ -20,7 +20,7 @@
             <?= $form->emailField($model,'email', array('placeholder' => Yii::t('Login', 'Например: ivanov@gmail.com'))); ?>
             <?= $form->error($model,'email'); ?>
 		</label>
-		<p><em><?= Yii::t('Login', 'У нас есть <a href="javascript:">правила</a>, ознакомьтесь перед нажатием'); ?></em></p>
+		<p><em><?= Yii::t('Login', 'У нас есть <a href="/rules">правила</a>, ознакомьтесь перед нажатием'); ?></em></p>
 		<p><button>Создать профиль</button></p>
 
 <?php $this->endWidget(); ?>

@@ -28,7 +28,7 @@ $this->breadcrumbs=array(
                 array(
 //                    'name' => '',
                     'type' => 'html',
-                    'value' => 'CHtml::image("/images/users/".$data->id."/avatar.jpg")',
+                    'value' => 'CHtml::image("/images/users/".$data->id."/avatar_100x100.jpg")',
                     'htmlOptions' => array('width' => '50px', 'height' => '50px'),
                 ),
                 array(

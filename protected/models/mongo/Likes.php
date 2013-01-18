@@ -65,13 +65,20 @@ class Likes extends EMongoDocument
         return parent::model($className);
     }
 
-    public function setWeightInc($weight)
+    public function setWeightInc($weight, $isNew = true)
     {
-        if ($weight > 0) {
-            $this->likes++;
-        } else {
-            $this->dislikes++;
-        }
+		if ($weight > 0) {
+			$this->likes++;
+		} else {
+			$this->dislikes++;
+		}
+		if(!$isNew){
+			if ($weight > 0) {
+				$this->dislikes--;
+			} else {
+				$this->likes--;
+			}
+		}
     }
 
     public function beforeSave() {

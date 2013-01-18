@@ -2,6 +2,8 @@
 
 class SiteController extends Controller {
 
+	public $title;
+
     public function filters() {
         return array(
             'accessControl',
@@ -16,7 +18,7 @@ class SiteController extends Controller {
     public function accessRules() {
         return array(
             array('allow', // allow readers only access to the view file
-                'actions' => array('index', 'error', 'login', 'test', 'logout', 'registration', 'info', 'remindPass', 'autocomplete'),
+                'actions' => array('index', 'error', 'static', 'login', 'test', 'logout', 'registration', 'info', 'remindPass', 'autocomplete', 'session'),
                 'users' => array('*')
             ),
             array('deny', // deny everybody else
@@ -33,6 +35,18 @@ class SiteController extends Controller {
 	public function actionInfo(){
         phpinfo();
     }
+	
+	public function actionStatic($url){
+		
+		$page = Pages::model()->find('url = :url', array(':url' => $url));
+		if($page){
+			$this->layout = 'user';
+			$this->title = $page->title;
+			$this->render('static', array('model'=> $page));
+		}else{
+			throw new CHttpException(404, 'Страница не найдена');
+		}
+	}
 
     public function actionError() {
         $this->layout = '';
@@ -193,4 +207,11 @@ class SiteController extends Controller {
             }
         }
     }
+	
+	public function actionSession(){
+		d(Yii::app()->cache);
+		d(Yii::app()->session->toarray());
+		phpinfo();
+		die('test');
+	}
 }
