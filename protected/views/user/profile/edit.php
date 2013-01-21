@@ -163,6 +163,18 @@
                 </td>
             </tr>
         </table>
+		
+		<table class="collapsible">
+            <caption><p><span><?= Yii::t('Profile', 'Настройки уведомлений'); ?></span></p></caption>
+            <tr>
+                <th><?php echo CHtml::checkbox('comments_activity', isset($news->disable_notify['comments_activity'])); ?></th>
+                <td class="checkbox_info"><?php echo CHtml::label(Yii::t('Profile', 'Отключить уведомления об ответах на комментарии'), 'comments_activity'); ?></td>
+            </tr>
+            <tr>
+                <th><?php echo CHtml::checkbox('all_activity', isset($news->disable_notify['all_activity'])); ?></th>
+                <td class="checkbox_info"><?php echo CHtml::label(Yii::t('Profile', 'Отключить ежедневные уведомления о полезности комментариев'), 'all_activity'); ?></td>
+            </tr>
+        </table>
 
         <div class="buttons">
             <button id="save" class="button_yellow search-button">Сохранить</button>
@@ -175,6 +187,7 @@
     <?php $this->endWidget(); ?>
     <?php
         $cs = Yii::app()->getClientScript();
+		
         $cs->registerScript(
             'calendar',
             '

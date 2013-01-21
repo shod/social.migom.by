@@ -90,10 +90,10 @@ class UserController extends Controller
 		Header("Last-Modified: ".gmdate("D, d M Y H:i:s")."GMT");
         $id    = Yii::app()->request->getParam('id', Yii::app()->user->id);
         $model = Users::model()->findByPk($id);
-		Widget::get('Breadcrumbs')->addBreadcrumbs(array('url' => '#', 'title' => Yii::t('Social', 'Профиль: :user_name', array(':user_name' => $model->login))));
         if(!$model){
             throw new CHttpException(404, Yii::t('Site', 'Upps! Такой страницы нету'));
         }
+		Widget::get('Breadcrumbs')->addBreadcrumbs(array('url' => '#', 'title' => Yii::t('Social', 'Профиль: :user_name', array(':user_name' => $model->login))));
         $this->title = Yii::t('Social', 'Профиль {login} | Migom.by', array('{login}' => $model->login));
         $this->render('profile', array('model' => $model));
     }
@@ -120,8 +120,24 @@ class UserController extends Controller
 
         $redirect = false;
         $success  = true;
-
-        if (isset($_POST['Users_Profile'])) {
+		
+		$criteria = new EMongoCriteria();
+		$criteria->addCond('user_id', 'equals', Yii::app()->user->id);
+		$news     = News::model()->find($criteria);
+		
+        if (isset($_POST['Users_Profile'])) 
+		{
+			
+			$notifyParams = array('comments_activity', 'all_activity');
+			foreach($notifyParams as $notifyParam){
+				if(Yii::app()->request->getParam($notifyParam)){
+					$news->disable_notify[$notifyParam] = $notifyParam;
+				} else {
+					unset($news->disable_notify[$notifyParam]);
+				}
+			}
+			$news->save();
+		
             if(file_exists($model->getAvatarPath(true))){
                 if(copy($model->getAvatarPath(true), $model->getAvatarPath())){
                     UserService::clearTempAvatars($model->id);
@@ -192,7 +208,7 @@ class UserController extends Controller
 
         $regions = Regions::model()->findAll('parent_id = 1 OR to_menu = 1 OR id = :city ORDER BY to_menu DESC', array(':city' => $model->profile->city_id));
 
-        $this->render('profile/edit', array('model' => $model, 'regions' => $regions, 'month' => $month, 'year'  => $year, 'days'  => $days));
+        $this->render('profile/edit', array('model' => $model, 'regions' => $regions, 'month' => $month, 'year'  => $year, 'days'  => $days, 'news' => $news));
     }
 
     public function actionUploadAvatar(){

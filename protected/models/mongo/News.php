@@ -5,6 +5,7 @@ class News extends EMongoDocument {
     public $user_id;
     public $entities;
     public $disable_entities;
+	public $disable_notify;
 
     public function embeddedDocuments() {  // встроенные, суб массивы!
         return array(
@@ -193,7 +194,7 @@ class News extends EMongoDocument {
         }
 		
 		// письмо "На Ваш комментарий ответили"
-		if(!Yii::app()->cache->get('online_user_' . $parent->user_id)){
+		if(!Yii::app()->cache->get('online_user_' . $parent->user_id) && !isset($entity->disable_notify['comments_activity'])){
 			$mail = new Mail;
 			$mail->sendCommentsNotification($comment, 'News', $entity->title);
 		}
@@ -317,7 +318,7 @@ class News extends EMongoDocument {
         $news->save();
         self::_updateChildLikes($comment, $likes);
 		
-		if(!Yii::app()->cache->get('online_user_' . $comment->user_id)){
+		if(!Yii::app()->cache->get('online_user_' . $comment->user_id) && !isset($entity->disable_notify['all_activity'])){
 			Mail::addActivityNotification($comment->user_id);
 		} else {
 			Mail::deleteActivityNotification($comment->user_id);

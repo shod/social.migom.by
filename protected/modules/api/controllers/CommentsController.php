@@ -155,7 +155,7 @@ class CommentsController extends ERestController
 		    $content = array(self::CONTENT_COMMENT => $comment->attributes);
             $this->render()->sendResponse($content);
         } else {
-		    throw new ERestException(Yii::t('Likes', $comment->getErrors()));
+		    throw new ERestException(var_export($comment->getErrors(), 1));
         }
     }
 
