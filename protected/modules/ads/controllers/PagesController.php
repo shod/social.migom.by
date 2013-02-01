@@ -2,6 +2,28 @@
 
 class PagesController extends Controller
 {
+
+	public function accessRules()
+	{
+		return array(
+			array('allow',  // allow all users to perform 'index' and 'view' actions
+				'actions'=>array(),
+				'roles'=>array('administrator'),
+			),
+            array('deny',  // allow all users to perform 'index' and 'view' actions
+				'actions'=>array('delete'),
+				'roles'=>array('moderator'),
+			),
+            array('allow',  // allow all users to perform 'index' and 'view' actions
+				'actions'=>array(),
+				'roles'=>array('moderator'),
+			),
+			array('deny',  // deny all users
+				'users'=>array('*'),
+			),
+		);
+	}
+
 	/**
 	 * Displays a particular model.
 	 * @param integer $id the ID of the model to be displayed

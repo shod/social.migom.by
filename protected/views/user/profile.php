@@ -14,17 +14,19 @@
                 <?php endif; ?>
             </div>
             <div class="info"><?= Yii::t('Profile', 'Дата регистрации'); ?><strong><?= SiteService::timeToDate($model->date_add, true) ?></strong></div>
-			<div class="info"><?= Yii::t('Profile', 'Используемые соц.сети:'); ?><strong></strong>
-			<?php if($model->google_oauth): ?>
-				<span class="google_oauth" title="Google">&nbsp</span>
-			<?php endif;?>
-			<?php if($model->vkontakte): ?>
-				<span class="vkontakte" title="Vkontakte">&nbsp</span>
-			<?php endif;?>
-			<?php if($model->facebook): ?>
-				<span class="facebook" title="Facebook">&nbsp</span>
-			<?php endif;?>
-			</div>
+			<?php if($model->google_oauth || $model->vkontakte || $model->facebook): ?>
+				<div class="info"><?= Yii::t('Profile', 'Используемые соц.сети:'); ?><strong></strong>
+				<?php if($model->google_oauth): ?>
+					<span class="google_oauth" title="Google">&nbsp</span>
+				<?php endif;?>
+				<?php if($model->vkontakte): ?>
+					<a href="http://vk.com/id<?= $model->vkontakte->soc_id ?>" style="text-decoration: none;" class="vkontakte" title="Vkontakte">&nbsp</a>
+				<?php endif;?>
+				<?php if($model->facebook): ?>
+					<a href="http://www.facebook.com/profile.php?id=<?= $model->facebook->soc_id ?>" style="text-decoration: none;" class="facebook" title="Facebook">&nbsp</a>
+				<?php endif;?>
+				</div>
+			<?php endif; ?>
             <!--<div class="info"><?= Yii::t('Profile', 'Просмотров профиля'); ?><strong>326</strong></div>-->
         </div>
         <table>

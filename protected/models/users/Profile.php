@@ -113,7 +113,6 @@ class Users_Profile extends CActiveRecord
             $userProviders->soc_id  = $identity->getAttribute('soc_id');
             $userProviders->save();
         }
-
         foreach ($user->profile->getAttributes() as $key => $val) {
             if (!$val && $identity->getAttribute($key)) {
                 $user->profile->{$key} = $identity->getAttribute($key);

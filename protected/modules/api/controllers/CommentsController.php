@@ -47,6 +47,7 @@ class CommentsController extends ERestController
         $res = array();
         $criteria = new CDbCriteria;
         $criteria->condition = '`t`.`entity_id` = :entity_id and `t`.`status` = :status';
+		$criteria->order = 't.created_at asc';
         $criteria->params = array(':entity_id' => $id,
             ':status' => Comments::STATUS_PUBLISHED);
         if ($limit) {
@@ -123,6 +124,9 @@ class CommentsController extends ERestController
     public function actionGetEntityCount($entity)
     {
         $res = array();
+		if(empty($_GET['id'])){
+			throw new ERestException('empty parametr "id"');
+		}
 		$userId = (int) Yii::app()->request->getParam('user_id');
         $criteria = new CDbCriteria;
         $criteria->select = 'entity_id, count(*) as cnt';

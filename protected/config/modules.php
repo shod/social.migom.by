@@ -18,6 +18,7 @@ return array(
             'migom' => '178.172.181.139',
             'test' => '127.0.0.1',
 			'testmigomby' => '93.125.53.103',
+			'migomby' => '93.125.53.103',
         )
     ),
     'ads' => array(

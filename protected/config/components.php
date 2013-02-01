@@ -23,7 +23,7 @@ return array(
     ),
     'user' => array(
         // enable cookie-based authentication
-        'allowAutoLogin' => true,
+        'allowAutoLogin' => false,
         'class' => 'WebUser',
         'loginUrl' => array('login'),
         'defaultRole' => 'guest',
