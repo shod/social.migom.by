@@ -183,7 +183,9 @@ class News extends EMongoDocument {
         $entity->text = $parent->text;
         $entity->template = 'news';
         $entity->comment->count = $count;
-        $entity->comment->attributes = $comment->attributes;
+        $entity->comment->user_id = $comment->user_id;
+		$entity->comment->text = $comment->text;
+		$entity->comment->created_at = $comment->created_at;
         $entity->comment->login = $comment->user->login;
         $entity->comment->id = $comment->id;
 
