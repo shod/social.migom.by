@@ -234,4 +234,15 @@ class Users extends ActiveRecord
         $this->profile->delete();
         parent::afterDelete();
     }
+	
+	public function getFullName(){
+		$res = $this->login;
+		if($this->profile && $this->profile->name){
+			$res = $this->profile->name;
+			if($this->profile->surname){
+				$res .= ' ' . $this->profile->surname;
+			}
+		}
+		return $res;
+	}
 }
