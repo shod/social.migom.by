@@ -9,19 +9,34 @@ return array(
     ),
     'user' => array(
         'type' => CAuthItem::TYPE_ROLE,
-        'description' => 'Administrator',
+        'description' => 'User',
+        'bizRule' => null,
+        'data' => null
+    ),
+	'author' => array(
+        'type' => CAuthItem::TYPE_ROLE,
+        'description' => 'Author',
+		'children' => array(
+            'user',
+        ),
         'bizRule' => null,
         'data' => null
     ),
     'moderator' => array(
         'type' => CAuthItem::TYPE_ROLE,
-        'description' => 'Administrator',
+        'description' => 'Moderator',
+		'children' => array(
+            'user',
+        ),
         'bizRule' => null,
         'data' => null
     ),
     'administrator' => array(
         'type' => CAuthItem::TYPE_ROLE,
         'description' => 'Administrator',
+		'children' => array(
+            'moderator',         // позволим админу всё, что позволено модератору
+        ),
         'bizRule' => null,
         'data' => null
     ),

@@ -76,6 +76,9 @@ class LikesController extends ERestController
         //assert(is_int($entity_id));
 		$isNew = true;
         $userId = (int) $_REQUEST['user_id'];
+		if($userId == 0){
+            throw new ERestException(Yii::t('Likes', "Have not parametr 'user_id'"));
+        }
         $comment = $entity::model()->findByPk($entity_id);
         if(!$comment){
             throw new ERestException(Yii::t('Likes', "Have not entity #{id}", array('{id}' => $entity_id)));

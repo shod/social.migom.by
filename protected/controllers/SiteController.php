@@ -67,7 +67,7 @@ class SiteController extends Controller {
      */
     public function actionLogin() {
         if (!Yii::app()->user->getIsGuest()) {
-			if(!isset($_SERVER['HTTP_REFERER'])){
+			if(!isset($_SERVER['HTTP_REFERER']) || strpos($_SERVER['HTTP_REFERER'], Yii::app()->params['socialBaseUrl'].'/login') === 0){
 				$this->redirect('/user/index');
 			}
 			$this->redirect($_SERVER['HTTP_REFERER']);	

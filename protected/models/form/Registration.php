@@ -54,16 +54,27 @@ class Form_Registration extends CFormModel
 		}
 	}
 
+	private function _setAttributes(&$to, $attributes){
+		$aProfileLabels = array_flip($to->attributeLabels());
+					
+		foreach($attributes as $key => $attr){
+			if(in_array($key, $aProfileLabels)){
+				$to->$key = $attr;
+			}
+		}
+	}
+	
         public function registration($identity = null, $service = null){
             $pass = substr(md5(time() . 'eugen was here'), 6, 8); // send to email
             if($service){
                 $user = new Users('regByApi');
                 $user->password = $pass;
-                $user->attributes = $identity->getAttributes();
+                $user->setAttributes($identity->getAttributes(), false);
                 if($user->save()){
                     $identity->setId($user->id);
                     $profile = new Users_Profile();
-                    $profile->attributes = $identity->getAttributes();
+					$profile->setAttributes($identity->getAttributes(), false);
+					
                     if($identity->getAttribute('avatar')){
                         // upload avatar to self server
                         $profile->avatar = UserService::uploadAvatarFromService($user->id, $identity->getAttribute('avatar'));
@@ -74,7 +85,7 @@ class Form_Registration extends CFormModel
                     $profile->sex = $identity->getAttribute('sex');
                     $profile->user_id = $user->id;
                     $userProviders = new Users_Providers();
-                    $userProviders->attributes = $identity->getAttributes();
+                    $userProviders->setAttributes($identity->getAttributes(), false);
                     $userProviders->user_id = $profile->user_id;
                     $userProviders->provider_id = array_search($service, Users_Providers::$providers);
 
