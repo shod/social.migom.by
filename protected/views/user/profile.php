@@ -14,6 +14,7 @@
                 <?php endif; ?>
             </div>
             <div class="info"><?= Yii::t('Profile', 'Дата регистрации'); ?><strong><?= SiteService::timeToDate($model->date_add, true) ?></strong></div>
+			<?php if(1): ?>
 			<div class="info"><?= Yii::t('Profile', 'Используемые соц.сети:'); ?><strong></strong>
 			<?php if($model->google_oauth): ?>
 				<span class="google_oauth" title="Google">&nbsp</span>
@@ -25,6 +26,7 @@
 				<span class="facebook" title="Facebook">&nbsp</span>
 			<?php endif;?>
 			</div>
+			<?php endif; ?>
             <!--<div class="info"><?= Yii::t('Profile', 'Просмотров профиля'); ?><strong>326</strong></div>-->
         </div>
         <table>
@@ -64,14 +66,45 @@
             </tr>
             <?php endif; ?>
         </table>
+		<?php if($news): ?>
+		<table>
+            <caption><?= Yii::t('Profile', 'Материалы'); ?></caption>
+            <tr>
+                <th><?= $news ?></th>
+                <td><?= SiteService::getCorectWordsT('Site', 'news', $news) ?> (<?= CHtml::link(Yii::t('Site', 'просмотреть'), array('/user/authorNews', 'id' => $model->id)); ?>)</td>
+            </tr>
+        </table>
+		<?php endif; ?>
 		<?php if($model->getCountComments()): ?>
         <table>
             <caption><?= Yii::t('Profile', 'Активность на сайте'); ?></caption>
+			<?php 
+					$cl = Yii::app()->cache->get('comments_likes_count_user_' . $model->id);
+					$cdl = Yii::app()->cache->get('comments_dislikes_count_user_' . $model->id);
+					$new = new Comments_News();
+					$arrCarma = $new->getUserCarma($model->id);
+					if($cl === false){
+						$cl = $arrCarma['likes'];
+						Yii::app()->cache->set('comments_likes_count_user_' . $model->id, $cl, 60 * 10);
+					}
+					if($cdl === false){
+						$cdl = $arrCarma['dislikes'];
+						Yii::app()->cache->set('comments_dislikes_count_user_' . $model->id, $arrCarma['dislikes'], 60 * 10);
+					}
+				?>
             <tr>
                 <th><?= $model->getCountComments() ?></th>
-                <td><?= SiteService::getCorectWordsT('Site', 'comments', $model->getCountComments()) ?></td>
+                <td><?= SiteService::getCorectWordsT('Site', 'comments', $model->getCountComments()) ?> (<?= CHtml::link(Yii::t('Site', 'просмотреть'), array('/user/comments', 'id' => $model->id)); ?>)</td>
             </tr>
-<!--            <tr>
+			<tr>
+                <th><?= $cl ?></th>
+                <td><?= SiteService::getCorectWordsT('Site', 'likes', $cl) ?></td>
+            </tr>
+			<tr>
+                <th><?= $cdl ?></th>
+                <td><?= SiteService::getCorectWordsT('Site', 'dislikes', $cdl) ?></td>
+            </tr>
+		<!--<tr>
                 <th><a href="#">16</a></th>
                 <td>отзывов на товар</td>
             </tr>

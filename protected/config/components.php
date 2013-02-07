@@ -51,6 +51,7 @@ return array(
         'urlFormat' => 'path',
         'showScriptName' => false,
         'rules' => array(
+		
             'api' => 'api/default/index',
             'ads' => 'ads/default/index',
 			'gii'=>'gii',
@@ -59,13 +60,15 @@ return array(
             'user/<id:\d+>' => 'user/index',
             'user' => 'user/index',
             'profile/<id:\d+>' => 'user/profile',
+			
             'profile' => 'user/profile',
             'profile/edit' => 'user/edit',
             '' => 'user/index',
+			
 			'<action:(login|logout)>' => 'site/<action>',
             '<controller:\w+>/<id:\d+>' => '<controller>/view',
+			'<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
             '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
-            '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
 			'<url\w*>' => 'site/static',
         ),
     ),

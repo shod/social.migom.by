@@ -30,6 +30,8 @@ class Comments extends ActiveRecord
     public $level = 0;
     public $cnt = 0;
     public $entity_id;
+	public $cntLikes;
+	public $cntDisLikes;
 
     /**
      * @return array relational rules.
@@ -73,6 +75,24 @@ class Comments extends ActiveRecord
             array('id, userLogin, parent_id, entity_id, user_id, text, likes, dislikes, status, level, created_at, updated_at, moderate_id', 'safe', 'on' => 'search'),
         );
     }
+	
+	public function getUserCarma($user_id){
+		$res = Yii::app()->db->createCommand('show tables like \'%_comments\'')->query();
+		$likes = 0;
+		$dislikes = 0;
+		foreach($res as $r){
+			$rArr = explode('_', array_shift($r));
+			array_pop($rArr);
+			$table =  implode('_', $rArr);
+			$criteria=new CDbCriteria();
+			$criteria->select = 'SUM(likes) as cntLikes, SUM(dislikes) as cntDisLikes';
+			$criteria->compare('user_id', $user_id);
+			$c = Comments::model($table)->find($criteria);
+			$likes += $c->cntLikes;
+			$dislikes += $c->cntDisLikes;
+		}
+		return array('likes' => $likes, 'dislikes' => $dislikes);
+	}
 
     /**
      * @return array customized attribute labels (name=>label)

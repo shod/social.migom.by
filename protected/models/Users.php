@@ -17,7 +17,7 @@ class Users extends ActiveRecord
 
     const AVATAR_PATH = '/images/users';
 
-    public static $roles = array(1         => 'user', 2         => 'moderator', 3         => 'administrator');
+    public static $roles = array(1 => 'user', 2 => 'moderator', 3 => 'administrator', 4 => 'author');
     public static $statuses = array(1 => 'active', 2 => 'noactive', 3 => 'ban');
     public $newpassword;
 	public $repassword;
@@ -97,6 +97,10 @@ class Users extends ActiveRecord
             'google_oauth' => array(self::HAS_ONE, 'Users_Providers_Google', 'user_id'),
             'vkontakte' => array(self::HAS_ONE, 'Users_Providers_Vkontakte', 'user_id'),
             'facebook' => array(self::HAS_ONE, 'Users_Providers_Facebook', 'user_id'),
+			'news_comments' => array(self::HAS_MANY, 'Comments_News', 'user_id'),
+			'countLikes' => array(self::STAT, 'Comments_News', 'user_id', 'select' => 'SUM(t.likes)'),
+			'countDisLikes' => array(self::STAT, 'Comments_News', 'user_id', 'select' => 'SUM(t.dislikes)'),
+			'carma' => array(self::STAT, 'Comments_News', 'user_id', 'select' => 'SUM(t.likes) - SUM(t.dislikes)'),
         );
     }
 
@@ -234,4 +238,15 @@ class Users extends ActiveRecord
         $this->profile->delete();
         parent::afterDelete();
     }
+	
+	public function getFullName(){
+		$res = $this->login;
+		if($this->profile && $this->profile->name){
+			$res = $this->profile->name;
+			if($this->profile->surname){
+				$res .= ' ' . $this->profile->surname;
+			}
+		}
+		return $res;
+	}
 }

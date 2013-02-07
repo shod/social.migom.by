@@ -4,6 +4,8 @@ class Api_News extends ERestDocument
 {
     public $id;
     public $title;
+	public $start_date;
+	public $anounce_text;
 
 
     public function getCollectionName()

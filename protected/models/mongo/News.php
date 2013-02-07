@@ -145,6 +145,7 @@ class News extends EMongoDocument {
      */
     public static function pushComment($comment, $count){
         $parent = $comment->parent;
+		
         list($news, $entity) = News::_push($parent->user_id, $parent->id, get_class($parent));
 	
         if(!$entity){       // если новая запись на стене
@@ -170,10 +171,11 @@ class News extends EMongoDocument {
         // эти параметры следовало бы обновить в любом случае
         $name = array_pop(explode('_', get_class($parent)));
         try {
-            $api = ERestDocument::model($name)->findByPK($comment->entity_id);
+			$api = ERestDocument::model($name)->findByPK($comment->entity_id);
         } catch (Exception $exc) {
+			Yii::log('ERROR CONNECTION -  ' . $exc->getMessage(), CLogger::LEVEL_ERROR, 'api_client');
             $api = new stdClass();
-            $api->title = 'ERROR CONNECTION';
+            $api->title = $name;
         }
 
         $entity->link = self::getLink($name);
@@ -183,7 +185,9 @@ class News extends EMongoDocument {
         $entity->text = $parent->text;
         $entity->template = 'news';
         $entity->comment->count = $count;
-        $entity->comment->attributes = $comment->attributes;
+        $entity->comment->user_id = $comment->user_id;
+		$entity->comment->text = $comment->text;
+		$entity->comment->created_at = $comment->created_at;
         $entity->comment->login = $comment->user->login;
         $entity->comment->id = $comment->id;
 
@@ -194,7 +198,7 @@ class News extends EMongoDocument {
         }
 		
 		// письмо "На Ваш комментарий ответили"
-		if(!Yii::app()->cache->get('online_user_' . $parent->user_id) && !isset($entity->disable_notify['comments_activity'])){
+		if(!Yii::app()->cache->get('online_user_' . $parent->user_id) && !isset($news->disable_notify['comments_activity'])){
 			$mail = new Mail;
 			$mail->sendCommentsNotification($comment, 'News', $entity->title);
 		}
@@ -259,7 +263,11 @@ class News extends EMongoDocument {
             case 'News':
                 return Yii::app()->params['migomBaseUrl'].'?news_id=';
                 break;
-
+				
+			case 'Article':
+                return Yii::app()->params['migomBaseUrl'].'?article_id=';
+                break;
+				
             case 'price_down':
                 return Yii::app()->params['migomBaseUrl'];
                 break;
@@ -318,7 +326,11 @@ class News extends EMongoDocument {
         $news->save();
         self::_updateChildLikes($comment, $likes);
 		
-		if(!Yii::app()->cache->get('online_user_' . $comment->user_id) && !isset($entity->disable_notify['all_activity'])){
+		$criteria = new EMongoCriteria();
+		$criteria->addCond('user_id', 'equals', $comment->user_id);
+		$news     = News::model()->find($criteria);
+		
+		if(!Yii::app()->cache->get('online_user_' . $comment->user_id) && !isset($news->disable_notify['all_activity'])){
 			Mail::addActivityNotification($comment->user_id);
 		} else {
 			Mail::deleteActivityNotification($comment->user_id);
