@@ -10,11 +10,13 @@ class ApiModule extends CWebModule {
         'GET' => array(
             'api' => 'default/index',
             'api/auth/login/<key:\w+>' => 'api/auth/getLogin',
-
+			'api/<controller:\w+>/findbypk/<id:\d+>' => 'api/<controller>/findbypk',
+			
             'api/<controller:\w+>/<action:\w+>/<entity:\w+>/<id:\d+>' => 'api/<controller>/get<action>',
             'api/<controller:\w+>/<action:\w+>/<entity:\w+>' => 'api/<controller>/get<action>',
             'api/<controller:\w+>/<action:\w+>/<id:\d+>' => 'api/<controller>/get<action>',
             'api/<controller:\w+>/<_a:(list)>' => 'api/<controller>/get<_a>',
+			
         ),
         'POST' => array(
             'api/likes/<_a:(dislike|Like)>/<entity:\w+>' => 'api/likes/post<_a>',

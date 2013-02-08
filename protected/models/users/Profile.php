@@ -50,6 +50,7 @@ class Users_Profile extends CActiveRecord
             array('avatar', 'file', 'types'      => 'jpg', 'allowEmpty' => true),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
+			 array('user_id, name, surname, city_id, sex, birthday, avatar', 'safe', 'on' => 'insert'),
             array('user_id, name, surname, city_id, sex, birthday, avatar', 'safe', 'on' => 'search'),
             array('name, surname, city_id, sex, birthday', 'safe', 'on' => 'update'),
         );
@@ -113,7 +114,6 @@ class Users_Profile extends CActiveRecord
             $userProviders->soc_id  = $identity->getAttribute('soc_id');
             $userProviders->save();
         }
-
         foreach ($user->profile->getAttributes() as $key => $val) {
             if (!$val && $identity->getAttribute($key)) {
                 $user->profile->{$key} = $identity->getAttribute($key);

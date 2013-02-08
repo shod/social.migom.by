@@ -34,6 +34,10 @@ class UserController extends Controller
                 'actions' => array('edit', 'deletenew', 'uploadavatar'),
                 'roles' => array('user', 'moderator', 'administrator')
             ),
+			array('allow', // allow readers only access to the view file
+                'actions' => array('session'),
+                'roles' => array('administrator')
+            ),
             array('allow', // allow readers only access to the view file
                 'actions' => array('index', 'createUserAvatar', 'comments', 'authorNews', 'profile'),
                 'users' => array('*')
@@ -93,6 +97,7 @@ class UserController extends Controller
         if(!$model){
             throw new CHttpException(404, Yii::t('Site', 'Upps! Такой страницы нету'));
         }
+
 		Widget::get('Breadcrumbs')->addBreadcrumbs(array('url' => '#', 'title' => Yii::t('Social', 'Профиль: :user_name', array(':user_name' => $model->login))));
         $this->title = Yii::t('Social', 'Профиль {login} | Migom.by', array('{login}' => $model->login));
 		
@@ -121,6 +126,7 @@ class UserController extends Controller
 
         $id    = Yii::app()->user->id;
         $model = $this->loadModel($id);
+		
         $model->setScenario('general_update');
 
         if (Yii::app()->getRequest()->isAjaxRequest) {
@@ -139,14 +145,16 @@ class UserController extends Controller
 		{
 			
 			$notifyParams = array('comments_activity', 'all_activity');
-			foreach($notifyParams as $notifyParam){
-				if(Yii::app()->request->getParam($notifyParam)){
-					$news->disable_notify[$notifyParam] = $notifyParam;
-				} else {
-					unset($news->disable_notify[$notifyParam]);
+			if($news){
+				foreach($notifyParams as $notifyParam){
+					if(Yii::app()->request->getParam($notifyParam)){
+						$news->disable_notify[$notifyParam] = $notifyParam;
+					} elseif(isset($news->disable_notify[$notifyParam])) {
+						unset($news->disable_notify[$notifyParam]);
+					}
 				}
+				$news->save();
 			}
-			$news->save();
 		
             if(file_exists($model->getAvatarPath(true))){
                 if(copy($model->getAvatarPath(true), $model->getAvatarPath())){
@@ -180,6 +188,7 @@ class UserController extends Controller
             } else {
                 $redirect = false;
             }
+			Yii::app()->user->setName($model->fullName);
         }
 
         if ($redirect) {
@@ -207,7 +216,7 @@ class UserController extends Controller
         $year = array(
             '0' => Yii::t('Profile', 'гггг')
         );
-        for ($i = date('Y') - 100; $i < date('Y') - 14; $i++) {
+        for ($i = date('Y') - 15; $i > date('Y') - 100; $i--) {
             $year[$i] = $i;
         }
         for ($i = 1; $i < 32; $i++) {
@@ -396,5 +405,10 @@ class UserController extends Controller
             return false;
         }
     }
-
+	
+	public function actionSession(){
+		echo '<pre>';
+			print_r(Yii::app()->session->toArray());
+		echo '</pre>';
+	}
 }

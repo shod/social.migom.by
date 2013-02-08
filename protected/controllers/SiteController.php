@@ -18,8 +18,12 @@ class SiteController extends Controller {
     public function accessRules() {
         return array(
             array('allow', // allow readers only access to the view file
-                'actions' => array('index', 'error', 'static', 'login', 'test', 'logout', 'registration', 'info', 'remindPass', 'autocomplete', 'session'),
+                'actions' => array('error', 'static', 'login', 'test', 'logout', 'registration', 'info', 'remindPass', 'autocomplete', 'session'),
                 'users' => array('*')
+            ),
+			array('allow', // allow readers only access to the view file
+                'actions' => array('index', 'info'),
+                'users' => array('administrator')
             ),
             array('deny', // deny everybody else
                 'users' => array('*')
@@ -63,7 +67,7 @@ class SiteController extends Controller {
      */
     public function actionLogin() {
         if (!Yii::app()->user->getIsGuest()) {
-			if(!isset($_SERVER['HTTP_REFERER'])){
+			if(!isset($_SERVER['HTTP_REFERER']) || strpos($_SERVER['HTTP_REFERER'], Yii::app()->params['socialBaseUrl'].'/login') === 0){
 				$this->redirect('/user/index');
 			}
 			$this->redirect($_SERVER['HTTP_REFERER']);	
@@ -95,7 +99,7 @@ class SiteController extends Controller {
 
                 // successful authentication
                 if ($identity->authenticate()) {
-                    Yii::app()->user->login($identity, 3600*24*30);
+                    Yii::app()->user->login($identity);
                     if($identity->addNewSocial){
                         Users_Providers::addSocialToUser($identity, Yii::app()->user->getId());
                     }
@@ -113,7 +117,7 @@ class SiteController extends Controller {
                         if($identity instanceof Users){
                             throw new CHttpException('400', Yii::t('Site', 'This email was taken'));
                         }
-                        Yii::app()->user->login($identity, 3600*24*30);
+                        Yii::app()->user->login($identity);
                     } elseif(Yii::app()->request->getParam('user') == 'haveALogin'){
                         if(!isset($_POST['Form_Login'])){
                             $model = new Form_Login;
@@ -192,7 +196,7 @@ class SiteController extends Controller {
             // validate user input and redirect to the previous page if valid
             if ($model->validate()){
                 $identity = $model->registration();
-                Yii::app()->user->login($identity, 3600*24*30);
+                Yii::app()->user->login($identity);
                 $this->redirect(Yii::app()->user->returnUrl);
             }
         }
@@ -216,11 +220,4 @@ class SiteController extends Controller {
             }
         }
     }
-	
-	public function actionSession(){
-		d(Yii::app()->cache);
-		d(Yii::app()->session->toarray());
-		phpinfo();
-		die('test');
-	}
 }

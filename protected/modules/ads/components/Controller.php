@@ -41,7 +41,7 @@ class Controller extends CController
 				'roles'=>array('administrator'),
 			),
             array('deny',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('delete'),
+				'actions'=>array('delete', 'update'),
 				'roles'=>array('moderator'),
 			),
             array('allow',  // allow all users to perform 'index' and 'view' actions

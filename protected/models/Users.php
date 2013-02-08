@@ -114,8 +114,8 @@ class Users extends ActiveRecord
             'login'        => Yii::t('Site', 'Login'),
 			'nickName'     => Yii::t('Site', 'Имя пользователя'),
             'password'     => Yii::t('Site', 'Новый пароль'),
-            'email'        => Yii::t('Site', 'Логин (эл. почта)'),
-            'reemail'      => Yii::t('Site', 'Повторите'),
+            'email'        => Yii::t('Site', 'Логин (email)'),
+            'reemail'      => Yii::t('Site', 'Повторите (email)'),
             'status'       => Yii::t('Site', 'Status'),
             'date_add'     => Yii::t('Site', 'Date Add'),
             'date_edit'    => Yii::t('Site', 'Date Edit'),
@@ -241,7 +241,7 @@ class Users extends ActiveRecord
 	
 	public function getFullName(){
 		$res = $this->login;
-		if($this->profile && $this->profile->name){
+		if($this->profile && $this->profile->name && !$this->login){
 			$res = $this->profile->name;
 			if($this->profile->surname){
 				$res .= ' ' . $this->profile->surname;

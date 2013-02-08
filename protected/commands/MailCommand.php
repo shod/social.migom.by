@@ -15,7 +15,7 @@ class MailCommand extends ConsoleCommand {
 //        } else {
             $mailer->IsMail();
 //        }
-
+		
 		$mailer->ClearAddresses();
 		$mailer->AddAddress($user->email);
         $mailer->FromName = 'Social.Migom.By';

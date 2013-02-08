@@ -47,6 +47,7 @@ class CommentsController extends ERestController
         $res = array();
         $criteria = new CDbCriteria;
         $criteria->condition = '`t`.`entity_id` = :entity_id and `t`.`status` = :status';
+		$criteria->order = 't.created_at asc';
         $criteria->params = array(':entity_id' => $id,
             ':status' => Comments::STATUS_PUBLISHED);
         if ($limit) {

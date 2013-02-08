@@ -2,6 +2,20 @@
 
 class CommentsController extends Controller
 {
+	
+	public function accessRules()
+	{
+		return array(
+			array('allow',  // allow all users to perform 'index' and 'view' actions
+				'actions'=>array(),
+				'roles'=>array('administrator', 'moderator'),
+			),
+			array('deny',  // deny all users
+				'users'=>array('*'),
+			),
+		);
+	}
+
     public function actionIndex(){
         $this->render('index');
     }
