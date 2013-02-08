@@ -115,6 +115,7 @@ class SiteController extends Controller {
                         $reg = new Form_Registration();
                         $identity = $reg->registration($identity, $service);
                         if($identity instanceof Users){
+							Yii::log('This email was taken: ""'.$identity->email, CLogger::LEVEL_INFO);
                             throw new CHttpException('400', Yii::t('Site', 'This email was taken'));
                         }
                         Yii::app()->user->login($identity);
@@ -167,6 +168,7 @@ class SiteController extends Controller {
             $model->attributes = $_POST['Form_Login'];
             // validate user input and redirect to the previous page if valid
             if ($model->validate() && $model->login() && $redirect){
+				Yii::log('User was loging. Email: '.Yii::app()->user->email.' UserID: '.Yii::app()->user->id, CLogger::LEVEL_INFO);
                 $this->redirect(Yii::app()->user->returnUrl);
             }
         }

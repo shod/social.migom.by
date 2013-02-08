@@ -22,7 +22,8 @@ class NotifyCommand extends ConsoleCommand
         $minPriceResponce = $apiModel->getCosts('min', array('id' => $aProductId));
         if (!$minPriceResponce || !is_array($minPriceResponce)) {
             $errors = $apiModel->getErrors();
-            Yii::log($errors, CLogger::LEVEL_INFO);
+			$errors['message'] => 'noPriceResponce';
+            Yii::log(print_r($errors, true), CLogger::LEVEL_INFO);
             Yii::app()->end();
         }
         $productForSend = array();
@@ -49,7 +50,8 @@ class NotifyCommand extends ConsoleCommand
 
         if (!$productInfo) {
             $errors = $apiModel->getErrors();
-            Yii::log($errors, CLogger::LEVEL_INFO);
+			$errors['message'] => 'noProductInfo';
+            Yii::log(print_r($errors, true), CLogger::LEVEL_INFO);
             Yii::app()->end();
         }
         $productInfo = get_object_vars($productInfo);
