@@ -178,7 +178,7 @@ class UserController extends Controller
             } else {
                 $redirect = false;
             }
-			Yii::app()->user->setName($model->login);
+			Yii::app()->user->setName($model->fullName);
         }
 
         if ($redirect) {
