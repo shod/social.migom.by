@@ -34,7 +34,31 @@ class NotifyController extends ERestController
         $model->cost = (float) Yii::app()->request->getParam('cost');
         $model->user_id = $userId;
         try {
-            $model->save();
+            $model->insertIgnore();
+        } catch (Exception $exc) {
+            throw new ERestException(Yii::t('Notify', $exc->getMessage()));
+        }
+        $this->render()->sendResponse(array(ERestComponent::CONTENT_SUCCESS => true));
+    }
+	
+	/**
+     * Add notify about change product cost
+     * @param type $id - product id
+     * @param float $cost - product cost
+     * @throws ERestException
+     */
+    public function actionPostProduct($id)
+    {
+        $userId = Yii::app()->request->getParam('user_id', 0, 'int');
+        if(!Users::model()->findByPk($userId)){
+            throw new ERestException(Yii::t('Notify', self::EXCEPTION_USER_IS_NOT_EXIST));
+        }
+
+		$model = new Notify_Product();
+		$model->product_id = (int)$id;
+        $model->user_id = $userId;
+        try {
+            $model->insertIgnore();
         } catch (Exception $exc) {
             throw new ERestException(Yii::t('Notify', $exc->getMessage()));
         }

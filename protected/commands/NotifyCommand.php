@@ -6,6 +6,7 @@
  */
 class NotifyCommand extends ConsoleCommand
 {
+
     public $fromQueue = false;
 
     public function actionProductCost()

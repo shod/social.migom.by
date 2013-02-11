@@ -9,13 +9,17 @@
  * @property integer $provider_id
  * @property integer $soc_id
  */
-class Notify_Product_Cost extends Notify_Product
+class Notify_Product extends Notify
 {
-    public $cost;
+
+
+    public $id;
+    public $product_id;
+    public $user_id;
 
     public function tableName()
     {
-        return 'notify_product_cost';
+        return 'notify_product';
     }
 
     /**
@@ -23,7 +27,7 @@ class Notify_Product_Cost extends Notify_Product
      * @param string $className active record class name.
      * @return UserProviders the static model class
      */
-    public static function model($className = 'Product_Cost')
+    public static function model($className = 'Product')
     {
         return parent::model($className);
     }
@@ -36,7 +40,7 @@ class Notify_Product_Cost extends Notify_Product
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('product_id, cost, user_id', 'required'),
+            array('product_id, user_id', 'required'),
         );
     }
 
