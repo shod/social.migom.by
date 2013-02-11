@@ -18,7 +18,7 @@
                                 ."'; $('#uploadAvatar a img').attr('src', tempImage + '?' + fileName + '&' + Math.floor((Math.random()*99999)+1)); }",
                             'template' => '<div class="qq-uploader">
                                     <div class="qq-upload-drop-area"><span>' . Yii::t('Profile', 'Перетащите файл сюда') . '</span></div>
-                                    <div id="uploadAvatar" class="qq-upload-button">' . UserService::printAvatar($model->id, $model->login, 96) . '</div>
+                                    <div id="uploadAvatar" class="qq-upload-button">' . UserService::printAvatar($model->id, $model->fullName, 96) . '</div>
                                     <div class="qq-upload-list"></div>
                                 </div>',
                             'messages'=>array(
@@ -32,9 +32,9 @@
                 ));
                 ?>
             </div>
-            <!--<div class="avatar"><?= UserService::printAvatar($model->id, $model->login, 96); ?></div>-->
+            <!--<div class="avatar"><?= UserService::printAvatar($model->id, $model->fullName, 96); ?></div>-->
             <div class="name">
-                <strong><?= $model->login; ?></strong>
+                <strong><?= $model->fullName; ?></strong>
                 <?= CHtml::link(Yii::t('Profile', 'Вернуться в профиль'), array('/profile')) ?>
             </div>
         </div>
@@ -55,7 +55,7 @@
             <caption><?= Yii::t('Profile', 'Редактирование профиля') ?></caption>
 			<tr>
                 <th><?php echo $form->label($model,'email'); ?>:</th>
-                <td><?php echo $form->textField($model,'email', array('disabled' => 'disabled')); ?></td>
+                <td><?php echo $form->textField($model,'email', array('disabled' => 'disabled', 'class' => '', 'id' => '')); ?></td>
             </tr>
             <tr>
                 <th><?php echo $form->label($model,'nickName'); ?>:</th>

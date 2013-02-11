@@ -97,6 +97,10 @@ class Users extends ActiveRecord
             'google_oauth' => array(self::HAS_ONE, 'Users_Providers_Google', 'user_id'),
             'vkontakte' => array(self::HAS_ONE, 'Users_Providers_Vkontakte', 'user_id'),
             'facebook' => array(self::HAS_ONE, 'Users_Providers_Facebook', 'user_id'),
+			'news_comments' => array(self::HAS_MANY, 'Comments_News', 'user_id'),
+			'countLikes' => array(self::STAT, 'Comments_News', 'user_id', 'select' => 'SUM(t.likes)'),
+			'countDisLikes' => array(self::STAT, 'Comments_News', 'user_id', 'select' => 'SUM(t.dislikes)'),
+			'carma' => array(self::STAT, 'Comments_News', 'user_id', 'select' => 'SUM(t.likes) - SUM(t.dislikes)'),
         );
     }
 
@@ -237,7 +241,7 @@ class Users extends ActiveRecord
 	
 	public function getFullName(){
 		$res = $this->login;
-		if($this->profile && $this->profile->name){
+		if($this->profile && $this->profile->name && !$this->login){
 			$res = $this->profile->name;
 			if($this->profile->surname){
 				$res .= ' ' . $this->profile->surname;

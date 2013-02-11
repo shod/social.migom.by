@@ -72,8 +72,17 @@ class SiteController extends Controller {
 			}
 			$this->redirect($_SERVER['HTTP_REFERER']);	
         }
-        if(isset($_SERVER['HTTP_REFERER']) && !Yii::app()->request->isAjaxRequest && !Yii::app()->request->isPostRequest && !Yii::app()->request->getQuery('service')){
-            Yii::app()->user->setReturnUrl($_SERVER['HTTP_REFERER']);
+
+        if(isset($_SERVER['HTTP_REFERER']) && 
+					!Yii::app()->request->isAjaxRequest && 
+					!Yii::app()->request->isPostRequest && 
+					!Yii::app()->request->getParam('reg_ask') &&
+					!Yii::app()->request->getParam('haveALogin') &&
+					!Yii::app()->request->getParam('new') &&
+					Yii::app()->request->getBaseUrl(true).'/login' != $_SERVER['HTTP_REFERER'] && 
+					Yii::app()->request->getBaseUrl(true).'/site/login' != $_SERVER['HTTP_REFERER']
+				){
+						Yii::app()->user->setReturnUrl($_SERVER['HTTP_REFERER']);
         }
         $this->layout = 'login';
 
@@ -171,7 +180,7 @@ class SiteController extends Controller {
      */
     public function actionLogout() {
         Yii::app()->user->logout();
-        $this->redirect(Yii::app()->params['migomBaseUrl']);
+        $this->redirect((strpos($_SERVER['HTTP_REFERER'], Yii::app()->params['socialBaseUrl']) === false)?$_SERVER['HTTP_REFERER']:Yii::app()->params['migomBaseUrl']);
     }
 
     public function actionRegistration() {

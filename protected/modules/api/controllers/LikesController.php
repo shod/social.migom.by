@@ -81,8 +81,10 @@ class LikesController extends ERestController
         }
         $comment = $entity::model()->findByPk($entity_id);
         if(!$comment){
-            throw new ERestException(Yii::t('Likes', "Have not entity #{id}", array('{id}' => $entity_id)));
+			Yii::log('test like ' . $entity);
+			//throw new ERestException(Yii::t('Likes', "Have not entity #{id} $entity", array('{id}' => $entity_id)));
         }
+		
         try {
              /* @var $likes Likes */
             if ($likes = Likes::model($entity)->findByPk($entity_id)) {
@@ -91,6 +93,7 @@ class LikesController extends ERestController
 						if($user->weight != $weight){
 							$user->weight = $weight;
 							$isNew = false;
+							break;
 						}else{
 							return array(self::CONTENT_IS_UPDATE => false);
 						}
@@ -104,6 +107,7 @@ class LikesController extends ERestController
         } catch (Exception $exc) {
             throw new ERestException(Yii::t('Likes', "Entity '{entity}' is not exist", array('{entity}' => $model)));
         }
+		
 		if($isNew){
 			$userModel = Users::model()->findByPk($userId);
 			if(!$userModel){
@@ -119,6 +123,7 @@ class LikesController extends ERestController
 			
         $likes->setWeightInc($weight, $isNew);
         if($likes->save()){
+			
 			if($weight > 0){
 				$comment->likes++;
 			}else{
@@ -132,13 +137,16 @@ class LikesController extends ERestController
 				}
 			}
 			$comment->save();
-				
-            News::pushLike($comment, $likes);
-            return array(self::CONTENT_IS_UPDATE => true, 'new' => $isNew);
+			try {	
+				News::pushLike($comment, $likes);
+			} catch (Exception $exc) {
+				throw new ERestException('News::pushLike - ' . $exc->getMessage());
+			}
+			return array(self::CONTENT_IS_UPDATE => true, 'new' => $isNew);
         }  else {
             throw new ERestException(Yii::t('Likes', $likes->getErrors()));
         }
-        return array(self::CONTENT_IS_UPDATE => false);
+		return array(self::CONTENT_IS_UPDATE => false);
     }
 
     /**

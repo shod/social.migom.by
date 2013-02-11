@@ -145,6 +145,7 @@ class News extends EMongoDocument {
      */
     public static function pushComment($comment, $count){
         $parent = $comment->parent;
+		
         list($news, $entity) = News::_push($parent->user_id, $parent->id, get_class($parent));
 	
         if(!$entity){       // если новая запись на стене
@@ -170,10 +171,11 @@ class News extends EMongoDocument {
         // эти параметры следовало бы обновить в любом случае
         $name = array_pop(explode('_', get_class($parent)));
         try {
-            $api = ERestDocument::model($name)->findByPK($comment->entity_id);
+			$api = ERestDocument::model($name)->findByPK($comment->entity_id);
         } catch (Exception $exc) {
+			Yii::log('ERROR CONNECTION -  ' . $exc->getMessage(), CLogger::LEVEL_ERROR, 'api_client');
             $api = new stdClass();
-            $api->title = 'ERROR CONNECTION';
+            $api->title = $name;
         }
 
         $entity->link = self::getLink($name);
@@ -261,7 +263,11 @@ class News extends EMongoDocument {
             case 'News':
                 return Yii::app()->params['migomBaseUrl'].'?news_id=';
                 break;
-
+				
+			case 'Article':
+                return Yii::app()->params['migomBaseUrl'].'?article_id=';
+                break;
+				
             case 'price_down':
                 return Yii::app()->params['migomBaseUrl'];
                 break;

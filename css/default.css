@@ -34,6 +34,7 @@ a img {border: 0}
 .wall .show-more {display: block; text-align: center; color: #777; line-height: 26px; background-color: #f6f8fa; cursor: pointer}
 .wall .show-more:hover span {text-decoration:underline}
 .wall > .show-more {margin-top: 20px}
+.wall .show-more .wait { background: url("/images/wait.gif") no-repeat scroll 0 0 transparent; margin: 0 0 0 10px; padding-left: 14px; vertical-align: baseline; display: none;}
 
 .post {padding: 0 0 20px 70px; color: #333; border-top: 1px solid #ebebeb; margin-right: 20px;}
 .post:first-child {border: 0}

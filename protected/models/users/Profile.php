@@ -126,7 +126,7 @@ class Users_Profile extends CActiveRecord
     {
         parent::beforeSave();
         if (strpos($this->avatar, 'http') === 0) {
-            $this->avatar = UserService::uploadAvatarFromService($this->user_id, $this->avatar);
+            //$this->avatar = UserService::uploadAvatarFromService($this->user_id, $this->avatar);
         }
         if (strlen($this->sex) > 1) {
             $this->sex = array_search($this->sex, self::$sexs);

@@ -39,7 +39,7 @@ class UserController extends Controller
                 'roles' => array('administrator')
             ),
             array('allow', // allow readers only access to the view file
-                'actions' => array('index', 'createUserAvatar', 'profile'),
+                'actions' => array('index', 'createUserAvatar', 'comments', 'authorNews', 'profile'),
                 'users' => array('*')
             ),
             array('deny', // deny everybody else
@@ -100,7 +100,17 @@ class UserController extends Controller
 
 		Widget::get('Breadcrumbs')->addBreadcrumbs(array('url' => '#', 'title' => Yii::t('Social', 'Профиль: :user_name', array(':user_name' => $model->login))));
         $this->title = Yii::t('Social', 'Профиль {login} | Migom.by', array('{login}' => $model->login));
-        $this->render('profile', array('model' => $model));
+		
+		$news = array();
+		if($model->id != Yii::app()->user->id){
+			Yii::app()->authManager->assign(Users::$roles[$model->role], $model->id);
+		}
+
+		if(Yii::app()->authManager->checkAccess('author', $model->id)){
+			$news = Api_News_Author::model()->count('user_id = :id', array(':id' => $model->id));
+		}
+		
+        $this->render('profile', array('model' => $model, 'news' => $news));
     }
 
     public function actionEdit()
@@ -219,6 +229,104 @@ class UserController extends Controller
 
         $this->render('profile/edit', array('model' => $model, 'regions' => $regions, 'month' => $month, 'year'  => $year, 'days'  => $days, 'news' => $news));
     }
+	
+	public function actionComments($id)
+	{
+		$offset = Yii::app()->request->getParam('offset', 0, 'int');
+		$more = false;
+	
+		$model = $this->loadModel($id);
+		$criteria=new CDbCriteria();
+		$criteria->limit = UserNews::NEWS_ON_WALL+1;
+		$criteria->offset = $offset;
+		$criteria->compare('user_id', $id);
+		$criteria->order = 'created_at DESC';
+		$comments = Comments_News::model()->findAll($criteria);
+
+		$ids = array();
+		if(count($comments) > UserNews::NEWS_ON_WALL){
+			array_pop($comments);
+			$more = true;
+		}
+		foreach($comments as $comment){
+			$ids[] = $comment->entity_id;
+		}
+		
+		$newsTitles = Api_News::model();
+		$news = $newsTitles->findAll('id in(:ids)', array(':ids' => implode(',', $ids)));
+		
+		$comm = array();
+		foreach($comments as $comment){
+			$title = '';
+			foreach($news as $new){
+				if($new->id == $comment->entity_id){
+					$title = $new->title;
+					break;
+				}
+			}
+			$comm[$comment->id] = array(
+				'text' => $comment->text,
+				'created_at' => $comment->created_at,
+				'title' => $title,
+				'entity_id' => $comment->entity_id,
+				'likes' => $comment->likes,
+				'dislikes' => $comment->dislikes,
+			);
+		}
+		if(Yii::app()->request->isAjaxRequest){
+			$this->renderPartial('comments/_post', array('comments' => $comm, 'model' => $model, 'offset' => $offset, 'more' => $more), false, false);
+			Yii::app()->end();
+		}
+		$this->render('comments', array('model' => $model, 'comments'  => $comm, 'offset' => $offset, 'more' => $more));
+	}
+	
+	public function actionAuthorNews($id)
+	{
+		$offset = Yii::app()->request->getParam('offset', 0, 'int');
+		$more = false;
+	
+		$model = Users::model()->findByPk($id);
+        if(!$model){
+            throw new CHttpException(404, Yii::t('Site', 'Upps! Такой страницы нету'));
+        }
+		$news = array();
+		Yii::app()->authManager->assign(Users::$roles[$model->role], $model->id);
+		if(Yii::app()->authManager->checkAccess('author', $model->id)){
+			
+			$newsApi = Api_News_Author::model();
+			$limit = UserNews::NEWS_ON_WALL+1;
+			$news = $newsApi->findAll('user_id = :id ORDER BY start_date DESC limit ' . $offset . ',' . $limit . '', array(':id' => $model->id));  //EUGEN TODO
+			$newsCntComments = array();
+			$ids = array();
+			foreach($news as $new){
+				$ids[] = $new->id;
+				$newsCntComments[$new->id] = 0;
+			}
+
+			$criteria=new CDbCriteria();
+			$criteria->group = 'entity_id';
+			$criteria->addInCondition('entity_id', $ids);
+			$criteria->select = 'COUNT(entity_id) as cnt, entity_id';
+			
+			$comCnt = Comments_News::model()->findAll($criteria);
+			foreach($comCnt as $comm){
+				$newsCntComments[$comm->entity_id] = $comm->cnt;
+			}
+
+		}
+		if(count($news) > UserNews::NEWS_ON_WALL){
+			array_pop($news);
+			$more = true;
+		}
+		if(!count($news)){
+			throw new CHttpException(404, Yii::t('Site', 'Upps! Такой страницы нету'));
+		}
+		if(Yii::app()->request->isAjaxRequest){
+			$this->renderPartial('authorNews/_news', array('news' => $news, 'model' => $model, 'offset' => $offset, 'more' => $more, 'newsCntComments' => $newsCntComments), false, false);
+			Yii::app()->end();
+		}
+		$this->render('authorNews', array('model' => $model, 'news' => $news, 'offset' => $offset, 'more' => $more, 'newsCntComments' => $newsCntComments));
+	}
 
     public function actionUploadAvatar(){
         Yii::import("core.extensions.EAjaxUpload.qqFileUploader");
@@ -252,7 +360,7 @@ class UserController extends Controller
     {
         $model = Users::model()->findByPk($id);
         if ($model === null){
-			Yii::app()->user->logout();
+			//Yii::app()->user->logout();
 			throw new CHttpException(404, 'The requested page does not exist.');
 		}
         return $model;
