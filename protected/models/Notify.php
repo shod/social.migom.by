@@ -9,7 +9,7 @@
  * @property integer $provider_id
  * @property integer $soc_id
  */
-class Notify extends CActiveRecord
+class Notify extends ActiveRecord
 {
 
     public $id;

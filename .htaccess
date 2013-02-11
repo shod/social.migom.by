@@ -1,23 +1,23 @@
 RewriteEngine on
 #RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} !-f
-#RewriteRule images/users/(\d+)/avatar\.(gif|jpe?g|png|bmp) http://www.social.migom.by/user/createuseravatar/id/$1 [NC,L]
+#RewriteRule images/users/(\d+)/avatar\.(gif|jpe?g|png|bmp) http://www.test.social.migom.by/user/createuseravatar/id/$1 [NC,L]
 RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule images/users/(\d+)/avatar_(\d+)x(\d+)\.(gif|jpe?g|png|bmp) http://www.social.migom.by/user/createuseravatar/id/$1/x/$2/y/$3 [NC,L]
+RewriteRule images/users/(\d+)/avatar_(\d+)x(\d+)\.(gif|jpe?g|png|bmp) http://www.test.social.migom.by/user/createuseravatar/id/$1/x/$2/y/$3 [NC,L]
 RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule images/users/(\d+)/avatar-temp_(\d+)x(\d+)\.(gif|jpe?g|png|bmp) http://www.social.migom.by/user/createuseravatar/id/$1/x/$2/y/$3/tempFlag/1 [NC,L]
+RewriteRule images/users/(\d+)/avatar-temp_(\d+)x(\d+)\.(gif|jpe?g|png|bmp) http://www.test.social.migom.by/user/createuseravatar/id/$1/x/$2/y/$3/tempFlag/1 [NC,L]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule images/users/avatar\.(gif|jpe?g|png|bmp) /images/users/default_avatar.png [NC,L]
 
-#RewriteRule ^(.*)$ http://www.social.migom.by/widgets/load/?name=$1 [R=301,L]
+#RewriteRule ^(.*)$ http://www.test.social.migom.by/widgets/load/?name=$1 [R=301,L]
 RewriteCond %{QUERY_STRING} load_block=(.*)$ [NC]
-RewriteRule . http://www.social.migom.by/widgets/load/?name=%1 [L]
+RewriteRule . http://www.test.social.migom.by/widgets/load/?name=%1 [L]
 
 
 
 
 RewriteCond %{REQUEST_METHOD} ^(GET)
-RewriteCond %{HTTP_HOST} ^social.migom\.by$ [NC]
-RewriteRule ^(.*)$ http://www.social.migom.by/$1 [R=301,L]
+RewriteCond %{HTTP_HOST} ^test.social.migom\.by$ [NC]
+RewriteRule ^(.*)$ http://www.test.social.migom.by/$1 [R=301,L]
 
 
 
