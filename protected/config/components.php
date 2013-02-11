@@ -60,11 +60,11 @@ return array(
             'user/<id:\d+>' => 'user/index',
             'user' => 'user/index',
             'profile/<id:\d+>' => 'user/profile',
-			
+
             'profile' => 'user/profile',
             'profile/edit' => 'user/edit',
             '' => 'user/index',
-			
+
 			'<action:(login|logout)>' => 'site/<action>',
             '<controller:\w+>/<id:\d+>' => '<controller>/view',
 			'<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',

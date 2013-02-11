@@ -27,6 +27,9 @@
 				<?php endif;?>
 				</div>
 			<?php endif; ?>
+			<?php if($model->id != Yii::app()->user->id): ?>
+				<?= CHtml::link('Написать сообщение', array('/messages/send', 'id' => $model->id)); ?>
+			<?php endif; ?>
             <!--<div class="info"><?= Yii::t('Profile', 'Просмотров профиля'); ?><strong>326</strong></div>-->
         </div>
         <table>
