@@ -21,11 +21,7 @@ return array(
 			'migomby' => '93.125.53.103',
         )
     ),
-    'ads' => array(
-        'ipFilters' => array(
-            '86.57.245.247',
-            '::1',
-            '127.0.0.1'),
-    ),
+    'ads',
+	'messages',
 );
 ?>

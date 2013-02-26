@@ -10,7 +10,11 @@ return array(
     'migom'         => require(dirname(__FILE__) . '/components/migom.php'),
 	'tags'          => require(dirname(__FILE__) . '/components/tags.php'),
     'log'           => require(dirname(__FILE__) . '/components/log.php'),
-    'image' => array(
+	'migom_job'           => require(dirname(__FILE__) . '/components/migom_job.php'),
+    'notify' => array(
+		'class' => 'core.components.QUserNotify',
+	),
+	'image' => array(
         'class' => 'core.extensions.image.CImageComponent',
         // GD or ImageMagick
         'driver' => 'GD',
@@ -64,6 +68,10 @@ return array(
             'profile' => 'user/profile',
             'profile/edit' => 'user/edit',
             '' => 'user/index',
+			
+			'messages' => 'messages/messages/index',
+			'messages/<action:\w+>/<id:\d+>' => 'messages/messages/<action>',
+			'messages/<action:\w+>' => 'messages/messages/<action>',
 
 			'<action:(login|logout)>' => 'site/<action>',
             '<controller:\w+>/<id:\d+>' => '<controller>/view',

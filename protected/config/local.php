@@ -15,10 +15,12 @@ return CMap::mergeArray(
         'components' => require(dirname(__FILE__) . '/components.php'),
         'import' => array(
             'core.models.api.*',
+			'core.models.*',
             'application.models.*',
             'application.models.mongo.*',
             'core.components.*',
             'core.widgets.*',
+			'application.widgets.*',
             'core.services.*',
             'core.extensions.yiidebugtb.*',
             'core.extensions.eoauth.*',

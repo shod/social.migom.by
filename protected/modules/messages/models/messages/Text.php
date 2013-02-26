@@ -11,8 +11,12 @@
  * The followings are the available model relations:
  * @property Messages $messages
  */
-class Messages_Text extends CActiveRecord
+class Messages_Text extends ActiveRecord
 {
+
+	const UNREAD = 0;
+	const READ = 1;
+	
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -39,11 +43,13 @@ class Messages_Text extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('message_id, text, created_at', 'required'),
-			array('message_id, created_at', 'numerical', 'integerOnly'=>true),
+			array('text', 'required'),
+			array('id, created_at, status', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('message_id, text, created_at', 'safe', 'on'=>'search'),
+			array('text', 'filter', 'filter' => array(new CHtmlPurifier(), 'purify')),
+			array('text', 'safe', 'on'=>'insert'),
+			array('id, text, status, created_at', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -55,7 +61,7 @@ class Messages_Text extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'messages' => array(self::HAS_ONE, 'Messages', 'id'),
+			'messages' => array(self::HAS_ONE, 'Messages', 'message_id'),
 		);
 	}
 
@@ -68,6 +74,7 @@ class Messages_Text extends CActiveRecord
 			'message_id' => 'Message',
 			'text' => 'Text',
 			'created_at' => 'Created At',
+			'status' => 'Status',
 		);
 	}
 
@@ -82,7 +89,7 @@ class Messages_Text extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('message_id',$this->message_id);
+		$criteria->compare('id',$this->message_id);
 		$criteria->compare('text',$this->text,true);
 		$criteria->compare('created_at',$this->created_at);
 
