@@ -76,6 +76,10 @@ class Comments extends ActiveRecord
         );
     }
 	
+	protected function beforeSave() {
+        return parent::beforeSave();
+    }
+	
 	public function getUserCarma($user_id){
 		$res = Yii::app()->db->createCommand('show tables like \'%_comments\'')->query();
 		$likes = 0;
@@ -113,10 +117,6 @@ class Comments extends ActiveRecord
             'updated_at' => Yii::t('Site', 'Updated At'),
             'userLogin' => Yii::t('Admin', 'User Name'),
         );
-    }
-
-    protected function beforeSave() {
-        return parent::beforeSave();
     }
 
     /**

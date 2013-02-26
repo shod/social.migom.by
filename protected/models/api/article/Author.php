@@ -1,6 +1,6 @@
 <?php
 
-class Api_News_Author extends ERestDocument
+class Api_Article_Author extends ERestDocument
 {
     public $id;
     public $title;
@@ -11,7 +11,7 @@ class Api_News_Author extends ERestDocument
 
     public function getCollectionName()
     {
-        return 'news_author';
+        return 'article_author';
     }
 
     /**
@@ -26,7 +26,7 @@ class Api_News_Author extends ERestDocument
 		return $this->setRestComponent(Yii::app()->getComponent('migom'));
 	}
 
-    public static function model($className='News_Author')
+    public static function model($className='Article_Author')
 	{
 		return parent::model($className);
 	}

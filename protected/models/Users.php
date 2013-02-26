@@ -98,6 +98,7 @@ class Users extends ActiveRecord
             'vkontakte' => array(self::HAS_ONE, 'Users_Providers_Vkontakte', 'user_id'),
             'facebook' => array(self::HAS_ONE, 'Users_Providers_Facebook', 'user_id'),
 			'news_comments' => array(self::HAS_MANY, 'Comments_News', 'user_id'),
+			'article_comments' => array(self::HAS_MANY, 'Comments_Article', 'user_id'),
 			'countLikes' => array(self::STAT, 'Comments_News', 'user_id', 'select' => 'SUM(t.likes)'),
 			'countDisLikes' => array(self::STAT, 'Comments_News', 'user_id', 'select' => 'SUM(t.dislikes)'),
 			'carma' => array(self::STAT, 'Comments_News', 'user_id', 'select' => 'SUM(t.likes) - SUM(t.dislikes)'),
@@ -200,12 +201,22 @@ class Users extends ActiveRecord
         return true;
     }
 
-    public function getCountComments()
+    public function getCountNewsComments()
     {
-        $count = Yii::app()->cache->get('comments_count_user_' . $this->id);
+        $count = Yii::app()->cache->get('comments_news_count_user_' . $this->id);
         if (!$count) {
             $count = Comments_News::model()->count('user_id = :user_id', array(':user_id' => $this->id));
-            Yii::app()->cache->set('comments_count_user_' . $this->id, $count, 60 * 10);
+            Yii::app()->cache->set('comments_news_count_user_' . $this->id, $count, 60 * 10);
+        }
+        return $count;
+    }
+	
+	public function getCountArticleComments()
+    {
+        $count = Yii::app()->cache->get('comments_article_count_user_' . $this->id);
+        if (!$count) {
+            $count = Comments_Article::model()->count('user_id = :user_id', array(':user_id' => $this->id));
+            Yii::app()->cache->set('comments_article_count_user_' . $this->id, $count, 60 * 10);
         }
         return $count;
     }

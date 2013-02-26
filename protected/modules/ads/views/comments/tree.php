@@ -14,7 +14,7 @@
         <?php echo CHtml::hiddenField('saveUrl', $this->createUrl('save', array('model' => $modelTitle, 'id' => $model->id)), array('id' => 'saveUrl')); ?>
         <div class="row">
 		<?php echo $form->labelEx($model,'text'); ?>
-		<?php echo $form->textArea($model,'text',array('maxlength' => 255, 'rows' => 6, 'cols' => 66)); ?>
+		<?php echo $form->textArea($model,'text',array('rows' => 6, 'cols' => 66)); ?>
 		<?php echo $form->error($model,'text'); ?>
 	</div>
     

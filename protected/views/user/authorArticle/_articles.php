@@ -3,7 +3,7 @@
 ?>
 <?php foreach($news as $new): ?>
 	<div class="post">
-		<div class="related"><?= Yii::t('UserNews', 'title:News'); ?> <a href="<?= Yii::app()->params['migomBaseUrl'].'?news_id=' ?><?= $new->id ?>"><?= $new->title ; ?></a>
+		<div class="related"><?= Yii::t('UserNews', 'title:Article'); ?> <a href="<?= Yii::app()->params['migomBaseUrl'].'?news_id=' ?><?= $new->id ?>"><?= $new->title ; ?></a>
 		<? if($newsCntComments[$new->id] > 0): ?><a rel="nofollow" href="<?= Yii::app()->params['migomBaseUrl'].'?news_id=' ?><?= $new->id ?>#comments" target="_blank">
 		<span class="img-comment" style="padding-top:0px"><?=$newsCntComments[$new->id];?><div class="hvost">&nbsp;</div></span></a>
 		<? endif; ?>
