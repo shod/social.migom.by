@@ -10,7 +10,7 @@
                 <?php if($model->id == Yii::app()->user->id): ?>
                     <?= CHtml::link(Yii::t('Profile', 'Редактировать профиль'), array('/profile/edit')) ?>
 				<?php else: ?>
-					<?= (Yii::app()->cache->get('online_user_' . $model->id)) ? '<span class="online">'.Yii::t('Profile', 'Сейчас на сайте').'</span>' : (($model->profile->sex == 2) ? Yii::t('Profile', 'Отошла'):Yii::t('Profile', 'Отошёл')) ?>
+					<?= (Yii::app()->cache->get('online_user_' . $model->id)) ? '<span class="online">'.Yii::t('Profile', 'Сейчас на сайте').'</span>' : EasterEggService::getAwayStatus($model->profile->sex) ?>
 					<div class="profile-send-message"><button class="button_yellow search-button" onclick="window.location = '<?= $this->createUrl('/messages/send', array('id' => $model->id)) ?>'">Написать сообщение</button></div>
                 <?php endif; ?>
             </div>
@@ -70,14 +70,18 @@
 		<?php if($news): ?>
 		<table>
             <caption><span><?= Yii::t('Profile', 'Материалы'); ?></span></caption>
+			<?php if($news): ?>
             <tr>
                 <th><?= $news ?></th>
                 <td><?= SiteService::getCorectWordsT('Site', 'news', $news) ?> (<?= CHtml::link(Yii::t('Site', 'просмотреть'), array('/user/authorNews', 'id' => $model->id)); ?>)</td>
             </tr>
+			<?php endif; ?>
+			<?php if($article): ?>
 			<tr>
                 <th><?= $article ?></th>
                 <td><?= SiteService::getCorectWordsT('Site', 'articles', $article) ?> (<?= CHtml::link(Yii::t('Site', 'просмотреть'), array('/user/authorArticle', 'id' => $model->id)); ?>)</td>
             </tr>
+			<?php endif; ?>
         </table>
 		<?php endif; ?>
 		<?php if($model->getCountNewsComments() || $model->getCountArticleComments()): ?>

@@ -106,12 +106,12 @@ class AjaxController extends Controller
         $entity   = array_pop($aEntity);
 
         $comments = Comments::model($entity);
-		if($template == 'newsAuthor'){
+		if($template != 'newsAuthor'){
 			$comments = $comments->findAllByAttributes(array('parent_id' => $id), array('order' => 'created_at ASC'));
 		} else {
-			$comments = $comments->findAllByAttributes(array('parent_id' => 0, 'entity_id' => $id), array('order' => 'created_at ASC'));
+			$comments = $comments->findAll(array('condition' => 'entity_id = :enId AND parent_id = 0', 'params' => array(':enId' => $id), 'order' => 'created_at ASC'));
 		}
-        
+		
         foreach ($comments as $comm) {
             $likes = Likes::model(get_class($comm))->findByPk($comm->id);
             if($likes){

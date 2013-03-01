@@ -209,17 +209,18 @@ class News extends EMongoDocument {
     }
 	
 	public static function pushCommentToAuthor($comment, $count, $new){
-        list($news, $entity) = News::_push($new->user_id, $comment->entity_id, get_class($new));
+        $name = array_pop(explode('_', get_class($comment)));
+		list($news, $entity) = News::_push($new->user_id, $comment->entity_id, $name);
+		
 		if(!$entity){       // если новая запись на стене
             $entity = new News_Entity();
             $entity->id = $new->id;
-            $entity->name = get_class($comment);
+            $entity->name = $name;
             $entity->created_at = $new->start_date;
             $entity->template = 'newsAuthor';
         }
 
         // эти параметры следовало бы обновить в любом случае
-        $name = array_pop(explode('_', get_class($comment)));
 
         $entity->link = self::getLink($name);
         $entity->entity_id = $comment->entity_id;

@@ -54,6 +54,7 @@ class UserController extends Controller
      */
     public function actionIndex()
     {
+		Yii::app()->notify->clearNotify(Yii::app()->user->id, 'wall');
         $id = Yii::app()->request->getParam('id', Yii::app()->user->id);
         if (!$id) {
             $this->redirect('/site/login');
@@ -315,7 +316,9 @@ class UserController extends Controller
             throw new CHttpException(404, Yii::t('Site', 'Upps! Такой страницы нету'));
         }
 		$news = array();
-		Yii::app()->authManager->assign(Users::$roles[$model->role], $model->id);
+		if($model->id != Yii::app()->user->id){
+			Yii::app()->authManager->assign(Users::$roles[$model->role], $model->id);
+		}
 		if(Yii::app()->authManager->checkAccess('author', $model->id)){
 			
 			$newsApi = Api_News_Author::model();
@@ -364,7 +367,9 @@ class UserController extends Controller
             throw new CHttpException(404, Yii::t('Site', 'Upps! Такой страницы нету'));
         }
 		$news = array();
-		Yii::app()->authManager->assign(Users::$roles[$model->role], $model->id);
+		if($model->id != Yii::app()->user->id){
+			Yii::app()->authManager->assign(Users::$roles[$model->role], $model->id);
+		}
 		if(Yii::app()->authManager->checkAccess('author', $model->id)){
 			
 			$articleApi = Api_Article_Author::model();
@@ -382,7 +387,7 @@ class UserController extends Controller
 			$criteria->addInCondition('entity_id', $ids);
 			$criteria->select = 'COUNT(entity_id) as cnt, entity_id';
 			
-			$comCnt = Comments_News::model()->findAll($criteria);
+			$comCnt = Comments_Article::model()->findAll($criteria);
 			foreach($comCnt as $comm){
 				$newsCntComments[$comm->entity_id] = $comm->cnt;
 			}

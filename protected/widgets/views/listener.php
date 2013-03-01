@@ -13,7 +13,7 @@
 						url: \'/listen?cid=\' + channelId,
 						data: {},
 						dataType: "html",
-						timeout: 25000,
+						timeout: 30000,
 						//complete: setTimeout(check_messages, 500)
 					}).done(function( r ) {
 						var obj = jQuery.parseJSON( r );
