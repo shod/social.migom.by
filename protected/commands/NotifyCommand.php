@@ -57,8 +57,10 @@ class NotifyCommand extends ConsoleCommand
         }
         $productInfo = get_object_vars($productInfo);
         foreach ($userForNotify as $userId => $products) {
-
             $user = Users::model()->findByPk($userId);
+			if($user->status != 1){
+				break;
+			}
             $mail = new Mail();
             foreach ($products as $product) {
                 News::pushPriceDown($user, $product, $productInfo[$product['product_id']]);
@@ -120,6 +122,9 @@ class NotifyCommand extends ConsoleCommand
         foreach ($userForNotify as $userId => $products) {
 
             $user = Users::model()->findByPk($userId);
+			if($user->status != 1){
+				break;
+			}
             $mail = new Mail();
             foreach ($products as $product) {
                 News::pushPriceDown($user, $product, $productInfo[$product['product_id']]);

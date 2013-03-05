@@ -53,10 +53,28 @@
         )); ?>
         <table>
             <caption><?= Yii::t('Profile', 'Редактирование профиля') ?></caption>
+			<?php if($model->status == 2): ?>
+			<tr>
+				<th></th>
+				<td><div style="background-color:rgb(250, 149, 130)"><?= Yii::t('Profile', 'Для завершения регистрации введите и подтвердите email'); ?></div></td>
+			</tr>
+			<?php endif; ?>
+			<?php if(!$model->email || $model->status == 2): ?>
+                <tr>
+                    <th><?php echo $form->label($model,'email'); ?>:</th>
+                    <td><?php echo $form->textField($model,'email'); ?><?php echo $form->error($model,'email'); ?></td>
+                </tr>
+                <tr>
+                    <th><?php echo $form->label($model,'reemail'); ?>:</th>
+                    <td><?php echo $form->textField($model,'reemail'); ?><?php echo $form->error($model,'reemail'); ?></td>
+
+                </tr>
+            <?php else: ?>
 			<tr>
                 <th><?php echo $form->label($model,'email'); ?>:</th>
                 <td><?php echo $form->textField($model,'email', array('disabled' => 'disabled', 'class' => '', 'id' => '')); ?></td>
             </tr>
+			<?php endif; ?>
             <tr>
                 <th><?php echo $form->label($model,'nickName'); ?>:</th>
                 <td><?php echo $form->textField($model,'login'); ?></td>
@@ -100,19 +118,6 @@
                 <th><?php echo $form->label($model->profile,'city_id'); ?>:</th>
                 <td><?php echo $form->dropDownList($model->profile,'city_id', CHtml::listData($regions, 'id', 'name'), array('class' => 'regions')); ?></td>
             </tr>
-            <?php if(!$model->email): ?>
-                <tr>
-                    <th><?php echo $form->label($model,'email'); ?>:</th>
-                    <td><?php echo $form->textField($model,'email'); ?><?php echo $form->error($model,'email'); ?></td>
-
-                </tr>
-                <tr>
-                    <th><?php echo $form->label($model,'reemail'); ?>:</th>
-                    <td><?php echo $form->textField($model,'reemail'); ?><?php echo $form->error($model,'reemail'); ?></td>
-
-                </tr>
-            <?php endif; ?>
-
         </table>
 
 <!--        <table class="collapsible">

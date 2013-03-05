@@ -55,7 +55,7 @@ return array(
         'urlFormat' => 'path',
         'showScriptName' => false,
         'rules' => array(
-		
+			'user/emailconfirm/<hash:\w{32}>' => '/user/emailconfirm',
             'api' => 'api/default/index',
             'ads' => 'ads/default/index',
 			'gii'=>'gii',
@@ -72,6 +72,8 @@ return array(
 			'messages' => 'messages/messages/index',
 			'messages/<action:\w+>/<id:\d+>' => 'messages/messages/<action>',
 			'messages/<action:\w+>' => 'messages/messages/<action>',
+			
+			
 
 			'<action:(login|logout)>' => 'site/<action>',
             '<controller:\w+>/<id:\d+>' => '<controller>/view',

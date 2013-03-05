@@ -58,6 +58,7 @@ class Users extends ActiveRecord
             array('email', 'unique', 'message' => 'Пользователь с таким email уже зарегистрирован'),
             array('status, date_add, date_edit', 'numerical', 'integerOnly' => true),
             array('login, email', 'length', 'max' => 255),
+			array('hash', 'length', 'max' => 32),
             array('password', 'length', 'max' => 32, 'min' => 6),
             array('repassword', 'compare', 'compareAttribute' => 'newpassword', 'on' => 'general_update', 'message' => Yii::t('Site', 'Введенные пароли не совпадают')),
             // The following rule is used by search().
@@ -147,6 +148,9 @@ class Users extends ActiveRecord
 
         return new CActiveDataProvider($this, array(
                     'criteria' => $criteria,
+					'pagination'=>array(
+						'pageSize'=>50,
+					),
                 ));
     }
 
@@ -158,9 +162,9 @@ class Users extends ActiveRecord
             $this->date_add  = time();
             $this->date_edit = $this->date_add;
             $this->password  = md5($this->password);
-            if ($this->scenario == 'regByApi') {
+            if ($this->scenario == 'regByApi' && $this->email) {
                 $this->status = array_search('active', self::$statuses);
-            } elseif ($this->scenario == 'simpleRegistration') {
+            } elseif ($this->scenario == 'simpleRegistration' || !$this->email) {
                 $this->status = array_search('noactive', self::$statuses);
             }
             if (!$this->login && $this->email) {
@@ -174,11 +178,10 @@ class Users extends ActiveRecord
             if (!$this->password) {
                 $this->password = $this->oldAttributes['password'];
             }
-            if ($this->oldAttributes['email']) {
+            if ($this->oldAttributes['email'] && $this->status == 1) {
                 $this->email = $this->oldAttributes['email'];
             } elseif($this->email){
-                $mail = new Mail();
-                $mail->send($this, 'registration', array(), true);
+				$this->sendEmailConfirm();
                 $this->status = 2;
             }
         }
@@ -259,5 +262,12 @@ class Users extends ActiveRecord
 			}
 		}
 		return $res;
+	}
+	
+	public function sendEmailConfirm(){
+		$mail = new Mail();
+		$this->hash = md5(crc32('eugen was here' . $this->id . $this->email . time()));
+		$mail->sendOnce($this, 'emailConfirm', array('hash' => $this->hash), true);
+		
 	}
 }

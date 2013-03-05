@@ -55,6 +55,7 @@ class SiteController extends Controller {
     public function actionError() {
         $this->layout = '';
         if ($error = Yii::app()->errorHandler->error) {
+//			d($error);
             if (Yii::app()->request->isAjaxRequest)
                 echo $error['message'];
             else
@@ -97,6 +98,10 @@ class SiteController extends Controller {
             if ($authIdentity->authenticate()) {
                 $identity = new EAuthUserIdentity($authIdentity);
 
+				if(!$identity->getAttribute('email')){
+					$authIdentity->redirectUrl = Yii::app()->params['socialBaseUrl'] . '/profile/edit';
+				}
+				
                 // successful authentication
                 if ($identity->authenticate()) {
                     Yii::app()->user->login($identity);

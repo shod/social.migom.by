@@ -5,7 +5,7 @@ return array(
         'routes' => array(
             array(
                 'class' => 'CFileLogRoute',
-                'levels' => 'trace',
+                'levels' => 'error, warning',
                 'enabled' => true,
             ),
 //            array(

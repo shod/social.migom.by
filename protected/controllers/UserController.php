@@ -39,7 +39,7 @@ class UserController extends Controller
                 'roles' => array('administrator')
             ),
             array('allow', // allow readers only access to the view file
-                'actions' => array('index', 'createUserAvatar', 'comments', 'authorNews', 'profile', 'authorArticle', 'commentsArticle'),
+                'actions' => array('index', 'createUserAvatar', 'comments', 'authorNews', 'profile', 'authorArticle', 'commentsArticle', 'emailConfirm'),
                 'users' => array('*')
             ),
             array('deny', // deny everybody else
@@ -54,6 +54,8 @@ class UserController extends Controller
      */
     public function actionIndex()
     {
+		//unset($_SESSION['898a4a95c11ad974731d81df320f7bd8__email']);
+		//d($_SESSION);
 		Yii::app()->notify->clearNotify(Yii::app()->user->id, 'wall');
         $id = Yii::app()->request->getParam('id', Yii::app()->user->id);
         if (!$id) {
@@ -158,7 +160,7 @@ class UserController extends Controller
 				}
 				$news->save();
 			}
-		
+			
             if(file_exists($model->getAvatarPath(true))){
                 if(copy($model->getAvatarPath(true), $model->getAvatarPath())){
                     UserService::clearTempAvatars($model->id);
@@ -186,6 +188,7 @@ class UserController extends Controller
         if (isset($_POST['Users'])) {
             $model->setScenario('general_update');
             $model->attributes = $_POST['Users'];
+
             if ($model->validate() && $model->save() && $success) {
                 $redirect = true;
             } else {
@@ -490,5 +493,17 @@ class UserController extends Controller
 		echo '<pre>';
 			print_r(Yii::app()->session->toArray());
 		echo '</pre>';
+	}
+	
+	public function actionEmailConfirm($hash){
+		$user = Users::model()->find('hash = :hash', array(':hash' => $hash));
+		if(!$user || $user->status == 3){
+			throw new CHttpException(400);
+		}
+		$user->status = 1;
+		$user->hash = '';
+		$user->save();
+		$this->redirect('/profile/edit');
+		Yii::app()->end();
 	}
 }
