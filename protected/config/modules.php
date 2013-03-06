@@ -20,6 +20,7 @@ return array(
 			'testmigomby' 	=> '93.125.53.103',
 			'migomby' 		=> '93.125.53.103',
 			'devmigomby' 	=> '178.172.181.139',
+			'test2migomby' 	=> '93.125.53.104',
         )
     ),
     'ads',

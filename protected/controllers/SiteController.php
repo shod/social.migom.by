@@ -32,7 +32,6 @@ class SiteController extends Controller {
     }
 
     public function actionIndex(){
-        echo 'test';
         Widget::create('header');
     }
 	
