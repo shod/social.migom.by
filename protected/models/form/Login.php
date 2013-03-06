@@ -10,7 +10,7 @@ class Form_Login extends CFormModel
 	public $email;
 	public $password;
 	public $shortSession;
-        public $userModel;
+    public $userModel;
 
 	private $_identity;
 

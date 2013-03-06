@@ -3,7 +3,7 @@
 ?>
 <?php foreach($news as $new): ?>
 	<div class="post">
-		<div class="related"><?= Yii::t('UserNews', 'title:News'); ?> <a href="<?= Yii::app()->params['migomBaseUrl'].'?news_id=' ?><?= $new->id ?>"><?= $new->title ; ?></a>
+		<div class="related"><?= Yii::t('UserNews', 'title:Article'); ?> <a href="<?= Yii::app()->params['migomBaseUrl'].'?article_id=' ?><?= $new->id ?>"><?= $new->title ; ?></a>
 		<? if($newsCntComments[$new->id] > 0): 
 			$titleCountComments = $newsCntComments[$new->id]." ".SiteService::getCorectWordsT('Site', 'comments', $newsCntComments[$new->id]);
 		?>
@@ -18,7 +18,7 @@
 			<?= CHtml::link(($model->profile->name) ? $model->profile->name : $model->login, array('/user/profile', 'id' => $model->id), array('class' => 'author')) ?>
 			<span class="date"><?= SiteService::getStrDate($new->start_date) ?></span>
 			<div class="body"><?= $new->anounce_text ?></div>
-			<?= CHtml::image(Yii::app()->params['staticBaseUrl'].'/img/news/'.$new->id.'/main-mini.jpg', $new->title); ?>
+			<?= CHtml::image(Yii::app()->params['staticBaseUrl'].'/img/articles/img$'.$new->id.'.jpg', $new->title); ?>
 		</div>
 	</div>
 <?php endforeach; ?>

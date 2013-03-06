@@ -27,6 +27,28 @@ class Mail extends CModel{
         return $queue->save();
     }
 	
+	public function sendOnce(Users $user, $template, $params = array(), $fast = false){
+        $criteria = new EMongoCriteria();
+        $criteria->addCond('what', '==', self::WORKER);
+        $criteria->addCond('user_id', '==', $user_id);
+
+		$queue = Queue::model()->find($criteria);
+		if(!$queue){
+			$queue = new Queue();
+		}
+        
+        if($fast){
+           $queue->priority = self::MAX_PRIORITY;
+        } else {
+            $queue->priority = self::MEDIUM_PRIORITY;
+        }
+        $queue->what = self::WORKER;
+        $params = array_merge($params, array('template' => $template));
+        $queue->user_id = $user->id;
+        $queue->param = $params;
+        return $queue->save();
+    }
+	
 	public function sendCommentsNotification($answerComment, $type, $entityTitle){
 		$queue = new Queue();
 		$queue->priority = self::MAX_PRIORITY;
