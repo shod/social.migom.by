@@ -82,11 +82,13 @@ class NotifyCommand extends ConsoleCommand
 
         $subscribers = Notify::model('Product')->findAll();
         foreach ($subscribers as $subscriber) {
-            $aProductId[$subscriber->product_id] = $subscriber->product_id;
+			//if($subscriber->product_id == 281761)
+				$aProductId[$subscriber->product_id] = $subscriber->product_id;
         }
-
-        $apiModel = new Api_Products();
+		
+		$apiModel = new Api_Products();
         $minPriceResponce = $apiModel->getCosts('min', array('id' => $aProductId));
+
         if (!$minPriceResponce || !is_array($minPriceResponce)) {
             $errors = $apiModel->getErrors();
 			$errors['message'] = 'noPriceResponce';
@@ -123,7 +125,7 @@ class NotifyCommand extends ConsoleCommand
 
             $user = Users::model()->findByPk($userId);
 			if($user->status != 1){
-				break;
+				continue;
 			}
             $mail = new Mail();
             foreach ($products as $product) {
