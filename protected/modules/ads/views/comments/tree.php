@@ -1,4 +1,4 @@
-<p style="color:blue; font-size:16px;"><?= CHtml::link('LinkNew', Yii::app()->params['migomBaseUrl'].'/?news_id='.$model->entity_id); ?></p>
+<p style="color:blue; font-size:16px;"><?= CHtml::link('LinkNew', Yii::app()->params['migomBaseUrl'].'/?'.Yii::app()->request->getParam('model').'_id='.$model->entity_id); ?></p>
 <?php if($model->parent): ?>
     <?php $this->renderPartial('popup/comment', array('model' => $model->parent)); ?>
 <?php endif; ?>

@@ -52,8 +52,8 @@ a img {border: 0}
 .post .actions .feedback .dislike:after {background-position: bottom}
 
 .post .related {text-transform: uppercase; line-height: 45px; color: #1c2530; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; padding-right: 25px; position: relative}
-.post .related a {text-transform: none; color: #777; margin-left: 5px; border: 0}
-.post .related a:hover {/*text-decoration:underline*/}
+.post .related a {text-transform: none; color: #777; margin-left: 5px; border: 0; text-decoration: underline;}
+.post .related a:hover {text-decoration:none}
 .post .related .close {top: 10px}
 .post:hover .related .close {display: block}
 

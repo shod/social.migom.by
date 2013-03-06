@@ -290,7 +290,9 @@ class UserController extends Controller
             throw new CHttpException(404, Yii::t('Site', 'Upps! Такой страницы нету'));
         }
 		$news = array();
-		Yii::app()->authManager->assign(Users::$roles[$model->role], $model->id);
+		if($model->id != Yii::app()->user->id){
+			Yii::app()->authManager->assign(Users::$roles[$model->role], $model->id);
+		}
 		if(Yii::app()->authManager->checkAccess('author', $model->id)){
 			
 			$newsApi = Api_News_Author::model();
