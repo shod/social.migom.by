@@ -13,15 +13,6 @@ return array(
     ),
     'api' => array(
         'keys' => array(
-<<<<<<< HEAD:protected/config/modules.php
-            'devel' => '86.57.245.247',
-            'test3migomby' => '178.172.181.139',
-            'migom' => '178.172.181.139',
-            'test' => '127.0.0.1',
-			'testmigomby' => '93.125.53.103',
-			'migomby' => '93.125.53.103',
-			'devmigomby' => '178.172.181.139',
-=======
             'devel' 		=> '86.57.245.247',
             'test3migomby' 	=> '178.172.181.139',
             'migom' 		=> '178.172.181.139',
@@ -30,7 +21,6 @@ return array(
 			'migomby' 		=> '93.125.53.103',
 			'devmigomby' 	=> '178.172.181.139',
 			'test2migomby' 	=> '93.125.53.104',
->>>>>>> 0b71d5e9450e32122c6f1f28872c303eee9138c7:protected/config/modules.php
         )
     ),
     'ads',

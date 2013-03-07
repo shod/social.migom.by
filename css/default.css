@@ -22,7 +22,7 @@ a img {border: 0}
 .navigation .options input {margin-right: 5px}
 .navigation .options input, .navigation .options span {vertical-align: middle}
 
-.navigation .current .heading {background: none repeat scroll 0 0 #F7F8FA}
+.navigation .current .heading {background: none repeat scroll 0 0 rgb(235, 238, 243)}
 .navigation .current .heading .title {font-weight: bold}
 .navigation .current .count {display: inline-block}
 .navigation .current .options {display: block}
@@ -123,7 +123,7 @@ a img {border: 0}
 .profile .info {float: right; clear: right; text-align: right; line-height: 16px; padding-top: 6px;}
 .profile .info + .info {margin-top: 16px}
 .profile .info strong {margin-top: 3px}
-.lenta-profile .online {color: #81B400;}
+.main.profile .online {color: #81B400;}
 .profile a {text-decoration:underline}
 .profile a:hover {text-decoration:none}
 .profile strong {display: block; font-weight: normal; margin-top: -5px;}
@@ -491,7 +491,7 @@ button::-moz-focus-inner {border: 0; padding: 0}
 }
 
 #central_block.messages .post:hover{
-	background: none repeat scroll 0 0 #F7F8FA;
+	background: none repeat scroll 0 0 rgb(235, 238, 243);
 	cursor: pointer;
 }
 
@@ -500,7 +500,7 @@ button::-moz-focus-inner {border: 0; padding: 0}
 }
 
 .messages .unread, #central_block .unread, #central_block .unreadMe{
-	background: none repeat scroll 0 0 #F7F8FA;
+	background: none repeat scroll 0 0 rgb(235, 238, 243);
 }
 
 #central_block .filters{

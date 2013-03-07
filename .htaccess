@@ -1,8 +1,5 @@
 Order Deny,Allow
-Deny from all
 #office migom
-Allow from 86.57.245.247
-Allow from 178.172.181.139
 
 RewriteEngine on
 #RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} !-f
