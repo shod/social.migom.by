@@ -22,7 +22,7 @@ a img {border: 0}
 .navigation .options input {margin-right: 5px}
 .navigation .options input, .navigation .options span {vertical-align: middle}
 
-.navigation .current .heading {background: none repeat scroll 0 0 #F7F8FA}
+.navigation .current .heading {background: none repeat scroll 0 0 rgb(235, 238, 243)}
 .navigation .current .heading .title {font-weight: bold}
 .navigation .current .count {display: inline-block}
 .navigation .current .options {display: block}
@@ -53,8 +53,8 @@ a img {border: 0}
 .post .actions .feedback .dislike:after {background-position: bottom}
 
 .post .related {text-transform: uppercase; line-height: 45px; color: #1c2530; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; padding-right: 25px; position: relative}
-.post .related a {text-transform: none; color: #777; margin-left: 5px; border: 0}
-.post .related a:hover {/*text-decoration:underline*/}
+.post .related a {text-transform: none; color: #777; margin-left: 5px; border: 0; text-decoration: underline;}
+.post .related a:hover {text-decoration:none}
 .post .related .close {top: 10px}
 .post:hover .related .close {display: block}
 
@@ -491,7 +491,7 @@ button::-moz-focus-inner {border: 0; padding: 0}
 }
 
 #central_block.messages .post:hover{
-	background: none repeat scroll 0 0 #F7F8FA;
+	background: none repeat scroll 0 0 rgb(235, 238, 243);
 	cursor: pointer;
 }
 
@@ -500,7 +500,7 @@ button::-moz-focus-inner {border: 0; padding: 0}
 }
 
 .messages .unread, #central_block .unread, #central_block .unreadMe{
-	background: none repeat scroll 0 0 #F7F8FA;
+	background: none repeat scroll 0 0 rgb(235, 238, 243);
 }
 
 #central_block .filters{

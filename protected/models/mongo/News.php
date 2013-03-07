@@ -253,8 +253,9 @@ class News extends EMongoDocument {
         return $news->save();
     }
 
-    public static function pushPriceDown($user, $product, $productInfo){
+    public static function pushProduct($user, $product, $productInfo, $template, $name){
         $name = 'price_down';
+		$template = 'priceDown';
         list($news, $entity) = News::_push($user->id, $product['product_id'], $name);
 
         if(!$entity){       // если новая запись на стене
@@ -271,8 +272,32 @@ class News extends EMongoDocument {
         $entity->title = $productInfo->title;
         $entity->image = $productInfo->image;
         $entity->cost = $product['cost'];
-//        $entity->text = '';
-        $entity->template = 'priceDown';
+        $entity->template = $template;
+
+        $news->entities[] = $entity;
+        return $news->save();
+    }
+	
+	public static function pushInSale($user, $product, $productInfo){
+        $name = 'in_sale';
+		$template = 'inSale';
+        list($news, $entity) = News::_push($user->id, $product['product_id'], $name);
+
+        if(!$entity){       // если новая запись на стене
+            $entity = new News_Entity();
+            $entity->id = $product['product_id'];
+            $entity->name = $name;
+            $entity->created_at = time();
+        }
+
+        // эти параметры следовало бы обновить в любом случае
+        $entity->link = self::getLink($name);
+        $entity->entity_id = $product['product_id'];
+        $entity->filter = $name;
+        $entity->title = $productInfo->title;
+        $entity->image = $productInfo->image;
+        $entity->cost = $product['cost'];
+        $entity->template = $template;
 
         $news->entities[] = $entity;
         return $news->save();

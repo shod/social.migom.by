@@ -336,6 +336,7 @@ class UserController extends Controller
 
 			$criteria=new CDbCriteria();
 			$criteria->group = 'entity_id';
+			$criteria->addCondition('status = 1');
 			$criteria->addInCondition('entity_id', $ids);
 			$criteria->select = 'COUNT(entity_id) as cnt, entity_id';
 			
