@@ -242,10 +242,10 @@ class News extends EMongoDocument {
         }
 		
 		// письмо "На Ваш комментарий ответили"
-		//if(!Yii::app()->cache->get('online_user_' . $parent->user_id) && !isset($news->disable_notify['comments_activity'])){
-		//	$mail = new Mail;
-		//	$mail->sendCommentsNotification($comment, 'News', $entity->title);
-		//}
+		if(!Yii::app()->cache->get('online_user_' . $parent->user_id) && !isset($news->disable_notify['comments_activity'])){
+			$mail = new Mail;
+			$mail->sendCommentsAuthorNotification($comment, 'News', $entity->title, $new->user_id);
+		}
 		Yii::app()->notify->sendUserNotify($new->user_id, 'wall');
 		//UserService::addNotification($parent->user_id);
 		

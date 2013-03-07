@@ -53,13 +53,11 @@
         )); ?>
         <table>
             <caption><?= Yii::t('Profile', 'Редактирование профиля') ?></caption>
-			<?php if($model->status == 2): ?>
-			<tr>
-				<th></th>
-				<td><div style="background-color:rgb(250, 149, 130)"><?= Yii::t('Profile', 'Для завершения регистрации введите и подтвердите email'); ?></div></td>
-			</tr>
-			<?php endif; ?>
 			<?php if(!$model->email || $model->status == 2): ?>
+				<tr>
+					<th></th>
+					<td><div style="background-color:rgb(250, 149, 130)"><?= Yii::t('Profile', 'Для завершения регистрации введите и подтвердите email'); ?></div></td>
+				</tr>
                 <tr>
                     <th><?php echo $form->label($model,'email'); ?>:</th>
                     <td><?php echo $form->textField($model,'email'); ?><?php echo $form->error($model,'email'); ?></td>

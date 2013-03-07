@@ -105,5 +105,26 @@ class Mail extends CModel{
             $this->send($user, $template, $params, $fast);
         }
     }
+	
+	public function sendCommentsAuthorNotification($answerComment, $type, $entityTitle, $authorId){
+		$user = Users::model()->findByPk($authorId);
+		$queue = new Queue();
+		$queue->priority = self::MAX_PRIORITY;
+		$queue->what = self::WORKER;
+		$queue->user_id = $authorId;
+        $params = array(
+				'template' => 'commentAuthorNotification',
+				'entityTitle' => $entityTitle,
+				'answerer' => ($answerComment->user->profile->name)? $answerComment->user->profile->name : $answerComment->user->login,
+				'answerer_id' => $answerComment->user->id,
+				'answerText' => $answerComment->text,
+				'time' => $answerComment->created_at,
+				'link' => News::getLink($type).$answerComment->entity_id,
+				'comment_id' => $answerComment->id,
+			);
+		
+        $queue->param = $params;
+		return $queue->save();
+	}
     
 }
