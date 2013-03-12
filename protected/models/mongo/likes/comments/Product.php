@@ -1,6 +1,6 @@
 <?php
 
-class Likes_Comments_Article extends Likes
+class Likes_Comments_Product extends Likes
 {
 
     /**

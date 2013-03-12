@@ -131,6 +131,29 @@ class News extends EMongoDocument {
         $news->save();
     }
 
+	private static function _getEntityInfo($name, $id){
+		try {
+			$model = ERestDocument::model($name);
+			switch ($name) {
+				case 'Product':
+					$apiRes = $model->getInfo('attr', array('id' => array($id), 'list' => array('title', 'url', 'image'), 'image_size' => 'small'));
+					if(!$apiRes){
+						throw new exeption('ERROR CONNECTION to: ' . $name);
+					}
+					$api = $apiRes->$id;
+					break;
+				default:
+					$api = $model->findByPK($id);
+			}
+        } catch (Exception $exc) {
+			Yii::log('ERROR CONNECTION -  ' . $exc->getMessage(), 'api');
+            $api = new stdClass();
+            $api->title = $name;
+        }
+		return $api;
+	
+	}
+	
     /**
      * Смотри News_Entity
      * @param type $user_id     - Юзер чей коммент
@@ -147,13 +170,14 @@ class News extends EMongoDocument {
         $parent = $comment->parent;
 		
         list($news, $entity) = News::_push($parent->user_id, $parent->id, get_class($parent));
-	
+		
+		$name = array_pop(explode('_', get_class($parent)));
         if(!$entity){       // если новая запись на стене
             $entity = new News_Entity();
             $entity->id = $parent->id;
             $entity->name = get_class($parent);
             $entity->created_at = $parent->created_at;
-            $entity->template = 'news';
+            $entity->template = self::getTemplate($name);
         }
 		
 //        $criteria = new EMongoCriteria();
@@ -168,16 +192,10 @@ class News extends EMongoDocument {
             $entity->dislikes->users = $userLikes['dislikesUsers'];
         }
 
-        // эти параметры следовало бы обновить в любом случае
-        $name = array_pop(explode('_', get_class($parent)));
-        try {
-			$api = ERestDocument::model($name)->findByPK($comment->entity_id);
-        } catch (Exception $exc) {
-			Yii::log('ERROR CONNECTION -  ' . $exc->getMessage(), CLogger::LEVEL_ERROR, 'api_client');
-            $api = new stdClass();
-            $api->title = $name;
-        }
 
+		$api = self::_getEntityInfo($name, $comment->entity_id);
+        // эти параметры следовало бы обновить в любом случае
+        
         $entity->link = self::getLink($name);
         $entity->entity_id = $comment->entity_id;
         $entity->filter = 'comment';
@@ -267,9 +285,29 @@ class News extends EMongoDocument {
 			case 'Article':
                 return Yii::app()->params['migomBaseUrl'].'?article_id=';
                 break;
+			
+			case 'Product':
+                return Yii::app()->params['migomBaseUrl'].'/';
+                break;
 				
             case 'price_down':
                 return Yii::app()->params['migomBaseUrl'];
+                break;
+
+            default:
+                break;
+        }
+    }
+	
+	public static function getTemplate($name){
+        switch ($name) {
+			case 'Product':
+                return 'product';
+                break;
+            case 'News':
+			case 'Article':
+            case 'price_down':
+                return 'news';
                 break;
 
             default:
@@ -291,13 +329,14 @@ class News extends EMongoDocument {
      */
     public static function pushLike($comment, $likes){
         list($news, $entity) = News::_push($comment->user_id, $comment->id, get_class($comment));
-
+		
+		$name = array_pop(explode('_', get_class($comment)));
         if(!$entity){       // если новая запись на стене
             $entity = new News_Entity();
             $entity->id = $comment->id;
             $entity->name = get_class($comment);
             $entity->created_at = $comment->created_at;
-            $entity->template = 'news';
+            $entity->template = self::getTemplate($name);
         }
 
         $userLikes = self::_setLikesUsers($likes);
@@ -305,25 +344,21 @@ class News extends EMongoDocument {
         $entity->likes->users = $userLikes['likesUsers'];
         $entity->dislikes->count = $likes->dislikes;
         $entity->dislikes->users = $userLikes['dislikesUsers'];
-
-        $name = array_pop(explode('_', get_class($comment)));
-        try {
-            $api = ERestDocument::model($name)->findByPK($comment->entity_id);
-        } catch (Exception $exc) {
-            $api = new stdClass();
-            $api->title = 'ERROR CONNECTION';
-        }
-
-
+		
+		Yii::log('name ' . $name, 'api');
+        
+        $api = self::_getEntityInfo($name, $comment->entity_id);
+		
         // эти параметры следовало бы обновить в любом случае
 		$entity->link = self::getLink($name);
 		$entity->entity_id = $comment->entity_id;
         $entity->filter = 'comment';
         $entity->text = $comment->text;
-        $entity->title = ($api?$api->title:'');
-        $entity->template = 'news';
+		$entity->title = ($api?$api->title:'');
+        $entity->template = self::getTemplate($name);
         $news->entities[] = $entity;
         $news->save();
+		Yii::log('save', 'api');
         self::_updateChildLikes($comment, $likes);
 		
 		$criteria = new EMongoCriteria();

@@ -4,7 +4,7 @@ return array(
         'class' => 'CLogRouter',
         'routes' => array(
             array(
-                'class' => 'CFileLogRoute',
+                'class' => 'core.components.loging.QFileLogRoute',
                 'levels' => 'error, warning, info, api',
                 'enabled' => true,
             ),

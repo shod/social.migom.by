@@ -10,6 +10,9 @@ return array(
     'migom'         => require(dirname(__FILE__) . '/components/migom.php'),
 	'tags'          => require(dirname(__FILE__) . '/components/tags.php'),
     'log'           => require(dirname(__FILE__) . '/components/log.php'),
+	'notify' => array(
+		'class' => 'core.components.QUserNotify',
+	),
     'image' => array(
         'class' => 'core.extensions.image.CImageComponent',
         // GD or ImageMagick

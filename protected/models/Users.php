@@ -205,9 +205,11 @@ class Users extends ActiveRecord
         $count = Yii::app()->cache->get('comments_count_user_' . $this->id);
         if (!$count) {
             $count = Comments_News::model()->count('user_id = :user_id', array(':user_id' => $this->id));
+			$count += Comments_Product::model()->count('user_id = :user_id', array(':user_id' => $this->id));
+			$count += Comments_Article::model()->count('user_id = :user_id', array(':user_id' => $this->id));
             Yii::app()->cache->set('comments_count_user_' . $this->id, $count, 60 * 10);
         }
-        return $count;
+		return $count;
     }
 
     public function getAvatarPath($temp = false){
