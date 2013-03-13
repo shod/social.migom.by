@@ -104,6 +104,16 @@ class MessagesController extends Controller
 				// TODO - прекратить генерацию страницы пользователю
 				MessageService::sendMessageToUserMessages($id, $params, Yii::app()->user->id);
 				MessageService::sendMessageToMyMessages(Yii::app()->user->id, $params, $id);
+				
+				$criteria = new EMongoCriteria();
+				$criteria->addCond('user_id', '==', $user_id);
+
+				$news = News::model()->find($criteria);
+				
+				if(!Yii::app()->cache->get('online_user_' . $modelTo->user_id) && !isset($news->disable_notify['messages_activity'])){
+					$mail = new Mail;
+					$mail->sendMessageNotify($modelTo, $textModel->text);
+				}
 			}
 			Yii::app()->end(); // END PAGE!!
 		}

@@ -149,7 +149,7 @@ class UserController extends Controller
         if (isset($_POST['Users_Profile'])) 
 		{
 			
-			$notifyParams = array('comments_activity', 'all_activity');
+			$notifyParams = array('comments_activity', 'all_activity', 'messages_activity');
 			if($news){
 				foreach($notifyParams as $notifyParam){
 					if(Yii::app()->request->getParam($notifyParam)){

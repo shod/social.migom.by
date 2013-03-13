@@ -57,12 +57,31 @@ class Mail extends CModel{
         $params = array(
 				'template' => 'commentNotification',
 				'entityTitle' => $entityTitle,
-				'answerer' => ($answerComment->user->profile->name)? $answerComment->user->profile->name : $answerComment->user->login,
+				'answerer' => $answerComment->user->fullName,
 				'answerer_id' => $answerComment->user->id,
 				'answerText' => $answerComment->text,
 				'time' => $answerComment->created_at,
 				'link' => News::getLink($type).$answerComment->entity_id,
 				'comment_id' => $answerComment->id,
+			);
+		
+        $queue->param = $params;
+		return $queue->save();
+	}
+	
+	public function sendMessageNotify($modelTo, $text){
+		$queue = new Queue();
+		
+		$queue->priority = self::MAX_PRIORITY;
+		$queue->what = self::WORKER;
+		$queue->user_id = $modelTo->user_id;
+        $params = array(
+				'template' => 'messageNotification',
+				'text' => $text,
+				'sender' => $modelTo->sender->fullName,
+				'sender_id' => $modelTo->sender_id,
+				'time' => $modelTo->textTable->created_at,
+				'link' => Yii::app()->params['socialBaseUrl'].'/messages/send/'.$modelTo->sender_id,
 			);
 		
         $queue->param = $params;
