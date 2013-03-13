@@ -177,6 +177,10 @@
                 <th><?php echo CHtml::checkbox('all_activity', isset($news->disable_notify['all_activity'])); ?></th>
                 <td class="checkbox_info"><?php echo CHtml::label(Yii::t('Profile', 'Отключить ежедневные уведомления о полезности комментариев'), 'all_activity'); ?></td>
             </tr>
+			<tr>
+                <th><?php echo CHtml::checkbox('messages_activity', isset($news->disable_notify['messages_activity'])); ?></th>
+                <td class="checkbox_info"><?php echo CHtml::label(Yii::t('Profile', 'Отключить уведомления о личных сообщениях'), 'messages_activity'); ?></td>
+            </tr>
         </table>
 
         <div class="buttons">

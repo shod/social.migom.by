@@ -3,7 +3,7 @@
 return array(
         'class' => 'EMongoDB',
         'connectionString' => 'mongodb://localhost',
-        'dbName' => 'socialmigomtest2',
+        'dbName' => 'socialmigom',
         'fsyncFlag' => false,
         'safeFlag' => false,
         'useCursor' => false

@@ -21,6 +21,7 @@ $this->breadcrumbs=array(
 
 <?php $this->widget('zii.widgets.grid.CGridView', array(
 	'dataProvider'=>$model->search(),
+	'ajaxUpdate' => true,
 	'filter'=>$model,
     'cssFile'=>$this->module->assetsUrl.'/css/styles-admin.css',
 	'columns'=>array(
