@@ -39,5 +39,28 @@ class Notify_Product_Cost extends Notify_Product
             array('product_id, cost, user_id', 'required'),
         );
     }
+	
+	public function search()
+    {
+        // Warning: Please modify the following code to remove attributes that
+        // should not be searched.
+        $criteria = new CDbCriteria;
+
+		$criteria = new CDbCriteria;
+		$criteria->together = true;
+		$criteria->with = 'user';
+		$criteria->compare('user.email', $this->userName, true);
+        $criteria->compare('id', $this->id);
+        $criteria->compare('user_id', $this->user_id);
+        $criteria->compare('product_id', $this->product_id);
+		$criteria->compare('cost', $this->cost);
+
+        return new CActiveDataProvider($this, array(
+                    'criteria' => $criteria,
+					'pagination'=>array(
+						'pageSize'=>50,
+					),
+                ));
+    }
 
 }
