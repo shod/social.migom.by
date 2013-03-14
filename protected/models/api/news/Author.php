@@ -6,6 +6,7 @@ class Api_News_Author extends ERestDocument
     public $title;
 	public $start_date;
 	public $anounce_text;
+	public $user_id;
 
 
     public function getCollectionName()

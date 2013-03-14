@@ -75,7 +75,6 @@ class News extends EMongoDocument {
             }
         }
 
-
         return array($news, $entity);
     }
 
@@ -220,14 +219,61 @@ class News extends EMongoDocument {
 			$mail = new Mail;
 			$mail->sendCommentsNotification($comment, 'News', $entity->title);
 		}
-		UserService::addNotification($parent->user_id);
+		Yii::app()->notify->sendUserNotify($parent->user_id, 'wall');
+		//UserService::addNotification($parent->user_id);
 
         $news->entities[] = $entity;
         return $news->save();
     }
+	
+	public static function pushCommentToAuthor($comment, $count, $new){
+        $name = array_pop(explode('_', get_class($comment)));
+		list($news, $entity) = News::_push($new->user_id, $comment->entity_id, $name);
+		
+		if(!$entity){       // если новая запись на стене
+            $entity = new News_Entity();
+            $entity->id = $new->id;
+            $entity->name = $name;
+            $entity->created_at = $new->start_date;
+            $entity->template = 'newsAuthor';
+        }
 
-    public static function pushPriceDown($user, $product, $productInfo){
+        // эти параметры следовало бы обновить в любом случае
+
+        $entity->link = self::getLink($name);
+        $entity->entity_id = $comment->entity_id;
+        $entity->filter = 'comment';
+        $entity->title = $new->title;
+        $entity->text = $new->anounce_text;
+        $entity->template = 'newsAuthor';
+        $entity->comment->count = $count;
+        $entity->comment->user_id = $comment->user_id;
+		$entity->comment->text = $comment->text;
+		$entity->comment->created_at = $comment->created_at;
+        $entity->comment->login = $comment->user->login;
+        $entity->comment->id = $comment->id;
+
+        $likesModel = Likes::model(get_class($comment))->findByPk($comment->id);
+        if($likesModel){
+            $entity->comment->likes->count = $likesModel->likes;
+            $entity->comment->dislikes->count = $likesModel->dislikes;
+        }
+		
+		// письмо "На Ваш комментарий ответили"
+		if(!Yii::app()->cache->get('online_user_' . $parent->user_id) && !isset($news->disable_notify['comments_activity'])){
+			$mail = new Mail;
+			$mail->sendCommentsAuthorNotification($comment, 'News', $entity->title, $new->user_id);
+		}
+		Yii::app()->notify->sendUserNotify($new->user_id, 'wall');
+		//UserService::addNotification($parent->user_id);
+		
+        $news->entities[] = $entity;
+        return $news->save();
+    }
+
+    public static function pushProduct($user, $product, $productInfo, $template, $name){
         $name = 'price_down';
+		$template = 'priceDown';
         list($news, $entity) = News::_push($user->id, $product['product_id'], $name);
 
         if(!$entity){       // если новая запись на стене
@@ -244,8 +290,32 @@ class News extends EMongoDocument {
         $entity->title = $productInfo->title;
         $entity->image = $productInfo->image;
         $entity->cost = $product['cost'];
-//        $entity->text = '';
-        $entity->template = 'priceDown';
+        $entity->template = $template;
+
+        $news->entities[] = $entity;
+        return $news->save();
+    }
+	
+	public static function pushInSale($user, $product, $productInfo){
+        $name = 'in_sale';
+		$template = 'inSale';
+        list($news, $entity) = News::_push($user->id, $product['product_id'], $name);
+
+        if(!$entity){       // если новая запись на стене
+            $entity = new News_Entity();
+            $entity->id = $product['product_id'];
+            $entity->name = $name;
+            $entity->created_at = time();
+        }
+
+        // эти параметры следовало бы обновить в любом случае
+        $entity->link = self::getLink($name);
+        $entity->entity_id = $product['product_id'];
+        $entity->filter = $name;
+        $entity->title = $productInfo->title;
+        $entity->image = $productInfo->image;
+        $entity->cost = $product['cost'];
+        $entity->template = $template;
 
         $news->entities[] = $entity;
         return $news->save();
@@ -370,7 +440,8 @@ class News extends EMongoDocument {
 		} else {
 			Mail::deleteActivityNotification($comment->user_id);
 		}
-		UserService::addNotification($comment->user_id);
+		Yii::app()->notify->sendUserNotify($comment->user_id, 'wall');
+		//UserService::addNotification($comment->user_id);
         return true;
     }
 

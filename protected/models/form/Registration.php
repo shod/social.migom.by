@@ -70,6 +70,7 @@ class Form_Registration extends CFormModel
                 $user = new Users('regByApi');
                 $user->password = $pass;
                 $user->setAttributes($identity->getAttributes(), false);
+				$user->login = $identity->getAttribute('login');
                 if($user->save()){
                     $identity->setId($user->id);
                     $profile = new Users_Profile();

@@ -1,6 +1,6 @@
 <div class="auth form">
 	<div class="logo"></div>
-	<p><?= Yii::t('Login', 'Привяжите свой аккаунт из социальных сетей'); ?></p>
+	<p><?= Yii::t('Login', 'Войти через:'); ?></p>
 
 	<div class="social">
 		<div class="hint"><?= Yii::t('Login', 'Вход и регистрация<br> в 3 клика'); ?></div>

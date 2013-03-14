@@ -32,7 +32,6 @@ class SiteController extends Controller {
     }
 
     public function actionIndex(){
-        echo 'test';
         Widget::create('header');
     }
 	
@@ -55,6 +54,7 @@ class SiteController extends Controller {
     public function actionError() {
         $this->layout = '';
         if ($error = Yii::app()->errorHandler->error) {
+//			d($error);
             if (Yii::app()->request->isAjaxRequest)
                 echo $error['message'];
             else
@@ -96,13 +96,17 @@ class SiteController extends Controller {
 
             if ($authIdentity->authenticate()) {
                 $identity = new EAuthUserIdentity($authIdentity);
-
+				
                 // successful authentication
                 if ($identity->authenticate()) {
                     Yii::app()->user->login($identity);
                     if($identity->addNewSocial){
                         Users_Providers::addSocialToUser($identity, Yii::app()->user->getId());
                     }
+					
+					if(!Yii::app()->user->email){
+						$authIdentity->redirectUrl = Yii::app()->params['socialBaseUrl'] . '/profile/edit';
+					}
 
                     // special redirect with closing popup window
                     $authIdentity->redirect();

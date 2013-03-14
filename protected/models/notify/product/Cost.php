@@ -9,12 +9,8 @@
  * @property integer $provider_id
  * @property integer $soc_id
  */
-class Notify_Product_Cost extends Notify
+class Notify_Product_Cost extends Notify_Product
 {
-
-    public $id;
-    public $product_id;
-    public $user_id;
     public $cost;
 
     public function tableName()

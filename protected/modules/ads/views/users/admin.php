@@ -20,16 +20,15 @@ $this->breadcrumbs=array(
 </p>
 
 <?php $this->widget('zii.widgets.grid.CGridView', array(
-	'id'=>'users-grid',
 	'dataProvider'=>$model->search(),
 	'filter'=>$model,
-        'cssFile'=>$this->module->assetsUrl.'/css/styles-admin.css',
+    'cssFile'=>$this->module->assetsUrl.'/css/styles-admin.css',
 	'columns'=>array(
                 array(
 //                    'name' => '',
                     'type' => 'html',
-                    'value' => 'CHtml::image("/images/users/".$data->id."/avatar_100x100.jpg")',
-                    'htmlOptions' => array('width' => '50px', 'height' => '50px'),
+                    'value' => 'CHtml::image("/images/users/".$data->id."/avatar_30x30.jpg")',
+                    'htmlOptions' => array('width' => '20px', 'height' => '20px'),
                 ),
                 array(
                     'name' => 'id',

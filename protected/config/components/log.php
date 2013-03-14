@@ -5,7 +5,7 @@ return array(
         'routes' => array(
             array(
                 'class' => 'core.components.loging.QFileLogRoute',
-                'levels' => 'error, warning, info, api',
+                'levels' => 'error, warning, info, api, mysql',
                 'enabled' => true,
             ),
 //            array(

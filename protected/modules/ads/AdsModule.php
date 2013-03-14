@@ -6,7 +6,7 @@ class AdsModule extends CWebModule
 
         public $ipFilters;
         public $urlRules = array(
-            'ads/comments/<model:(news)>'=>'ads/comments/list',
+            'ads/comments/<model:(news|article|product)>'=>'ads/comments/list',
         );
 
         public function getAssetsUrl()

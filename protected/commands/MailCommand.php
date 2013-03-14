@@ -3,6 +3,7 @@
 class MailCommand extends ConsoleCommand {
 
     public function actionSend($user_id, $template) {
+	
         $user = Users::model()->findByPk($user_id);
         if(!$user || !$user->email){
             $errors = array('message' => 'User not found or empty email');
@@ -15,6 +16,7 @@ class MailCommand extends ConsoleCommand {
 //        } else {
             $mailer->IsMail();
 //        }
+		
 		
 		$mailer->ClearAddresses();
 		$mailer->AddAddress($user->email);
