@@ -203,25 +203,29 @@ class Users extends ActiveRecord
         $this->save();
         return true;
     }
-
+	
+	private function _getCountComments($entity){
+		$count = Yii::app()->cache->get('comments_count_user_' . $entity . $this->id);
+        if (!$count) {
+            $count = Comments::model($entity)->count('user_id = :user_id', array(':user_id' => $this->id));
+            Yii::app()->cache->set('comments_count_user_' . $entity . $this->id, $count, 60 * 10);
+        }
+		return $count;
+	}
+	
     public function getCountNewsComments()
     {
-        $count = Yii::app()->cache->get('comments_news_count_user_' . $this->id);
-        if (!$count) {
-            $count = Comments_News::model()->count('user_id = :user_id', array(':user_id' => $this->id));
-            Yii::app()->cache->set('comments_news_count_user_' . $this->id, $count, 60 * 10);
-        }
-        return $count;
+        return $this->_getCountComments('News');
     }
 	
 	public function getCountArticleComments()
     {
-        $count = Yii::app()->cache->get('comments_article_count_user_' . $this->id);
-        if (!$count) {
-            $count = Comments_Article::model()->count('user_id = :user_id', array(':user_id' => $this->id));
-            Yii::app()->cache->set('comments_article_count_user_' . $this->id, $count, 60 * 10);
-        }
-        return $count;
+        return $this->_getCountComments('Article');
+    }
+	
+	public function getCountProductComments()
+    {
+        return $this->_getCountComments('Product');
     }
 
     public function getAvatarPath($temp = false){
