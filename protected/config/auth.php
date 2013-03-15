@@ -36,7 +36,6 @@ return array(
         'description' => 'Administrator',
 		'children' => array(
             'moderator', 
-
 			'author',
         ),
         'bizRule' => null,
