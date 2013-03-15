@@ -154,7 +154,25 @@ class CommentsController extends ERestController
 			$count = Comments::model($entity)->count('parent_id = :parent_id', array(':parent_id' => $comment->parent_id));
 			if($comment->parent){
                 News::pushComment($comment, $count);
-            }
+            }else{
+					switch($entity){
+						case 'news':
+							$apiModel = Api_News_Author::model();
+							break;
+						case 'article':
+							$apiModel = Api_Article_Author::model();
+							break;
+						default:
+							$apiModel = Api_News_Author::model();
+					}
+					// find the new in view(view have not news without aothor)
+					$new = $apiModel->find('id = :id', array(':id' => $comment->entity_id));
+					if($new){
+						$count = $comment::model()->count('entity_id = :eId AND parent_id = 0', array(':eId' => $comment->entity_id));
+						News::pushCommentToAuthor($comment, $count, $new);
+					}
+				
+			}
 		    $content = array(self::CONTENT_COMMENT => $comment->attributes);
             $this->render()->sendResponse($content);
         } else {

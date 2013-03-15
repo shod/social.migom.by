@@ -105,7 +105,7 @@ class LikesController extends ERestController
                 $likes->entity_id = $entity_id;
             }
         } catch (Exception $exc) {
-            throw new ERestException(Yii::t('Likes', "Entity '{entity}' is not exist", array('{entity}' => $model)));
+            throw new ERestException(Yii::t('Likes', "Entity '{entity}' is not exist", array('{entity}' => $entity)));
         }
 		
 		if($isNew){

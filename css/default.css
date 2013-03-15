@@ -14,7 +14,7 @@ a img {border: 0}
 .navigation .heading > * {display: inline-block; line-height: normal}
 .navigation .heading .title {font-size: 15px; font-family: arial; color: #000;text-decoration:underline}
 .navigation .heading .title:hover {text-decoration:none}
-.navigation .heading .count {display: none; color: #fff; background-color: #09c; padding: 1px 4px}
+.navigation .heading .count {color: #fff; background-color: #09c; padding: 1px 4px}
 .navigation .heading:after {content: ""; display: inline-block; width: 100%}
 
 .navigation .options {padding-left:26px;display: none; line-height: 25px; padding-top: 5px; padding-bottom: 10px}
@@ -22,7 +22,7 @@ a img {border: 0}
 .navigation .options input {margin-right: 5px}
 .navigation .options input, .navigation .options span {vertical-align: middle}
 
-.navigation .current .heading {background-color: #fafbfc}
+.navigation .current .heading {background: none repeat scroll 0 0 rgb(235, 238, 243)}
 .navigation .current .heading .title {font-weight: bold}
 .navigation .current .count {display: inline-block}
 .navigation .current .options {display: block}
@@ -32,6 +32,7 @@ a img {border: 0}
 .wall {margin-top:-7px;margin-left: 210px; border-left: 1px solid #dcdcdc}
 .wall .close {display: none; position: absolute; right: 0; top: 0; width: 25px; height: 25px; background-image: url(/images/close.png); cursor: pointer}
 .wall .show-more {display: block; text-align: center; color: #777; line-height: 26px; background-color: #f6f8fa; cursor: pointer}
+.wall .show-nomore {display: block; text-align: center; color: #777; line-height: 26px; background-color: #f6f8fa}
 .wall .show-more:hover span {text-decoration:underline}
 .wall > .show-more {margin-top: 20px}
 .wall .show-more .wait { background: url("/images/wait.gif") no-repeat scroll 0 0 transparent; margin: 0 0 0 10px; padding-left: 14px; vertical-align: baseline; display: none;}
@@ -52,8 +53,8 @@ a img {border: 0}
 .post .actions .feedback .dislike:after {background-position: bottom}
 
 .post .related {text-transform: uppercase; line-height: 45px; color: #1c2530; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; padding-right: 25px; position: relative}
-.post .related a {text-transform: none; color: #777; margin-left: 5px; border: 0}
-.post .related a:hover {/*text-decoration:underline*/}
+.post .related a {text-transform: none; color: #777; margin-left: 5px; border: 0; text-decoration: underline;}
+.post .related a:hover {text-decoration:none}
 .post .related .close {top: 10px}
 .post:hover .related .close {display: block}
 
@@ -120,14 +121,14 @@ a img {border: 0}
 .profile .summary .name {float: left; font-size: 11px}
 .profile .summary .name strong,  .profile .summary .name strong a {font: bold 25px arial;color:#000}
 .profile .info {float: right; clear: right; text-align: right; line-height: 16px; padding-top: 6px;}
-.profile .info + .info {margin-top: 10px}
+.profile .info + .info {margin-top: 16px}
 .profile .info strong {margin-top: 3px}
-.profile .name .online {color: #81B400;}
+.main.profile .online {color: #81B400;}
 .profile a {text-decoration:underline}
 .profile a:hover {text-decoration:none}
 .profile strong {display: block; font-weight: normal; margin-top: -5px;}
 .profile table, .profile input, .profile select {font-size: 13px; font-family: arial}
-.profile table {width: 100%; border-collapse: collapse; table-layout: fixed; margin-top: -41px}
+.profile table {width: 100%; border-collapse: collapse; table-layout: fixed}
 .profile table caption {font-size: 15px; line-height: 30px; border-bottom: 1px solid #ebebeb; text-align: left; margin-bottom: 10px; padding-top: 10px}
 .profile table th, .profile table td {line-height: 28px; padding: 0}
 .profile table th {font-weight: normal; text-align: right; width: 130px; padding-right: 20px}
@@ -170,7 +171,7 @@ a img {border: 0}
 .profile .collapsible.expanded caption span {border-color: #1c2530}
 .profile .collapsible.expanded caption p {padding-right:10px;display:inline;background:url(../images/arr-up.png) no-repeat right 10px;}
 
-.profile .buttons, .profile table caption {margin-left: 150px}
+.profile .buttons, .profile table caption span {margin-left: 150px}
 .profile .buttons {margin-top: 40px;}
 .profile .buttons button {margin-right:20px;display:inline}
 .profile .buttons .cancel-link {display:inline}
@@ -283,3 +284,247 @@ button {font-size: 15px; border: 1px solid #a6b0b7; box-shadow: inset 0 0 1px #f
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fff5a3', endColorstr='#fccc42',GradientType=0 );
 }
 button::-moz-focus-inner {border: 0; padding: 0}
+
+.clearfix:before,  
+.clearfix:after {  
+    content: " ";  
+    display: table;  
+}  
+.clearfix:after {  
+    clear: both;  
+}  
+/* For IE 6/7 only */  
+.clearfix {  
+    *zoom: 1;  
+}
+
+.central_block_noBorders .post{
+	border: 0 none;
+}
+
+.post{
+	padding-top: 15px;
+	padding-bottom: 15px;
+}
+
+.post-extras{
+	/*margin-left: -10px;*/
+	margin-right: 10px;
+	margin-top: 10px;
+	padding-left: 10px;
+	padding-top: 7px;
+	padding-bottom: 7px;
+}
+
+
+.message-extras{
+	margin-left: 40px;
+}
+.message-extras .avatar img{
+	width: 30px;
+	margin-left: 0px;
+	height: auto;
+}
+.post .message-extras .body{
+	margin-top: 3px!important;
+	margin-bottom: 0px!important;
+}
+
+
+.post .message-extras > .avatar {
+    left: -40px!important;
+    max-width: 50px;
+    position: absolute;
+    top: 3px;
+}
+
+.goto-dialog{
+	display: inline-block;
+	width: 100%;
+	padding-top: 6px;
+	padding-bottom: 6px;
+	text-align: center;
+	background: #f6f8fa;
+	color: #777!important;
+	font: 11px Arial;
+}
+
+#post-form{
+	padding-top: 17px;
+	border-top: 1px solid #ebebeb!important;
+}
+#post-form textarea{
+	margin-top: 3px;
+	margin-bottom: 9px;
+	width: 380px;
+	height: 75px;
+}
+#post-form button, #post-form input[type=button], #post-form input[type=submit]{
+	margin-left: 0;
+}
+
+.messages-breadcrumbs + #post-form{
+	border: 0 none!important;
+}
+
+.messages-breadcrumbs{
+	padding: 6px 10px;
+	/*margin-bottom: 17px;*/
+	font-family: Arial;
+	font-size: 13px;
+	color: #777;
+	border-bottom: 1px solid #f5f5f5;
+}
+.messages-breadcrumbs #dialog-delete, .messages-breadcrumbs #dialog-cancel{
+	float: right;
+}
+.messages-breadcrumbs a{
+	color: #3a5f85;
+}
+
+.messages-breadcrumbs .author {
+    color: #1C2530;
+    font-weight: bold;
+}
+.messages-breadcrumbs .arrow{
+	color: #bbb;
+	padding: 0 5px;
+}
+
+.lenta-profile{
+	padding-left: 29px;
+}
+
+
+.lenta-profile-head-links {
+    display: inline-block;
+    height: 100px;
+	padding-left: 20px;
+    position: relative;
+    top: -6px;
+    vertical-align: top;
+}
+
+
+.lenta-profile-head-links .row_name {
+    font: bold 25px Arial;
+    padding-bottom: 4px;
+}
+.lenta-profile-head-links .row_name a{
+	color: #1C2530;
+}
+
+
+.lenta-profile-head-links .row_edit {
+	color: #777;
+    font: 11px Tahoma;
+    padding-bottom: 28px;
+}
+.lenta-profile-head-links .row_edit a {
+	color: #777;
+	text-decoration: underline;
+}
+.lenta-profile-head-links .row_edit a:hover {
+	text-decoration: none;
+}
+
+
+.lenta-profile-head-links button, .lenta-profile-head-links input[type=button]{
+ 	margin-left: 0;
+}
+
+
+.lenta-profile-head-info{
+	float: right;
+	/*display: inline-block;*/
+	vertical-align: top;
+	text-align: right;
+	color: #777;
+}
+.lenta-profile-head-info span{
+	display: block;
+	color: #1c2530;
+}
+.lenta-profile-head-info li:first-child{
+	padding-bottom: 40px;
+}
+
+.person-info{
+	color: #333;
+	font: 13px Arial;
+}
+.person-info li{
+	padding-bottom: 11px;
+}
+.person-info span{
+	display: inline-block;
+	width: 100px;
+	padding-right: 25px;
+	text-align: right;
+	color: #777;
+}
+
+.person-info_activity span{
+	color: #195e85;
+}
+
+.lenta-profile h5{
+	font: 15px Arial;
+	color: #1c2530;
+	padding-bottom: 6px;
+	padding-left: 125px;
+	margin-top: 31px;
+	margin-bottom: 14px;
+	border-bottom: 1px solid #ebebeb;
+}
+
+.dialog-settings{
+	border-top: 1px solid #ebebeb;
+	margin-right: 20px;
+	padding-top: 9px;
+	padding-bottom: 12px;
+	padding-left: 10px;
+	color: #777;
+}
+.dialog-settings a{
+	color: #3a5f85;
+}
+
+#central_block.messages .post:hover{
+	background: none repeat scroll 0 0 rgb(235, 238, 243);
+	cursor: pointer;
+}
+
+#central_block.messages .post:hover  .post-extras.unread{
+	background: none repeat scroll 0 0 rgb(232, 236, 243);;
+}
+
+.messages .unread, #central_block .unread, #central_block .unreadMe{
+	background: none repeat scroll 0 0 rgb(235, 238, 243);
+}
+
+#central_block .filters{
+	margin-top: 5px;
+    padding-left: 10px;
+	color: #777777;
+    font: 11px tahoma;
+}
+
+#central_block .filters a{
+	color: #777777;
+    font: 11px tahoma;
+    margin-left: 10px;
+    margin-top: 5px;
+    padding: 2px;
+    text-decoration: none;
+    text-transform: lowercase;
+}
+
+#central_block a.active{
+	background-color: #F1F1F1;
+}
+
+.profile .summary .profile-send-message{
+	margin: 30px -6px;
+}
+

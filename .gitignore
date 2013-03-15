@@ -1,3 +1,4 @@
+.htaccess
 assets/
 protected/runtime/
 themes/classic/views/

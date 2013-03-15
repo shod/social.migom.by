@@ -4,8 +4,8 @@ return array(
         'class' => 'CLogRouter',
         'routes' => array(
             array(
-                'class' => 'CFileLogRoute',
-                'levels' => 'error, warning, info, api',
+                'class' => 'core.components.loging.QFileLogRoute',
+                'levels' => 'error, warning, info, api, mysql',
                 'enabled' => true,
             ),
 //            array(
