@@ -36,6 +36,7 @@ return array(
         'description' => 'Administrator',
 		'children' => array(
             'moderator',         // позволим админу всё, что позволено модератору
+			'author',
         ),
         'bizRule' => null,
         'data' => null
