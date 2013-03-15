@@ -15,6 +15,7 @@ class Notify extends ActiveRecord
 	public $userName;
     public $id;
     public $user_id;
+	public $countIds;
     
     public function tableName()
     {

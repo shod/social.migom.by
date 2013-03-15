@@ -30,12 +30,16 @@ $this->breadcrumbs=array(
 		<td><b>Личные сообщения</b></td>
 		<td><?= $statistics['messages'] ?></td>
 	</tr>
-	<tr style="background: none repeat scroll 0 0 #F8F8F8;">
+	<tr style="background: none repeat scroll 0 0 #E5F1F4;">
 		<td><b>Нотификации о снижении цены</b></td>
-		<td><?= CHtml::link($statistics['notifyProductCost'], array('/ads/notify/product')) ?></td>
+		<td><?= CHtml::link($statistics['notifyProductCost'], array('/ads/notify/productcost')) ?></td>
 	</tr>
 	<tr style="background: none repeat scroll 0 0 #F8F8F8;">
 		<td><b>Нотификации о появлении в продаже</b></td>
-		<td><?= CHtml::link($statistics['notifyProduct'], array('/ads/notify/productcost')) ?></td>
+		<td><?= CHtml::link($statistics['notifyProduct'], array('/ads/notify/product')) ?></td>
+	</tr>
+	<tr style="background: none repeat scroll 0 0 #E5F1F4;">
+		<td><b>Избранные товары</b></td>
+		<td><?= CHtml::link($statistics['bookmark'], array('/ads/bookmark/admin')) ?></td>
 	</tr>
 <table>

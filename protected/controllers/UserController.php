@@ -39,7 +39,7 @@ class UserController extends Controller
                 'roles' => array('administrator')
             ),
             array('allow', // allow readers only access to the view file
-                'actions' => array('index', 'createUserAvatar', 'comments', 'authorNews', 'profile', 'authorArticle', 'commentsArticle', 'emailConfirm'),
+                'actions' => array('index', 'createUserAvatar', 'comments', 'authorNews', 'profile', 'authorArticle', 'commentsArticle', 'commentsProduct', 'emailConfirm'),
                 'users' => array('*')
             ),
             array('deny', // deny everybody else
@@ -247,6 +247,10 @@ class UserController extends Controller
 				$commentsModel = Comments_Article::model();
 				$titlesModel = Api_Article_Author::model();
 				break;
+			case 'commentsProduct':
+				$commentsModel = Comments_Product::model();
+				$titlesModel = Api_Product::model();
+				break;
 			default:
 				$commentsModel = Comments_News::model();
 				$titlesModel = Api_News::model();
@@ -273,7 +277,14 @@ class UserController extends Controller
 		}
 
 		$newsTitles = $titlesModel;
-		$news = $newsTitles->findAll('id in(:ids)', array(':ids' => implode(',', $ids)));
+		switch($this->action->id){
+			case 'commentsProduct':
+				$news  = (array)$newsTitles->getInfo('attr', array('id' => $ids, 'list' => array('title', 'id'), 'image_size' => 'small'));
+				break;
+			default:
+				$news = $newsTitles->findAll('id in(:ids)', array(':ids' => implode(',', $ids)));
+		}
+		
 		
 		$comm = array();
 		foreach($comments as $comment){
@@ -305,7 +316,13 @@ class UserController extends Controller
 		$this->_getComments($id);
 	}
 	
-	public function actionCommentsArticle($id){
+	public function actionCommentsArticle($id)
+	{
+		$this->_getComments($id);
+	}
+	
+	public function actionCommentsProduct($id)
+	{
 		$this->_getComments($id);
 	}
 	

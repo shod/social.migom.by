@@ -84,7 +84,7 @@
 			<?php endif; ?>
         </table>
 		<?php endif; ?>
-		<?php if($model->getCountNewsComments() || $model->getCountArticleComments()): ?>
+		<?php if($model->getCountNewsComments() || $model->getCountArticleComments() || $model->getCountProductComments()): ?>
         <table>
             <caption><span><?= Yii::t('Profile', 'Активность на сайте'); ?></span></caption>
 			<?php 
@@ -101,22 +101,36 @@
 						Yii::app()->cache->set('comments_dislikes_count_user_' . $model->id, $arrCarma['dislikes'], 60 * 10);
 					}
 				?>
+			<?php if($model->getCountNewsComments()): ?>
             <tr>
                 <th><?= $model->getCountNewsComments() ?></th>
                 <td><?= SiteService::getCorectWordsT('Site', 'comments to news', $model->getCountNewsComments()) ?> (<?= CHtml::link(Yii::t('Site', 'просмотреть'), array('/user/comments', 'id' => $model->id)); ?>)</td>
             </tr>
+			<?php endif; ?>
+			<?php if($model->getCountArticleComments()): ?>
 			<tr>
                 <th><?= $model->getCountArticleComments() ?></th>
                 <td><?= SiteService::getCorectWordsT('Site', 'comments to articles', $model->getCountArticleComments()) ?> (<?= CHtml::link(Yii::t('Site', 'просмотреть'), array('/user/commentsArticle', 'id' => $model->id)); ?>)</td>
             </tr>
+			<?php endif; ?>
+			<?php if($model->getCountProductComments()): ?>
+			<tr>
+                <th><?= $model->getCountProductComments() ?></th>
+                <td><?= SiteService::getCorectWordsT('Site', 'comments to products', $model->getCountProductComments()) ?> (<?= CHtml::link(Yii::t('Site', 'просмотреть'), array('/user/commentsProduct', 'id' => $model->id)); ?>)</td>
+            </tr>
+			<?php endif; ?>
+			<?php if($cl): ?>
 			<tr>
                 <th><?= $cl ?></th>
                 <td><?= SiteService::getCorectWordsT('Site', 'likes', $cl) ?></td>
             </tr>
+			<?php endif; ?>
+			<?php if($cdl): ?>
 			<tr>
                 <th><?= $cdl ?></th>
                 <td><?= SiteService::getCorectWordsT('Site', 'dislikes', $cdl) ?></td>
             </tr>
+			<?php endif; ?>
 		<!--<tr>
                 <th><a href="#">16</a></th>
                 <td>отзывов на товар</td>

@@ -4,7 +4,8 @@ class DefaultController extends Controller
 {
 	public function actionIndex()
 	{
-		if(!$aStatistics = Yii::app()->cache->get('ads_statistics')){
+	
+		//if(!$aStatistics = Yii::app()->cache->get('ads_statistics')){
 			$aStatistics = array(
 				'commentsNews' 		=> Comments_News::model()->count(),
 				'commentsArticle' 	=> Comments_Article::model()->count(),
@@ -14,9 +15,10 @@ class DefaultController extends Controller
 				'messages' 			=> Messages_Text::model()->count(),
 				'notifyProductCost' => Notify_Product_Cost::model()->count(),
 				'notifyProduct' 	=> Notify_Product::model()->count(),
+				'bookmark' 			=> Bookmarks_Bookmark::model()->count(),
 			);
 			Yii::app()->cache->set('ads_statistics', $aStatistics, 3600);
-		} 
+		//} 
 		
 				
 				
