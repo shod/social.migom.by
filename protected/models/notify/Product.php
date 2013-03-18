@@ -57,7 +57,9 @@ class Notify_Product extends Notify
         $criteria->compare('id', $this->id);
         $criteria->compare('user_id', $this->user_id);
         $criteria->compare('product_id', $this->product_id);
-		$sort = array('attributes'=> array(
+		$sort = array(
+		'defaultOrder'=>'t.id DESC',
+		'attributes'=> array(
 			'product_id',
 			'created_at',
 			'userName'	=>	array( // сортировка по связанном полю

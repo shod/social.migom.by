@@ -54,7 +54,9 @@ class Notify_Product_Cost extends Notify_Product
 		$criteria->compare('cost', $this->cost);
 		$criteria->compare('countIds', $this->countIds);
 		
-		$sort = array('attributes'=> array(
+		$sort = array(
+		'defaultOrder'=>'t.id DESC',
+		'attributes'=> array(
 			'product_id',
 			'created_at',
 			'userName'	=>	array( // сортировка по связанном полю
