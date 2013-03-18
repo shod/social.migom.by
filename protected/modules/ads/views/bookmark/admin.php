@@ -15,7 +15,7 @@ $this->breadcrumbs=array(
 		array(
 			'name' => 'userName',
 			'type' => 'html',
-			'value' => 'CHtml::link($data->user->email, array("/user/".$data->user->id))',
+			'value' => '($data->user) ? CHtml::link($data->user->email, array("/user/".$data->user->id)) : ""',
 		),
 		'user.fullname',
 		array(
