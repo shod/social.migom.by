@@ -11,7 +11,7 @@ return array(
 	'tags'          => require(dirname(__FILE__) . '/components/tags.php'),
     'log'           => require(dirname(__FILE__) . '/components/log.php'),
 	'migom_job'           => require(dirname(__FILE__) . '/components/migom_job.php'),
-    'notify' => array(
+	'notify' => array(
 		'class' => 'core.components.QUserNotify',
 	),
 	'image' => array(

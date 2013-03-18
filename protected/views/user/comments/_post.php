@@ -11,6 +11,10 @@
 				$urlPostfix = '?article_id=';
 				$title = Yii::t('Site', 'Обзор');
 				break;
+			case 'commentsProduct':
+				$urlPostfix = '/';
+				$title = Yii::t('Site', 'Продукт');
+				break;
 			default:
 				$title = Yii::t('Site', 'Новость');
 				$urlPostfix = '?news_id=';
