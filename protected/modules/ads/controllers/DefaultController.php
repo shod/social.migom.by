@@ -9,7 +9,7 @@ class DefaultController extends Controller
 			$aStatistics = array(
 				'commentsNews' 		=> Comments_News::model()->count(),
 				'commentsArticle' 	=> Comments_Article::model()->count(),
-				//'commentsProducts' 	=> Comments_Article::model()->count(),
+				'commentsProduct' 	=> Comments_Product::model()->count(),
 				'usersActive' 		=> Users::model()->count('status = 1'),
 				'usersNoActive' 	=> Users::model()->count('status != 1'),
 				'messages' 			=> Messages_Text::model()->count(),
