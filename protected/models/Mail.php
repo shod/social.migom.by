@@ -30,7 +30,7 @@ class Mail extends CModel{
 	public function sendOnce(Users $user, $template, $params = array(), $fast = false){
         $criteria = new EMongoCriteria();
         $criteria->addCond('what', '==', self::WORKER);
-        $criteria->addCond('user_id', '==', $user_id);
+        $criteria->addCond('user_id', '==', $user->id);
 
 		$queue = Queue::model()->find($criteria);
 		if(!$queue){

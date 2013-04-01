@@ -188,8 +188,8 @@ class UserController extends Controller
         if (isset($_POST['Users'])) {
             $model->setScenario('general_update');
             $model->attributes = $_POST['Users'];
-
-            if ($model->validate() && $model->save() && $success) {
+			
+            if ($model->validate() && $model->save() && $success && $model->email && $model->status == 1) {
                 $redirect = true;
             } else {
                 $redirect = false;

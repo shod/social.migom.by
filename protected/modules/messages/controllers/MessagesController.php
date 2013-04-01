@@ -104,9 +104,9 @@ class MessagesController extends Controller
 				// TODO - прекратить генерацию страницы пользователю
 				MessageService::sendMessageToUserMessages($id, $params, Yii::app()->user->id);
 				MessageService::sendMessageToMyMessages(Yii::app()->user->id, $params, $id);
-				
+
 				$criteria = new EMongoCriteria();
-				$criteria->addCond('user_id', '==', $user_id);
+				$criteria->addCond('user_id', '==', $modelTo->user_id);
 
 				$news = News::model()->find($criteria);
 				
@@ -152,6 +152,12 @@ class MessagesController extends Controller
 							'order' => 'message_id ASC',
 							'limit' => 1,
 							'params' => array(':userId' => Yii::app()->user->id,':dId' => MessageService::generateDialogId(array($id ,Yii::app()->user->id)))));
+							
+		if($first && $first->textTable){
+			$firstTime = $first->textTable->created_at;
+		} else {
+			$firstTime = 0;
+		}
 
 		Widget::get('listener')->generateChannelId('dialog', $dialog_id);
 		
@@ -160,7 +166,7 @@ class MessagesController extends Controller
 			'user'		=>$toUser,
 			'textModel'	=>new Messages_Text(),
 			'messages' 	=> $messages,
-			'first'		=> ($first) ? $first->textTable->created_at : 0,
+			'first'		=> $firstTime,
 		));
 	}
 
