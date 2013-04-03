@@ -189,7 +189,7 @@ class UserController extends Controller
             $model->setScenario('general_update');
             $model->attributes = $_POST['Users'];
 			
-            if ($model->validate() && $model->save() && $success && $model->email && $model->status == 1) {
+            if ($model->validate() && $model->save() && $success) {
                 $redirect = true;
             } else {
                 $redirect = false;
@@ -506,12 +506,6 @@ class UserController extends Controller
             return false;
         }
     }
-	
-	public function actionSession(){
-		echo '<pre>';
-			print_r(Yii::app()->session->toArray());
-		echo '</pre>';
-	}
 	
 	public function actionEmailConfirm($hash){
 		$user = Users::model()->find('hash = :hash', array(':hash' => $hash));
