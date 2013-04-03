@@ -11,7 +11,8 @@ class UsersController extends Controller
 	public function actionUpdate($id)
 	{
 		$model=$this->loadModel($id);
-                $save = false;
+		$model->scenario = 'admin';
+        $save = false;
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
@@ -31,6 +32,15 @@ class UsersController extends Controller
                             $model->profile->avatar = '';
                         }
 			if($model->profile->save()){$save = true;}
+		}
+		if(isset($_POST['expert'])){
+			Experts_In_Link::model()->deleteAll('user_id = '.$model->id);
+			foreach($_POST['expert'] as $k => $exp){
+				$eil = new Experts_In_Link();
+				$eil->experts_in_id = $k;
+				$eil->user_id = $model->id;
+				$eil->save();
+			}
 		}
                 if($save){
                     $this->redirect(array('admin'));

@@ -84,6 +84,21 @@
 <?php echo $form->dropDownList($model, 'status', Users::$statuses); ?>
 <?php echo $form->error($model, 'status'); ?>
     </div>
+	
+	<div class="row">
+		<label>Эксперт</label>
+		<?php
+			foreach(Experts_In::model()->findAll() as $exp){
+				?>
+				<div>
+					<?php $arr = CHtml::listData($model->expertInLink, 'experts_in_id', 'experts_in_id'); ?>
+					<?= CHtml::checkBox('expert['.$exp->id.']', in_array($exp->id, $arr)) ?>
+					<?= $exp->title ?>
+				</div>
+				<?php
+			}
+		?>
+    </div>
 
     <div class="row">
 <?php echo $form->labelEx($model, 'date_add'); ?>
