@@ -3,8 +3,8 @@
 /* @var $model ExpertsIn */
 
 $this->breadcrumbs=array(
-	'Experts Ins'=>array('index'),
-	'Create',
+	'Пользователи'=>array('/ads/users/admin'),
+	'Experts Ins',
 );
 
 $this->menu=array(
