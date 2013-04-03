@@ -53,11 +53,9 @@
     <?= $content ?>
 	
 </div>
-
 <?php CController::widget('Footer'); ?>
     </div>
 	
 <?php Widget::get('listener')->html(); ?>
-	
 </body>
 </html>

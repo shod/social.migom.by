@@ -103,6 +103,8 @@ class Users extends ActiveRecord
 			'countLikes' => array(self::STAT, 'Comments_News', 'user_id', 'select' => 'SUM(t.likes)'),
 			'countDisLikes' => array(self::STAT, 'Comments_News', 'user_id', 'select' => 'SUM(t.dislikes)'),
 			'carma' => array(self::STAT, 'Comments_News', 'user_id', 'select' => 'SUM(t.likes) - SUM(t.dislikes)'),
+			'expertInLink' => array(self::HAS_MANY, 'Experts_In_Link', 'user_id'),
+			'expertIn' => array(self::HAS_MANY, 'Experts_In', array('experts_in_id'=>'id'), 'through'=>'expertInLink'), 
         );
     }
 
@@ -157,6 +159,9 @@ class Users extends ActiveRecord
     public function beforeSave()
     {
         parent::beforeSave();
+		if($this->scenario == 'admin'){
+			return true;
+		}
         if ($this->isNewRecord) {
             $this->role      = array_search('user', self::$roles);
             $this->date_add  = time();
@@ -180,7 +185,7 @@ class Users extends ActiveRecord
             }
             if ($this->oldAttributes['email'] && $this->status == 1) {
                 $this->email = $this->oldAttributes['email'];
-            } elseif($this->email){
+            } elseif($this->email && $this->status == 2){
 				$this->sendEmailConfirm();
                 $this->status = 2;
             }
