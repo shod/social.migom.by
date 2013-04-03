@@ -19,6 +19,7 @@ class UsersController extends Controller
 
 		if(isset($_POST['Users']))
 		{
+			Experts_In_Link::model()->deleteAll('user_id = '.$model->id);
 			$model->attributes=$_POST['Users'];
 			if($model->save()){$save = true;}
 		}
@@ -34,17 +35,16 @@ class UsersController extends Controller
 			if($model->profile->save()){$save = true;}
 		}
 		if(isset($_POST['expert'])){
-			Experts_In_Link::model()->deleteAll('user_id = '.$model->id);
-			foreach($_POST['expert'] as $k => $exp){
+			foreach($_POST['expert'] as $exp => $ok){
 				$eil = new Experts_In_Link();
-				$eil->experts_in_id = $k;
+				$eil->experts_in_id = $exp;
 				$eil->user_id = $model->id;
-				$eil->save();
+				dd($eil->save());
 			}
 		}
-                if($save){
-                    $this->redirect(array('admin'));
-                }
+		if($save){
+			$this->redirect(array('admin'));
+		}
 
 		$this->render('update',array(
 			'model'=>$model,
