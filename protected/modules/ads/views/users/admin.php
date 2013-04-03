@@ -58,7 +58,7 @@ $this->breadcrumbs=array(
 		array(
 			'class'=>'CButtonColumn',
                         'viewButtonUrl'=>'Yii::app()->createUrl("user/index", array("id" => $data->id))',
-                        'template' => '{view} {update} {delete}',
+                        'template' => '{view} {update}',
                         'buttons' => array(
                             'view' => array(
                                 'label' => '',
@@ -67,11 +67,6 @@ $this->breadcrumbs=array(
                             'update' => array(
                                 'label' => '',
                                 'imageUrl'=>false,  // make sure you have an image
-                            ),
-                            'delete' => array(
-                                'label' => '',
-                                'imageUrl'=>false,  // make sure you have an image
-                                'options' => array('class' => 'deleteButton'),
                             ),
                         ),
 		),
