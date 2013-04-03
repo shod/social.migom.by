@@ -67,6 +67,17 @@
             </tr>
             <?php endif; ?>
         </table>
+		<?php if($model->expertIn): ?>
+		<table>
+            <caption><span><?= Yii::t('Profile', 'Эксперт'); ?></span></caption>
+            <tr>
+			<?php foreach($model->expertIn as $exp): ?>
+                <th></th>
+                <td><?= $exp->title ?></td>
+            </tr>
+			<?php endforeach; ?>
+        </table>
+		<?php endif; ?>
 		<?php if($news): ?>
 		<table>
             <caption><span><?= Yii::t('Profile', 'Материалы'); ?></span></caption>

@@ -188,7 +188,7 @@ class UserController extends Controller
         if (isset($_POST['Users'])) {
             $model->setScenario('general_update');
             $model->attributes = $_POST['Users'];
-			
+
             if ($model->validate() && $model->save() && $success) {
                 $redirect = true;
             } else {
@@ -506,6 +506,12 @@ class UserController extends Controller
             return false;
         }
     }
+	
+	public function actionSession(){
+		echo '<pre>';
+			print_r(Yii::app()->session->toArray());
+		echo '</pre>';
+	}
 	
 	public function actionEmailConfirm($hash){
 		$user = Users::model()->find('hash = :hash', array(':hash' => $hash));
