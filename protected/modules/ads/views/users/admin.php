@@ -19,6 +19,8 @@ $this->breadcrumbs=array(
 или <b>=</b>) перед тем как указвать значение.
 </p>
 
+<?= CHtml::link('Категории экспертов', array('/ads/expertsIn/admin')); ?>
+
 <?php $this->widget('zii.widgets.grid.CGridView', array(
 	'dataProvider'=>$model->search(),
 	'ajaxUpdate' => true,
