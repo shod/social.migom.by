@@ -39,7 +39,7 @@ class UsersController extends Controller
 				$eil = new Experts_In_Link();
 				$eil->experts_in_id = $exp;
 				$eil->user_id = $model->id;
-				dd($eil->save());
+				$eil->save();
 			}
 		}
 		if($save){
