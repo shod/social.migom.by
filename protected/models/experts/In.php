@@ -62,7 +62,7 @@ class Experts_In extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'title' => 'Область',
+			'title' => 'РћР±Р»Р°СЃС‚СЊ',
 		);
 	}
 
