@@ -46,7 +46,7 @@
                     'clientOptions'=>array(
                         'validateOnSubmit'=>true,
                         'inputContainer' => 'div',
-                        'afterValidate' => 'js:function(form, data, hasError){ $(form).validateAttrs(data); return true; }',
+                        'afterValidate' => 'js:function(form, data, hasError){ $(form).validateAttrs(data); if(data.Users_phone){return false;} return true; }',
                         'afterValidateAttribute' => 'js:function(form, attribute, data, hasError){ $(form).validateAttrs(data); return true; }',
                         'hideErrorMessage' => true,
                     ),
@@ -129,6 +129,21 @@
                 <th><?php echo $form->label($model->profile,'city_id'); ?>:</th>
                 <td><?php echo $form->dropDownList($model->profile,'city_id', CHtml::listData($regions, 'id', 'name'), array('class' => 'regions')); ?></td>
             </tr>
+			<tr>
+				<th><?php echo $form->label($model,'phone'); ?>:</th>
+				<td>
+					<?php 
+						$this->widget('CMaskedTextField', array(
+								'model' => $model,
+								'value' => $model->isNewRecord ? $model->phone : '',
+								'attribute' => 'phone',
+								'mask' => '+375(99)999-99-99',
+								'htmlOptions' => array('placeholder' => '+375(__)___-__-__'),
+							)
+						);
+					?>
+				</td>
+			</tr>
         </table>
 
 <!--        <table class="collapsible">

@@ -57,7 +57,8 @@ class Users extends ActiveRecord
             array('reemail', 'compareEmail', 'on' => 'general_update'),
             array('email', 'unique', 'message' => 'Пользователь с таким email уже зарегистрирован'),
             array('status, date_add, date_edit', 'numerical', 'integerOnly' => true),
-            array('login, email', 'length', 'max' => 255),
+			array('phone', 'phone', 'length' => 9),
+			array('login, email', 'length', 'max' => 255),
 			array('hash', 'length', 'max' => 32),
             array('password', 'length', 'max' => 32, 'min' => 6),
             array('repassword', 'compare', 'compareAttribute' => 'newpassword', 'on' => 'general_update', 'message' => Yii::t('Site', 'Введенные пароли не совпадают')),
@@ -68,6 +69,15 @@ class Users extends ActiveRecord
             array('password, email, reemail, repassword, newpassword', 'safe', 'on' => 'general_update'),
         );
     }
+	
+	public function phone($attribute,$params)
+	{
+		$phone = str_replace(array('(',')','+375','-'), '', $this->phone);
+		if(strlen($phone) != $params['length'] && strlen($phone) > 0){
+			$this->addError($attribute, Yii::t('Site', 'Телефон введен не верно'));
+		}
+		$this->phone = $phone;
+	}
 
 //        fsockopen("mx1.hotmail.com", 25, $errno , $errstr, 15)
     public function compareOldPass(){
@@ -125,6 +135,7 @@ class Users extends ActiveRecord
             'date_edit'    => Yii::t('Site', 'Date Edit'),
             'repassword'   => Yii::t('Site', 'Повторите'),
             'old_password' => Yii::t('Profile', 'Старый пароль'),
+			'phone' 	   => Yii::t('Profile', 'Мобильный'),
         );
     }
 
