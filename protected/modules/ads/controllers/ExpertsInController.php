@@ -1,7 +1,30 @@
 <?php
 
-class UsersController extends Controller
+class ExpertsInController extends Controller
 {
+
+	/**
+	 * Creates a new model.
+	 * If creation is successful, the browser will be redirected to the 'view' page.
+	 */
+	public function actionCreate()
+	{
+		$model=new Experts_In;
+
+		// Uncomment the following line if AJAX validation is needed
+		// $this->performAjaxValidation($model);
+
+		if(isset($_POST['Experts_In']))
+		{
+			$model->attributes=$_POST['Experts_In'];
+			if($model->save())
+				$this->redirect(array('admin','id'=>$model->id));
+		}
+
+		$this->render('create',array(
+			'model'=>$model,
+		));
+	}
 
 	/**
 	 * Updates a particular model.
@@ -11,39 +34,15 @@ class UsersController extends Controller
 	public function actionUpdate($id)
 	{
 		$model=$this->loadModel($id);
-		$model->scenario = 'admin';
-        $save = false;
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['Users']))
+		if(isset($_POST['Experts_In']))
 		{
-			Experts_In_Link::model()->deleteAll('user_id = '.$model->id);
-			$model->attributes=$_POST['Users'];
-			if($model->save()){$save = true;}
-		}
-                if(isset($_POST['Users_Profile']))
-		{
-			$model->profile->attributes=$_POST['Users_Profile'];
-                        if(isset($_POST['Users_Profile']['delImage'])){
-                            $path = Yii::app()->getBasePath() . DIRECTORY_SEPARATOR . '..';
-                            $destination = $path . Users::AVATAR_PATH . DIRECTORY_SEPARATOR . $model->id . DIRECTORY_SEPARATOR . 'avatar.jpg';
-                            @unlink($destination);
-                            $model->profile->avatar = '';
-                        }
-			if($model->profile->save()){$save = true;}
-		}
-		if(isset($_POST['expert'])){
-			foreach($_POST['expert'] as $exp => $ok){
-				$eil = new Experts_In_Link();
-				$eil->experts_in_id = $exp;
-				$eil->user_id = $model->id;
-				$eil->save();
-			}
-		}
-		if($save){
-			$this->redirect(array('admin'));
+			$model->attributes=$_POST['Experts_In'];
+			if($model->save())
+				$this->redirect(array('admin','id'=>$model->id));
 		}
 
 		$this->render('update',array(
@@ -70,11 +69,10 @@ class UsersController extends Controller
 	 */
 	public function actionAdmin()
 	{
-		$model=new Users('search');
+		$model=new Experts_In('search');
 		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['Users'])){
-			$model->attributes=$_GET['Users'];
-		}
+		if(isset($_GET['Experts_In']))
+			$model->attributes=$_GET['Experts_In'];
 
 		$this->render('admin',array(
 			'model'=>$model,
@@ -88,7 +86,7 @@ class UsersController extends Controller
 	 */
 	public function loadModel($id)
 	{
-		$model=Users::model()->findByPk($id);
+		$model=Experts_In::model()->findByPk($id);
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
@@ -100,7 +98,7 @@ class UsersController extends Controller
 	 */
 	protected function performAjaxValidation($model)
 	{
-		if(isset($_POST['ajax']) && $_POST['ajax']==='users-form')
+		if(isset($_POST['ajax']) && $_POST['ajax']==='experts-in-form')
 		{
 			echo CActiveForm::validate($model);
 			Yii::app()->end();

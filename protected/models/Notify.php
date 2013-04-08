@@ -11,9 +11,11 @@
  */
 class Notify extends ActiveRecord
 {
-
+	public $groupGrid;
+	public $userName;
     public $id;
     public $user_id;
+	public $countIds;
     
     public function tableName()
     {

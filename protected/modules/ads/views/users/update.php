@@ -9,7 +9,7 @@ $this->breadcrumbs=array(
 
 $this->menu=array(
 	array('label'=>'Все пользователи', 'url'=>array('admin')),
-        array('label'=>'Комментарии пользователя', 'url'=>array('admin')),
+    array('label'=>'Комментарии пользователя', 'url'=>array('/user/comments/'. $model->id)),
 );
 ?>
 

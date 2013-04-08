@@ -14,4 +14,8 @@ $this->breadcrumbs=array(
 
 <h1>Управление комментариями</h1>
 
-<?= CHtml::link('Новости', array('comments/news')); ?>
+<ul>
+	<li><?= CHtml::link('Новости', array('comments/news')); ?></li>
+	<li><?= CHtml::link('Обзоры', array('comments/article')); ?></li>
+	<li><?= CHtml::link('Продукты', array('comments/product')); ?></li>
+</ul>

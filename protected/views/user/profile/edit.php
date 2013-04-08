@@ -56,7 +56,14 @@
 			<?php if(!$model->email || $model->status == 2): ?>
 				<tr>
 					<th></th>
-					<td><div style="background-color:rgb(250, 149, 130)"><?= Yii::t('Profile', 'Для завершения регистрации введите и подтвердите email'); ?></div></td>
+					<td>
+					<?php 
+					$textConfirm = 'Для завершения регистрации введите и подтвердите email.'; 
+					if($model->email){
+						$textConfirm .= '<br/> Посьмо подтверждения отправлено на email';
+					}
+					?>
+					<div style="background-color:rgb(250, 149, 130)"><?= Yii::t('Profile', $textConfirm); ?></div></td>
 				</tr>
                 <tr>
                     <th><?php echo $form->label($model,'email'); ?>:</th>
@@ -103,9 +110,15 @@
                 <th><?php echo $form->label($model->profile,'birthday'); ?>:</th>
                 <td class="birth">
                     <?php $birthday = explode('-', $model->profile->birthday);  ?>
-                    <?= CHtml::dropDownList('birthday[day]', round($birthday[2]), $days, array('class' => 'day')) ?>
-                    <?= CHtml::dropDownList('birthday[month]', $birthday[1], $month, array('class' => 'month')) ?>
-                    <?= CHtml::dropDownList('birthday[year]', $birthday[0], $year, array('class' => 'year')) ?>
+					<?php if(count($birthday) > 2): ?>
+						<?= CHtml::dropDownList('birthday[day]', round($birthday[2]), $days, array('class' => 'day')) ?>
+						<?= CHtml::dropDownList('birthday[month]', $birthday[1], $month, array('class' => 'month')) ?>
+						<?= CHtml::dropDownList('birthday[year]', $birthday[0], $year, array('class' => 'year')) ?>
+					<?php else: ?>
+						<?= CHtml::dropDownList('birthday[day]', 0, $days, array('class' => 'day')) ?>
+						<?= CHtml::dropDownList('birthday[month]', 0, $month, array('class' => 'month')) ?>
+						<?= CHtml::dropDownList('birthday[year]', 0, $year, array('class' => 'year')) ?>
+					<?php endif; ?>
 <!--                    <label>
                         <input type="checkbox" checked="checked">
                         <span>скрывать дату рождения</span>
@@ -161,7 +174,7 @@
             </tr>
             <tr>
                 <th><?php echo $form->label($model,'repassword'); ?>:</th>
-                <td><?php echo $form->passwordField($model,'repassword', array('disabled' => 'disabled')); ?>
+                <td><?php $model->repassword = ''; echo $form->passwordField($model,'repassword', array('disabled' => 'disabled')); ?>
                     <?= $form->error($model,'repassword'); ?>
                 </td>
             </tr>

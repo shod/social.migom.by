@@ -16,10 +16,6 @@ if(YII_DEBUG === true){
 
 }
     include_once '../core/functions.php';
-function autoload($className){
-    $className = ucfirst($className);
-    return YiiBase::autoload($className);
-}
 
 require_once($yii);
 require_once($yiiEx);

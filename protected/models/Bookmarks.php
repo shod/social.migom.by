@@ -19,6 +19,21 @@
 class Bookmarks extends ActiveRecord
 {
 
+	public $userName;
+	public $countIds;
+	public $groupGrid;
+	
+	/**
+	 * @return array relational rules.
+	 */
+	public function relations()
+	{
+		// NOTE: you may need to adjust the relation name and the related
+		// class name for the relations automatically generated below.
+		return array(
+			'user' => array(self::BELONGS_TO, 'Users', 'user_id')
+		);
+	}
 
     /**
      * Returns the static model of the specified AR class.
@@ -68,5 +83,68 @@ class Bookmarks extends ActiveRecord
 			$model->save();
 		}
 	}
-    
+	
+	public function rules()
+	{
+		// NOTE: you should only define rules for those attributes that
+		// will receive user inputs.
+		return array(
+			array('user_id, section_id, product_id, image, productUrl, title, price', 'required'),
+			array('user_id, section_id, product_id', 'numerical', 'integerOnly'=>true),
+			array('price', 'numerical'),
+			array('image, productUrl, title', 'length', 'max'=>200),
+			// The following rule is used by search().
+			// Please remove those attributes that should not be searched.
+			array('user_id, section_id, product_id, image, productUrl, title, price, userName, countIds, groupGrid', 'safe', 'on'=>'search'),
+		);
+	}
+	
+    public function search()
+	{
+		// Warning: Please modify the following code to remove attributes that
+		// should not be searched.
+
+		$criteria=new CDbCriteria;
+
+		$criteria->together = true;
+		$criteria->with = 'user';
+		$criteria->compare('user.email', $this->userName, true);
+		$criteria->compare('countIds', $this->countIds);
+		$criteria->compare('user_id',$this->user_id);
+		$criteria->compare('section_id',$this->section_id);
+		$criteria->compare('product_id',$this->product_id);
+		$criteria->compare('image',$this->image,true);
+		$criteria->compare('productUrl',$this->productUrl,true);
+		$criteria->compare('title',$this->title,true);
+		$criteria->compare('price',$this->price);
+		
+		$sort = array('attributes'=> array(
+			'product_id',
+			'created_at',
+			'userName'	=>	array( // сортировка по связанном полю
+				'asc' 	=> 	$expr='user.email',
+				'desc' 	=> 	$expr.' DESC',
+			),
+		));
+		
+		if($this->groupGrid){
+			$sort['attributes']['countIds'] = array(
+					'asc' 	=> 	$expr='countIds',
+					'desc' 	=> 	$expr.' DESC',
+			);
+			$criteria->group = $this->groupGrid;
+			$criteria->select = '*, count(1) as countIds';
+		}
+		
+		
+
+		return new CActiveDataProvider($this, array(
+			'criteria'		=>	$criteria,
+			'pagination'	=>	array(
+				'pageSize'	=>	50,
+			),
+			'sort' => $sort,
+			
+		));
+	}
 }

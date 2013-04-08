@@ -7,6 +7,7 @@ class AdsModule extends CWebModule
         public $ipFilters;
         public $urlRules = array(
             'ads/comments/<model:(news|article|product)>'=>'ads/comments/list',
+			'ads/<controller:\w+>/<action:\w+>' => 'ads/<controller>/<action>',
         );
 
         public function getAssetsUrl()
@@ -28,6 +29,7 @@ class AdsModule extends CWebModule
 			'ads.components.*',
             'ads.services.*',
 			'core.widgets.*',
+			'messages.models.*',
 		));
 	}
 

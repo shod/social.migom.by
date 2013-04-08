@@ -34,6 +34,7 @@ class NotifyController extends ERestController
         $model->product_id = (int)$id;
         $model->cost = (float) Yii::app()->request->getParam('cost');
         $model->user_id = $userId;
+		$model->created_at = time();
 		if(!$user->email || $user->status == 2){
 			$user->email = $email;
 
@@ -41,8 +42,8 @@ class NotifyController extends ERestController
 				$user->sendEmailConfirm();
 				$user->save();
 			} else {
-				$this->render()->sendResponse(array(ERestComponent::CONTENT_SUCCESS => false, 'message' => print_r($user->getError('email'),1)));
-				return;
+				//$this->render()->sendResponse(array(ERestComponent::CONTENT_SUCCESS => false, 'message' => print_r($user->getError('email'),1)));
+				//return;
 			}
 		}
         try {
@@ -73,14 +74,15 @@ class NotifyController extends ERestController
 				$user->sendEmailConfirm();
 				$user->save();
 			} else {
-				$this->render()->sendResponse(array(ERestComponent::CONTENT_SUCCESS => false, 'message' => print_r($user->getError('email'),1)));
-				return;
+				//$this->render()->sendResponse(array(ERestComponent::CONTENT_SUCCESS => false, 'message' => print_r($user->getError('email'),1)));
+				//return;
 			}
 		}
 
 		$model = new Notify_Product();
 		$model->product_id = (int)$id;
         $model->user_id = $userId;
+		$model->created_at = time();
         try {
             $model->insertIgnore();
         } catch (Exception $exc) {
