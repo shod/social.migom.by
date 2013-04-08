@@ -114,6 +114,26 @@ class CommentsController extends ERestController
         $content = array(self::CONTENT_COMMENTS => $res, ERestComponent::CONTENT_COUNT => count($res));
         $this->render()->sendResponse($content);
     }
+	
+	public function actionGetEntityPopular($entity){
+
+		$limit = (int) Yii::app()->request->getParam('limit', 5, 'int');
+        $res = array();
+
+		$sql = "select count(1) cnt, nc.* 
+				from {$entity}_comments nc 
+				where status != ".Comments::STATUS_DELETED."
+				group by entity_id order by cnt desc limit " . $limit;
+		$command = Yii::app()->db->createCommand($sql)->queryAll();
+		
+        //TODO Как то не правельно related элименты так получать
+        foreach ($command as $value) {
+		    $res[] = $value['id'];
+        }
+
+        $content = array('result' => $res);
+        $this->render()->sendResponse($content);
+	}
 
     /**
      * @ignore
