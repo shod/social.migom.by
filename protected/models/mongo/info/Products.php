@@ -1,6 +1,6 @@
 <?php
 
-class Things_Products extends EMongoDocument {
+class Info_Products extends EMongoDocument {
 
     public $product_id;
     public $section_id;
@@ -22,7 +22,7 @@ class Things_Products extends EMongoDocument {
      * @return string MongoDB collection name, witch will be used to store documents of this model
      */
     public function getCollectionName() {
-        return 'things_products';
+        return 'info_products';
     }
 
     /**

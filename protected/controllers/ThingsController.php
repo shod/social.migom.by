@@ -73,12 +73,13 @@ class ThingsController extends Controller
 		if(count($pIds)){
 			$criterea = new EMongoCriteria();
 			$criterea->addCond('product_id', 'in', $pIds);
-			$thingsProds = Things_Products::model()->findAll($criterea);
+			$thingsProds = Info_Products::model()->findAll($criterea);
 			$countHaventProducts = Things::getCountThingsGroupByProduct($pIds);
 		}
-		
+		$apiIds = array();
 		$res = array();
 		foreach($things as $thing){
+			$r = array();
 			$r['id'] = $thing->id;
 			$r['product_id'] = $thing->product_id;
 			$r['have'] = $thing->have;
@@ -91,7 +92,25 @@ class ThingsController extends Controller
 					break;
 				}
 			}
-			$res[] = $r;
+			if(!isset($r['name'])){
+				$apiIds[] = $thing->product_id;
+			}
+			$res[$thing->product_id] = $r;
+		}
+		if(count($apiIds)){
+			
+			$api = Api_Product::model();
+			$apiRes = $api->getInfo('attr', array('id' => $apiIds, 'list' => array('title', 'id', 'section')));
+			foreach($apiRes as $arp){
+				$thProd = Info_Products::model();
+				$thProd->product_id = $arp->id;
+				$thProd->section_id = $arp->section;
+				$thProd->name = $arp->title;
+				$thProd->save();
+				$res[$thProd->product_id]['section_id'] = $thProd->section_id;
+				$res[$thProd->product_id]['name'] = $thProd->name;
+			}
+			
 		}
 		
 		if(Yii::app()->request->isAjaxRequest){
