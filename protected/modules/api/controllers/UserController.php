@@ -47,20 +47,27 @@ class UserController extends ERestController
      * @param string $login
      * @param string $paswd
      */
-    public function actionPostAuth()
+    public function actionGetLogin()
     {
-        $login = $_POST['login'];
-        $paswd = $_POST['paswd'];
-        if ($login == 'login' && $paswd == 'paswd') {
-            $puid = 'asd';
-            Yii::app()->cache->set('user_' . $puid, array('id' => 100));
-
-            $content = array(ERestComponent::CONTENT_MESSAGE => Yii::t('Api', 'User is auth'),
-                ERestComponent::CONTENT_PUID => $puid);
-        } else {
-            $content = array(ERestComponent::CONTENT_MESSAGE => Yii::t('Api', 'User is not auth'));
+		try {
+		
+			$model = new Form_Login;
+			$model->email = $_GET['login'];
+			$model->password = $_GET['paswd'];
+			if ($model->validate() && $model->login()){
+				
+				$puid = md5('salt asdasd' . $model->email);
+				Yii::app()->cache->set('user_' . $puid, array('id' => 100));
+				
+                $content = array(ERestComponent::CONTENT_MESSAGE => Yii::t('Api', 'User is auth'),
+					ERestComponent::CONTENT_PUID => $puid);
+            } else {
+				$content = array(ERestComponent::CONTENT_MESSAGE => Yii::t('Api', 'User is not auth'));
+			}
+			$this->render()->sendResponse($content);
+		} catch (Exception $exc) {
+            throw new ERestException($exc->getMessages());
         }
-        $this->render()->sendResponse($content);
     }
 
 }
