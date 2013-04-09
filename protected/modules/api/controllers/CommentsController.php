@@ -123,12 +123,13 @@ class CommentsController extends ERestController
 		$sql = "select count(1) cnt, nc.* 
 				from {$entity}_comments nc 
 				where status != ".Comments::STATUS_DELETED."
+				AND  `created_at` > UNIX_TIMESTAMP( ) -3600 *24 *30 *1
 				group by entity_id order by cnt desc limit " . $limit;
 		$command = Yii::app()->db->createCommand($sql)->queryAll();
 		
         //TODO Как то не правельно related элименты так получать
         foreach ($command as $value) {
-		    $res[] = $value['id'];
+		    $res[] = $value['entity_id'];
         }
 
         $content = array('result' => $res);

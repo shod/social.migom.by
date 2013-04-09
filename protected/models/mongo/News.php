@@ -260,7 +260,7 @@ class News extends EMongoDocument {
         }
 		
 		// письмо "На Ваш комментарий ответили"
-		if(!Yii::app()->cache->get('online_user_' . $parent->user_id) && !isset($news->disable_notify['comments_activity'])){
+		if(!Yii::app()->cache->get('online_user_' . $new->user_id) && !isset($news->disable_notify['comments_activity'])){
 			$mail = new Mail;
 			$mail->sendCommentsAuthorNotification($comment, 'News', $entity->title, $new->user_id);
 		}
@@ -414,8 +414,6 @@ class News extends EMongoDocument {
         $entity->likes->users = $userLikes['likesUsers'];
         $entity->dislikes->count = $likes->dislikes;
         $entity->dislikes->users = $userLikes['dislikesUsers'];
-		
-		Yii::log('name ' . $name, 'api');
         
         $api = self::_getEntityInfo($name, $comment->entity_id);
 		
@@ -428,7 +426,6 @@ class News extends EMongoDocument {
         $entity->template = self::getTemplate($name);
         $news->entities[] = $entity;
         $news->save();
-		Yii::log('save', 'api');
         self::_updateChildLikes($comment, $likes);
 		
 		$criteria = new EMongoCriteria();
