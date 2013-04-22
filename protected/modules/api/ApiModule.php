@@ -15,11 +15,12 @@ class ApiModule extends CWebModule {
             'api/<controller:\w+>/<action:\w+>/<entity:\w+>/<id:\d+>' => 'api/<controller>/get<action>',
             'api/<controller:\w+>/<action:\w+>/<entity:\w+>' => 'api/<controller>/get<action>',
             'api/<controller:\w+>/<action:\w+>/<id:\d+>' => 'api/<controller>/get<action>',
-            'api/<controller:\w+>/<_a:(list)>' => 'api/<controller>/get<_a>',
+            'api/<controller:\w+>/<_a:(list|login)>' => 'api/<controller>/get<_a>',
 			
         ),
         'POST' => array(
             'api/likes/<_a:(dislike|Like)>/<entity:\w+>' => 'api/likes/post<_a>',
+			'api/user/auth' => 'api/user/postAuth',
             'api/<controller:\w+>/<_a:(update|insert|delite)>' => 'api/<controller>/<_a>', //static
             'api/<controller:\w+>/<action:\w+>/<id:\d+>' => 'api/<controller>/post<action>',
             'api/<controller:\w+>/<action:\w+>/<entity:\w+>' => 'api/<controller>/post<action>',
