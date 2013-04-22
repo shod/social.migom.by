@@ -73,7 +73,9 @@ return array(
 			'messages/<action:\w+>/<id:\d+>' => 'messages/messages/<action>',
 			'messages/<action:\w+>' => 'messages/messages/<action>',
 			
-			
+			'things' => 'things/index',
+			'things/<action:\w+>/<id:\d+>' => 'things/<action>',
+			'things/<action:\w+>' => 'things/<action>',
 
 			'<action:(login|logout)>' => 'site/<action>',
             '<controller:\w+>/<id:\d+>' => '<controller>/view',

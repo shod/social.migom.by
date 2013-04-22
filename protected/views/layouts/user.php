@@ -73,6 +73,5 @@ MigomBlock.news({
     </div>
 	
 <?php Widget::get('listener')->html(); ?>
-	
 </body>
 </html>
