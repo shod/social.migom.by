@@ -23,6 +23,7 @@ class Users extends ActiveRecord
 	public $repassword;
     public $old_password;
     public $reemail;
+	public $name;
 
     /**
      * Returns the static model of the specified AR class.

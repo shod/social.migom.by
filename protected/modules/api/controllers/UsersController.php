@@ -6,7 +6,59 @@
  */
 class UsersController extends ERestController
 {
+	
+	public function actionGetInfo(){
+		$id = Yii::app()->request->getParam('entity', '', 'int');
+		$user = Users::model()->findByPk($id);
+		if(!$user){
+			$this->render()->sendResponse(
+				array(
+					ERestComponent::CONTENT_MESSAGE => Yii::t('Yama', 'Пользователь не найден'),
+					ERestComponent::CONTENT_SUCCESS => false
+				)
+			);
+			Yii::app()->end();
+		}
+		$res = $user->attributes;
+		$res['fullname'] = $user->fullname;
+		$this->render()->sendResponse(
+			array(
+				ERestComponent::CONTENT_MESSAGE => $res,
+                'auth' => false,
+                ERestComponent::CONTENT_SUCCESS => true
+			)
+		);
+	}
+	
+	public function actionGetInfoByIds(){
+		$id = Yii::app()->request->getParam('entity', '', 'list', array('list'));
+		$ids = Yii::app()->request->getParam('ids');
 
+		$users = Users::model()->findAll('id IN (' . implode(',', $ids) . ')');
+		if(!count($users)){
+			$this->render()->sendResponse(
+				array(
+					ERestComponent::CONTENT_MESSAGE => Yii::t('Yama', 'Пользователей не найдено'),
+					ERestComponent::CONTENT_SUCCESS => false
+				)
+			);
+			Yii::app()->end();
+		}
+		$res = array();
+		foreach($users as $user){
+			$res[$user->id] = $user->attributes;
+			$res[$user->id]['fullname'] = $user->fullname;
+		}
+		
+		$this->render()->sendResponse(
+			array(
+				ERestComponent::CONTENT_MESSAGE => $res,
+                'auth' => false,
+                ERestComponent::CONTENT_SUCCESS => true
+			)
+		);
+	}
+	
     /**
      * Check Login
      * @todo Реализовать проверку авторозованности
