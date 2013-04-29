@@ -53,22 +53,6 @@
     <?= $content ?>
 	
 </div>
-<script type="text/javascript" src="http://www.migom.test2.migom.by/js/blocks.js"></script>
-<script type="text/javascript">
-	MigomBlock.init()
-</script>
-<script type="text/javascript">
-MigomBlock.news({  
-       "mode":"horizontal", 
-	"width":"100%", 
-	"height":"90px",
-       "logo":false,         // выводить лого слева
-	"count":"4",
-	"background":"fff",
-	"linkBackground":"fff",
-	"color":"3B5E84"
-})
-</script>
 <?php CController::widget('Footer'); ?>
     </div>
 	

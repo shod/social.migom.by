@@ -183,6 +183,9 @@ class CommentsController extends ERestController
 						case 'article':
 							$apiModel = Api_Article_Author::model();
 							break;
+						case 'adverts':
+							$apiModel = Api_Adverts::model();
+							break;
 						default:
 							$apiModel = Api_News_Author::model();
 					}

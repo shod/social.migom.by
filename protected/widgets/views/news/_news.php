@@ -1,5 +1,5 @@
 <div class="post">
-    <div class="related"><?= Yii::t('UserNews', 'title:'.$model->name); ?> <a href="<?= $model->link ?><?= $model->entity_id ?>"><?= ($model->title)? $model->title : Yii::t('Site', 'Новость') ; ?></a><div id="<?= $model->name . '_' . $model->id ?>_delete" class="close ajaxNewDelete">
+    <div class="related"><?= Yii::t('UserNews', 'title:'.$model->name); ?> <a href="<?= $model->link ?><?= $model->entity_id ?>"><?= ($model->title)? $model->title : '#'.$model->entity_id ; ?></a><div id="<?= $model->name . '_' . $model->id ?>_delete" class="close ajaxNewDelete">
             </div></div>
         <div class="message">
                 <div class="avatar"><?= UserService::printAvatar(Yii::app()->user->id, Yii::app()->user->name); ?></div>

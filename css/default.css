@@ -527,4 +527,69 @@ button::-moz-focus-inner {border: 0; padding: 0}
 .profile .summary .profile-send-message{
 	margin: 30px -6px;
 }
+.tag-1 {
+	background: none repeat scroll 0 0 #C2C2C2;
+    color: #FFFFFF;
+    display: inline-block;
+    font-weight: bold;
+    height: 29px;
+    line-height: 29px;
+    padding: 0 10px;
+}
+.message .image{
+	padding-top: 10px;
+}
 
+.message .price{
+	color: #b30101;
+	font-size: 16px;
+	font-family: arial;
+}
+.message .price span{
+	font-weight: bolder;
+}
+
+.b-market__item-form .offer-list {
+    background: none repeat scroll 0 0 #E5F8E4;
+    clear: both;
+    margin: 0 -30px;
+    overflow: hidden;
+    padding: 10px 30px 5px;
+}
+ol, ul {
+    list-style: none outside none;
+}
+
+.b-market__item-form .offer-list li ,.b-market__item-form  .offer{
+    background: none repeat scroll 0 0 #C5F0C4;
+    color: #329C2F;
+    float: left;
+    font: 11px/25px Tahoma,Verdana,Arial,Sans-serif;
+    height: 26px;
+    margin: 0 5px 5px 0;
+    padding: 0 10px;
+}
+.b-market__item-form .offer-list li a{
+    color: #329C2F;
+    font-weight: bold;
+    text-decoration: underline;
+}
+.b-market__item-form  .offer{
+    color: #329C2F;
+    font-weight: bold;
+}
+
+.b-market__item-form .offer-list li b,.b-market__item-form  .offer {
+    font-weight: bold;
+}
+.b-market__item-form .offer{
+
+}
+
+.b-market__item-form .price {
+    color: #B40000;
+    display: block;
+    float: left;
+    font-size: 25px;
+    margin: 7px 0 10px;
+}

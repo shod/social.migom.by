@@ -32,7 +32,10 @@ class SiteController extends Controller {
     }
 
     public function actionIndex(){
-        Widget::create('header');
+		//Api_Adverts::model();
+		//die;
+        //Widget::create('header');
+		die;
     }
 	
 	public function actionInfo(){
