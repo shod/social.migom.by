@@ -1,6 +1,8 @@
 <div class="lenta">
 
     <?php $this->widget('UserMain', array('model' => $model, 'news' => $news, 'active' => 'news')); ?>
+	
+	
 
     <div class="wall">
             <?php if(Yii::app()->user->id == $model->id): ?>
@@ -24,6 +26,13 @@
 			   if (document.mmm_fo) document.write ("&amp;mmm_fo=1");
 			   document.write ("'><\/scr"+"ipt>");
 			//]]>--></script>
+			<script type="text/javascript"><!--//<![CDATA[
+				MigomBlock.topProducts({
+					"count":"4",
+					"mode":"vertical"
+				})
+			//]]>--></script>
     </div>
+	
 
 </div>

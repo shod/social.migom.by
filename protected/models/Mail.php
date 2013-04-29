@@ -69,6 +69,26 @@ class Mail extends CModel{
 		return $queue->save();
 	}
 	
+	public function sendYamaAucionNotify($advert, $auction, $fromName){
+		$queue = new Queue();
+		$queue->priority = self::MAX_PRIORITY;
+		$queue->what = self::WORKER;
+		$queue->user_id = $advert['user_id'];
+        $params = array(
+				'template' => 'yamaAuction',
+				'text' => $advert['description'],
+				'user_login' => $fromName,
+				'price' => $auction['price'],
+				'currency' => $advert['currency'],
+				'user_id' => $auction['user_id'],
+				'link' => News::getLink('adverts') . $advert['id'],
+				'id' => $advert['id'],
+			);
+		
+        $queue->param = $params;
+		return $queue->save();
+	}
+	
 	public function sendMessageNotify($modelTo, $text){
 		$queue = new Queue();
 		

@@ -9,6 +9,7 @@ return array(
     'widgetFactory' => require(dirname(__FILE__) . '/components/widgetFactory.php'),
     'migom'         => require(dirname(__FILE__) . '/components/migom.php'),
 	'tags'          => require(dirname(__FILE__) . '/components/tags.php'),
+	'yama'          => require(dirname(__FILE__) . '/components/yama.php'),
     'log'           => require(dirname(__FILE__) . '/components/log.php'),
 	'migom_job'           => require(dirname(__FILE__) . '/components/migom_job.php'),
 	'notify' => array(
@@ -64,6 +65,8 @@ return array(
             'user/<id:\d+>' => 'user/index',
             'user' => 'user/index',
             'profile/<id:\d+>' => 'user/profile',
+			
+			'site/default' => 'test/link',
 
             'profile' => 'user/profile',
             'profile/edit' => 'user/edit',
@@ -73,7 +76,13 @@ return array(
 			'messages/<action:\w+>/<id:\d+>' => 'messages/messages/<action>',
 			'messages/<action:\w+>' => 'messages/messages/<action>',
 			
+			'things' => 'things/index',
+			'things/<action:\w+>/<id:\d+>' => 'things/<action>',
+			'things/<action:\w+>' => 'things/<action>',
 			
+			'yama' => 'yama/index',
+			'things/<action:\w+>/<id:\d+>' => 'yama/<action>',
+			'things/<action:\w+>' => 'yama/<action>',
 
 			'<action:(login|logout)>' => 'site/<action>',
             '<controller:\w+>/<id:\d+>' => '<controller>/view',

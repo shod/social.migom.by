@@ -26,7 +26,7 @@
 		<div class="message">
 			<div class="avatar"><?= UserService::printAvatar($model->id, ($model->profile->name) ? $model->profile->name : $model->login); ?></div>
 			<?= CHtml::link(($model->profile->name) ? $model->profile->name : $model->login, array('/user/profile', 'id' => $model->id), array('class' => 'author')) ?>
-			<span class="date"><?= SiteService::getStrDate($comment['created_at']) ?> <?= Yii::t('Site', 'назад'); ?></span>
+			<span class="date"><?= SiteService::getStrDate($comment['created_at']) ?></span>
 			<?php if(strlen($comment['text']) <= 200): ?>
 				<div class="body"><?= $comment['text'] ?></div>
 			<?php else: ?>

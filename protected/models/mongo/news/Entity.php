@@ -22,7 +22,8 @@ class News_Entity extends EMongoEmbeddedDocument
     public function embeddedDocuments() {  // встроенные, суб массивы!
         return array(
             // property name => embedded document class name
-            'comment' => 'News_Entity_Comment',
+            'auction' => 'News_Entity_Auction',
+			'comment' => 'News_Entity_Comment',
             'likes' => 'News_Entity_Likes',
             'dislikes' => 'News_Entity_Likes',
         );

@@ -153,6 +153,42 @@ class News extends EMongoDocument {
 	
 	}
 	
+	public static function pushAuction($advert, $auction){
+		list($news, $entity) = News::_push($advert['user_id'], $advert['id'], 'Adverts');
+		
+		$name = 'Adverts';
+        if(!$entity){       // если новая запись на стене
+            $entity = new News_Entity();
+            $entity->id = $advert['id'];
+            $entity->name = $name;
+            $entity->created_at = time();
+            $entity->template = self::getTemplate($name);
+        }
+		$userFrom = Users::model()->findByPk($auction['user_id']);
+		$entity->image = Yii::app()->params['yamaBaseUrl'] . '/images/ahimsa/' . $advert['id'] . '/mini/' . $advert['image'];
+		$entity->link = self::getLink($name);
+        $entity->entity_id = $advert['id'];
+        $entity->filter = 'advert';
+        $entity->title = '#' . $advert['id'];
+        $entity->text = $advert['description'];
+        $entity->template = self::getTemplate($name);
+        $entity->auction->user_id = $auction['user_id'];
+		$entity->auction->price = $auction['price'];
+		$entity->auction->currency = $advert['currency'];
+        $entity->auction->login = $userFrom->fullName;
+        $entity->auction->id = $auction['id'];
+		
+		// письмо "На Ваш комментарий ответили"
+		if(!Yii::app()->cache->get('online_user_' . $advert['user_id']) && !isset($news->disable_notify['comments_activity'])){
+			$mail = new Mail;
+			$mail->sendYamaAucionNotify($advert, $auction, $userFrom->fullName);
+		}
+		Yii::app()->notify->sendUserNotify($advert['user_id'], 'wall');
+		
+		$news->entities[] = $entity;
+        return $news->save();
+	}
+	
     /**
      * Смотри News_Entity
      * @param type $user_id     - Юзер чей коммент
@@ -229,7 +265,7 @@ class News extends EMongoDocument {
 	public static function pushCommentToAuthor($comment, $count, $new){
         $name = array_pop(explode('_', get_class($comment)));
 		list($news, $entity) = News::_push($new->user_id, $comment->entity_id, $name);
-		
+
 		if(!$entity){       // если новая запись на стене
             $entity = new News_Entity();
             $entity->id = $new->id;
@@ -363,6 +399,9 @@ class News extends EMongoDocument {
             case 'price_down':
                 return Yii::app()->params['migomBaseUrl'];
                 break;
+			case 'Adverts':
+                return Yii::app()->params['yamaBaseUrl'].'/ahimsa/';
+                break;
 
             default:
                 break;
@@ -379,7 +418,9 @@ class News extends EMongoDocument {
             case 'price_down':
                 return 'news';
                 break;
-
+			case 'Adverts':
+				return 'adverts';
+				break;
             default:
                 break;
         }
