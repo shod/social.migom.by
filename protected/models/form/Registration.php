@@ -113,6 +113,9 @@ class Form_Registration extends CFormModel
                 }
             }
             if($user->email){
+				$user->scenario = 'registration';
+				$user->createHash();
+				$user->save();
                 $mail = new Mail();
                 $mail->send($user, 'registration', array('password' => $pass), true);
             }

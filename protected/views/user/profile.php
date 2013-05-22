@@ -150,6 +150,12 @@
                 <th><a href="#">154</a></th>
                 <td>отзывов на продавца</td>
             </tr>-->
+			<?php if($adverts): ?>
+			<tr>
+                <th><a href="<?= Yii::app()->params['yamaBaseUrl'] . '/?user=' . $model->id ?>"><?= count($adverts) ?></a></th>
+                <td><?= SiteService::getCorectWordsT('Yama', 'adverts', count($adverts)) ?></td>
+            </tr>
+			<?php endif; ?>
         </table>
 		<?php endif; ?>
     </div>

@@ -25,7 +25,7 @@
 			<div id="dialog-posts">
 				<?php $this->renderPartial('dialog/_posts', array('messages' => $messages, 'user' => $user)); ?>
 			</div>
-			<?php $this->renderPartial('dialog/_form', array('model'=>$model, 'textModel' => $textModel, 'user' => $user)); ?>
+			<?php $this->renderPartial('dialog/_form', array('model'=>$model, 'textModel' => $textModel, 'user' => $user, 'message_prefix' => $message_prefix)); ?>
 		</div>
     </div>
 </div>

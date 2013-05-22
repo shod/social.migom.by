@@ -104,6 +104,12 @@ class UserController extends Controller
 		Widget::get('Breadcrumbs')->addBreadcrumbs(array('url' => '#', 'title' => Yii::t('Social', 'Профиль: :user_name', array(':user_name' => $model->login))));
         $this->title = Yii::t('Social', 'Профиль {login} | Migom.by', array('{login}' => $model->login));
 		
+		$adverts = Api_Adverts::model();
+		$adverts = (array) $adverts->getByUser($model->id);
+		if($adverts){
+			$adverts = (array) $adverts;
+		}
+		
 		$news = 0;
 		$article = 0;
 		if($model->id != Yii::app()->user->id){
@@ -115,7 +121,7 @@ class UserController extends Controller
 			$article = Api_Article_Author::model()->count('user_id = :id', array(':id' => $model->id));
 		}
 		
-        $this->render('profile', array('model' => $model, 'news' => $news, 'article' => $article));
+        $this->render('profile', array('model' => $model, 'news' => $news, 'article' => $article, 'adverts' => $adverts));
     }
 
     public function actionEdit()
@@ -194,6 +200,7 @@ class UserController extends Controller
                 $redirect = false;
             }
 			Yii::app()->user->setName($model->fullName);
+			Yii::app()->user->setPhone($model->phone);
         }
 
         if ($redirect) {
@@ -236,7 +243,6 @@ class UserController extends Controller
     }
 	
 	protected function _getComments($id){
-		
 		switch($this->action->id){
 			case 'comments':
 				$commentsModel = Comments_News::model();
@@ -520,7 +526,7 @@ class UserController extends Controller
 		$user->status = 1;
 		$user->hash = '';
 		$user->save();
-		$this->redirect('/profile/edit');
+		$this->render('emailConfirm', array('userName' => $user->fullName));
 		Yii::app()->end();
 	}
 }

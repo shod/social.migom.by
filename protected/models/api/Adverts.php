@@ -13,12 +13,6 @@ class Api_Adverts extends ERestDocument
 	public $start_date;		// from news
 	public $anounce_text;	// from news
 	public $currency;
-	
-
-	public function attributeNames()
-    {
-        return array();
-    }
 
     public function getCollectionName()
     {
@@ -29,7 +23,7 @@ class Api_Adverts extends ERestDocument
 	{
 		$this->start_date = $this->created_at;
 		$this->anounce_text = $this->description;
-		$this->title = '#' . $this->id;
+		$this->title = mb_substr($this->description, 0, 50, 'utf8');
 		return parent::afterFind();
 	}
 

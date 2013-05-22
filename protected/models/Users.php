@@ -74,7 +74,7 @@ class Users extends ActiveRecord
 	public function phone($attribute,$params)
 	{
 		$phone = str_replace(array('(',')','+375','-'), '', $this->phone);
-		if(strlen($phone) != $params['length'] && strlen($phone) > 0){
+		if(strlen($phone) != $params['length'] && !(strlen($phone) > 0 || !$this->phone)){
 			$this->addError($attribute, Yii::t('Site', 'Телефон введен не верно'));
 		}
 		$this->phone = $phone;
@@ -197,7 +197,7 @@ class Users extends ActiveRecord
             }
             if ($this->oldAttributes['email'] && $this->status == 1) {
                 $this->email = $this->oldAttributes['email'];
-            } elseif($this->email && $this->status == 2){
+            } elseif($this->email && $this->status == 2 && $this->scenario != 'registration'){
 				$this->sendEmailConfirm();
                 $this->status = 2;
             }
@@ -285,10 +285,13 @@ class Users extends ActiveRecord
 		return $res;
 	}
 	
+	public function createHash(){
+		$this->hash = md5(crc32('eugen was here' . $this->id . $this->email . time()));
+	}
+	
 	public function sendEmailConfirm(){
 		$mail = new Mail();
-		$this->hash = md5(crc32('eugen was here' . $this->id . $this->email . time()));
+		$this->createHash();
 		$mail->sendOnce($this, 'emailConfirm', array('hash' => $this->hash), true);
-		
 	}
 }

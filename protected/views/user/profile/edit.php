@@ -60,7 +60,7 @@
 					<?php 
 					$textConfirm = 'Для завершения регистрации введите и подтвердите email.'; 
 					if($model->email){
-						$textConfirm .= '<br/> Посьмо подтверждения отправлено на email';
+						$textConfirm .= '<br/> Письмо подтверждения отправлено на email';
 					}
 					?>
 					<div style="background-color:rgb(250, 149, 130)"><?= Yii::t('Profile', $textConfirm); ?></div></td>

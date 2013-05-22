@@ -10,11 +10,12 @@
 		)); ?>
 
 			<ul>
+				<?php $textModel->text = $message_prefix; ?>
 				<li><?php echo $form->textArea($textModel,'text'); ?></li>
 				<li>
 					<?= CHtml::ajaxSubmitButton(
 							Yii::t('Messages', 'Отправить'), 
-							array('/messages/send', 'id' => $user->id), 
+							array('/messages/send', 'id' => $user->id, 'ahimsa' => Yii::app()->request->getParam('ahimsa', '0', 'int')), 
 							array(
 								'beforeSend' => 'function(){ if($("#Messages_Text_text").val() == "") {return false;}; }',
 								'success' => 'function(data){ $("#dialog-posts").append(data); }', 

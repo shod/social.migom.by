@@ -189,9 +189,9 @@ class CommentsController extends ERestController
 						default:
 							$apiModel = Api_News_Author::model();
 					}
-					// find the new in view(view have not news without aothor)
+					// find the new in view(view have not news without author)
 					$new = $apiModel->find('id = :id', array(':id' => $comment->entity_id));
-					if($new){
+					if($new && $new->user_id){
 						$count = $comment::model()->count('entity_id = :eId AND parent_id = 0', array(':eId' => $comment->entity_id));
 						News::pushCommentToAuthor($comment, $count, $new);
 					}

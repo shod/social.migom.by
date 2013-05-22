@@ -159,7 +159,7 @@ class News extends EMongoDocument {
 		$name = 'Adverts';
         if(!$entity){       // если новая запись на стене
             $entity = new News_Entity();
-            $entity->id = $advert['id'];
+            $entity->id = $advert['id'] . $auction['id'];
             $entity->name = $name;
             $entity->created_at = time();
             $entity->template = self::getTemplate($name);
@@ -179,10 +179,10 @@ class News extends EMongoDocument {
         $entity->auction->id = $auction['id'];
 		
 		// письмо "На Ваш комментарий ответили"
-		if(!Yii::app()->cache->get('online_user_' . $advert['user_id']) && !isset($news->disable_notify['comments_activity'])){
+		//if(!Yii::app()->cache->get('online_user_' . $advert['user_id']) && !isset($news->disable_notify['comments_activity'])){
 			$mail = new Mail;
 			$mail->sendYamaAucionNotify($advert, $auction, $userFrom->fullName);
-		}
+		//}
 		Yii::app()->notify->sendUserNotify($advert['user_id'], 'wall');
 		
 		$news->entities[] = $entity;
@@ -306,8 +306,33 @@ class News extends EMongoDocument {
         $news->entities[] = $entity;
         return $news->save();
     }
+	
+	 public static function pushPriceDown($user, $product, $productInfo){
+        $name = 'price_down';
+        list($news, $entity) = News::_push($user->id, $product['product_id'], $name);
 
-    public static function pushProduct($user, $product, $productInfo, $template, $name){
+        if(!$entity){       // если новая запись на стене
+            $entity = new News_Entity();
+            $entity->id = $product['product_id'];
+            $entity->name = $name;
+            $entity->created_at = time();
+        }
+
+        // эти параметры следовало бы обновить в любом случае
+        $entity->link = self::getLink($name);
+        $entity->entity_id = $product['product_id'];
+        $entity->filter = $name;
+        $entity->title = $productInfo->title;
+        $entity->image = $productInfo->image;
+        $entity->cost = $product['cost'];
+//        $entity->text = '';
+        $entity->template = 'priceDown';
+
+        $news->entities[] = $entity;
+        return $news->save();
+    }
+
+    public static function pushProduct($user, $product, $productInfo, $template = 'priceDown', $name = 'price_down'){
         $name = 'price_down';
 		$template = 'priceDown';
         list($news, $entity) = News::_push($user->id, $product['product_id'], $name);

@@ -27,6 +27,7 @@ return array(
             'time_limit' => 60 * 9 // 9 минут на обновление лайков (обновление в кроне - раз в 10 минут)
         ),
 		'socialBaseUrl' => 'http://www.social.migom.by/',
+		'yamaBaseUrl' => 'http://www.yama.migom.by/',
     ),
 
 );

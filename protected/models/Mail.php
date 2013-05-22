@@ -75,13 +75,14 @@ class Mail extends CModel{
 		$queue->what = self::WORKER;
 		$queue->user_id = $advert['user_id'];
         $params = array(
+				'image' 	=> $advert['image'],
 				'template' => 'yamaAuction',
 				'text' => $advert['description'],
 				'user_login' => $fromName,
 				'price' => $auction['price'],
 				'currency' => $advert['currency'],
-				'user_id' => $auction['user_id'],
-				'link' => News::getLink('adverts') . $advert['id'],
+				'fromUser' => $auction['user_id'],
+				'link' => News::getLink('Adverts'),
 				'id' => $advert['id'],
 			);
 		

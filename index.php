@@ -1,5 +1,11 @@
 <?php
-//die('Ведутся работы');
+/*if(!isset($_GET['build'])){
+	die('Ведутся работы');
+}*/
+if(isset($_GET['debug']) && $_GET['debug'] == 777){
+	define('YII_DEBUG',true);
+}
+
 // change the following paths if necessary
 $yii=dirname(__FILE__).'/../framework/yii.php';
 $yiiEx  = dirname(__FILE__) . '/../core/YiiBaseEx.php';

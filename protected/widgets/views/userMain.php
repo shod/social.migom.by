@@ -21,7 +21,7 @@
 				<div class="count" style="<?php if(!Yii::app()->notify->getNotifyCount('messages')): ?>display:none;<?php endif; ?>"><?= Yii::app()->notify->getNotifyCount('messages') ?></div>
 		</div>
 	</div>
-	<div class="category things_cat <?php if($this->active == 'things'): ?>current<?php endif; ?>">
+	<!--<div class="category things_cat <?php if($this->active == 'things'): ?>current<?php endif; ?>">
 		<div class="heading">
 			<?= CHtml::link(Yii::t('Site', 'Мои вещи'), array('/things'), array('class' => 'title')) ?>
 		</div>
@@ -29,14 +29,12 @@
 			<label><?= CHtml::checkBox('wish', !in_array('wish', ($news)?$news->disable_entities:array()), array('class' => 'thingsFilter')) ?> <span><?= Yii::t('User', 'Я хочу'); ?></span></label>
 			<label><?= CHtml::checkBox('have', !in_array('have', ($news)?$news->disable_entities:array()), array('class' => 'thingsFilter')) ?> <span><?= Yii::t('User', 'У меня есть'); ?></span></label>
 		</div>
-	</div>
+	</div>-->
 	<div class="category yama_cat <?php if($this->active == 'yama'): ?>current<?php endif; ?>">
 		<div class="heading">
 			<?= CHtml::link(Yii::t('Site', 'Мои объявления'), array('/yama'), array('class' => 'title')) ?>
 		</div>
 		<div class="options">
-			<!--<label><?= CHtml::checkBox('wish', !in_array('wish', ($news)?$news->disable_entities:array()), array('class' => 'thingsFilter')) ?> <span><?= Yii::t('User', 'Я хочу'); ?></span></label>
-			<label><?= CHtml::checkBox('have', !in_array('have', ($news)?$news->disable_entities:array()), array('class' => 'thingsFilter')) ?> <span><?= Yii::t('User', 'У меня есть'); ?></span></label>-->
 		</div>
 	</div>
 </div>

@@ -11,6 +11,9 @@
 					</div>
 				<?php endif; ?>
 				<div class="body"><?= $model->text ?></div>
+				<?php if(isset($_GET['debug'])): ?>
+					<?php dd($model->image); ?>
+				<?php endif; ?>
                 <?php if($model->image): ?>
                     <div class="attachments">
                         <?= CHtml::link(CHtml::image($model->image),  $model->link . $model->entity_id); ?>

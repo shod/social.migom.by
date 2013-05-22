@@ -23,7 +23,7 @@ class SiteController extends Controller {
             ),
 			array('allow', // allow readers only access to the view file
                 'actions' => array('index', 'info'),
-                'users' => array('administrator')
+                'roles' => array('administrator')
             ),
             array('deny', // deny everybody else
                 'users' => array('*')
@@ -33,8 +33,12 @@ class SiteController extends Controller {
 
     public function actionIndex(){
 		//Api_Adverts::model();
-		//die;
+		die;
         //Widget::create('header');
+		$apiModel = Api_Adverts::model();
+		$apiModel->debug = 1;
+		$new = $apiModel->find('id = :id', array(':id' => 54));
+		d($new);
 		die;
     }
 	
@@ -69,6 +73,10 @@ class SiteController extends Controller {
      * Displays the login page
      */
     public function actionLogin() {
+		
+		if(isset($_GET['return_url'])){
+			$_SERVER['HTTP_REFERER'] = $_GET['return_url'];
+		}
         if (!Yii::app()->user->getIsGuest()) {
 			if(!isset($_SERVER['HTTP_REFERER']) || strpos($_SERVER['HTTP_REFERER'], Yii::app()->params['socialBaseUrl'].'/login') === 0){
 				$this->redirect('/user/index');
@@ -83,10 +91,12 @@ class SiteController extends Controller {
 					!Yii::app()->request->getParam('haveALogin') &&
 					!Yii::app()->request->getParam('new') &&
 					Yii::app()->request->getBaseUrl(true).'/login' != $_SERVER['HTTP_REFERER'] && 
-					Yii::app()->request->getBaseUrl(true).'/site/login' != $_SERVER['HTTP_REFERER']
+					Yii::app()->request->getBaseUrl(true).'/site/login' != $_SERVER['HTTP_REFERER'] &&
+					strpos(Yii::app()->user->returnUrl, Yii::app()->params['yamaBaseUrl']) === false
 				){
 						Yii::app()->user->setReturnUrl($_SERVER['HTTP_REFERER']);
         }
+		
         $this->layout = 'login';
 
         $service = Yii::app()->request->getQuery('service');

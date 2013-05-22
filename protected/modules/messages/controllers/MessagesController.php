@@ -21,6 +21,10 @@ class MessagesController extends Controller
     public function accessRules()
     {
         return array(
+			array('allow', // allow readers only access to the view file
+                'actions' => array('send'),
+                'users' => array('*')
+            ),
             array('allow', // allow readers only access to the view file
                 'actions' => array(),
                 'roles' => array('user', 'moderator', 'administrator')
@@ -37,7 +41,16 @@ class MessagesController extends Controller
 	 */
 	public function actionSend($id)
 	{
+		if(Yii::app()->user->isGuest){
+			Yii::app()->user->setReturnUrl(Yii::app()->getBaseUrl(true) . $_SERVER['REDIRECT_URL']);
+			if(isset($_GET['debug'])){
+				$this->redirect('/login?debug=777');
+			}
+			$this->redirect('/login?return_url='.Yii::app()->user->returnUrl);
+		}
+	
 		$model=new Messages;
+		$message_prefix = '';
 		
 		$toUser = Users::model()->with('profile')->findByPk($id);
 		$user = Users::model()->findByPk(Yii::app()->user->id);
@@ -68,6 +81,12 @@ class MessagesController extends Controller
 			}
 			
 			if($model->validate() && $textModel->validate()){
+				if($advert_id = Yii::app()->request->getParam('ahimsa', '0', 'int')){
+					$apiAdverts = Api_Adverts::model()->findByPk($advert_id);
+					$advert_link = CHtml::link($apiAdverts->title, Yii::app()->params['yamaBaseUrl'] . '/ahimsa/' . $advert_id);
+					$message_prefix = 'Тема: '.$advert_link.'' . "\n";
+					$textModel->text = $message_prefix . $textModel->text;
+				}
 				
 				$transaction = Yii::app()->db->beginTransaction();
 				try{
@@ -116,6 +135,8 @@ class MessagesController extends Controller
 				}
 			}
 			Yii::app()->end(); // END PAGE!!
+		} elseif(isset($_GET['ahimsa'])){
+			
 		}
 		
 		if(Yii::app()->request->getParam('date', '', 'int')){
@@ -167,6 +188,7 @@ class MessagesController extends Controller
 			'textModel'	=>new Messages_Text(),
 			'messages' 	=> $messages,
 			'first'		=> $firstTime,
+			'message_prefix'=> $message_prefix,
 		));
 	}
 

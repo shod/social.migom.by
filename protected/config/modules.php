@@ -21,7 +21,7 @@ return array(
 			'migomby' 		=> '93.125.53.103',
 			'devmigomby' 	=> '178.172.181.139',
 			'test2migomby' 	=> '93.125.53.104',
-			'yamamigomby'	=> '178.172.181.139',
+			'yamamigomby'	=> '93.125.53.104',
         )
     ),
     'ads',
