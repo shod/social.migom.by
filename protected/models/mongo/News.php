@@ -159,7 +159,7 @@ class News extends EMongoDocument {
 		$name = 'Adverts';
         if(!$entity){       // если новая запись на стене
             $entity = new News_Entity();
-            $entity->id = $advert['id'] . $auction['id'];
+            $entity->id = $advert['id'] . $auction['user_id'];
             $entity->name = $name;
             $entity->created_at = time();
             $entity->template = self::getTemplate($name);
@@ -169,7 +169,13 @@ class News extends EMongoDocument {
 		$entity->link = self::getLink($name);
         $entity->entity_id = $advert['id'];
         $entity->filter = 'advert';
-        $entity->title = '#' . $advert['id'];
+		$apiAdverts = Api_Adverts::model()->findByPk($advert['id']);
+		if(!$apiAdverts){
+			$advert['title'] = '#' . $advert['id'];
+		} else {
+			$advert['title'] = $apiAdverts->title;
+		}
+        $entity->title = $advert['title'];
         $entity->text = $advert['description'];
         $entity->template = self::getTemplate($name);
         $entity->auction->user_id = $auction['user_id'];
@@ -179,10 +185,10 @@ class News extends EMongoDocument {
         $entity->auction->id = $auction['id'];
 		
 		// письмо "На Ваш комментарий ответили"
-		//if(!Yii::app()->cache->get('online_user_' . $advert['user_id']) && !isset($news->disable_notify['comments_activity'])){
+		if(!Yii::app()->cache->get('online_user_' . $advert['user_id']) && !isset($news->disable_notify['comments_activity'])){
 			$mail = new Mail;
 			$mail->sendYamaAucionNotify($advert, $auction, $userFrom->fullName);
-		//}
+		}
 		Yii::app()->notify->sendUserNotify($advert['user_id'], 'wall');
 		
 		$news->entities[] = $entity;
@@ -253,7 +259,7 @@ class News extends EMongoDocument {
 		// письмо "На Ваш комментарий ответили"
 		if(!Yii::app()->cache->get('online_user_' . $parent->user_id) && !isset($news->disable_notify['comments_activity'])){
 			$mail = new Mail;
-			$mail->sendCommentsNotification($comment, 'News', $entity->title);
+			$mail->sendCommentsNotification($comment, $name, $entity->title);
 		}
 		Yii::app()->notify->sendUserNotify($parent->user_id, 'wall');
 		//UserService::addNotification($parent->user_id);
@@ -298,7 +304,7 @@ class News extends EMongoDocument {
 		// письмо "На Ваш комментарий ответили"
 		if(!Yii::app()->cache->get('online_user_' . $new->user_id) && !isset($news->disable_notify['comments_activity'])){
 			$mail = new Mail;
-			$mail->sendCommentsAuthorNotification($comment, 'News', $entity->title, $new->user_id);
+			$mail->sendCommentsAuthorNotification($comment, $name, $entity->title, $new->user_id);
 		}
 		Yii::app()->notify->sendUserNotify($new->user_id, 'wall');
 		//UserService::addNotification($parent->user_id);
@@ -410,14 +416,17 @@ class News extends EMongoDocument {
     public static function getLink($name){
         switch ($name) {
             case 'News':
+			case 'news':
                 return Yii::app()->params['migomBaseUrl'].'?news_id=';
                 break;
 				
 			case 'Article':
+			case 'article':
                 return Yii::app()->params['migomBaseUrl'].'?article_id=';
                 break;
 			
 			case 'Product':
+			case 'product':
                 return Yii::app()->params['migomBaseUrl'].'/';
                 break;
 				
@@ -425,6 +434,7 @@ class News extends EMongoDocument {
                 return Yii::app()->params['migomBaseUrl'];
                 break;
 			case 'Adverts':
+			case 'adverts':
                 return Yii::app()->params['yamaBaseUrl'].'/ahimsa/';
                 break;
 

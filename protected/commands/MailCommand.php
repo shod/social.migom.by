@@ -11,38 +11,35 @@ class MailCommand extends ConsoleCommand {
 			return true;
         }
         $mailer = Yii::app()->mailer;
-//        if($mailer->Host){
-//            $mailer->IsSMTP();
-//        } else {
-            $mailer->IsMail();
-//        }
 		
 		
+		$mailer->IsSMTP();
 		$mailer->ClearAddresses();
 		$mailer->AddAddress($user->email);
-        $mailer->FromName = 'Social.Migom.By';
+        $mailer->FromName = 'Migom.By';
         $mailer->CharSet = 'UTF-8';
-        $mailer->Subject = Yii::t('Mail', 'Social.Migom.By');
+        $mailer->Subject = Yii::t('Mail', 'Migom.By');
 		$mailer->SingleTo = true;
-		$mailer->Mailer = 'mail';
-		$mailer->Sender = 'noreply@social.migom.by';
-		$mailer->ClearCustomHeaders();
-		//$mailer->AddCustomHeader('Return-path: <evgeniy.kazak@gmail.com>');
-		$mailer->AddCustomHeader('Errors-To: <noreply@social.migom.by>');
+		$mailer->Mailer = 'smtp';
+		$mailer->Hostname = 'migom.by';
+		$mailer->Sender = 'no_reply@migom.by';
+		/*$mailer->ClearCustomHeaders();
+		$mailer->AddCustomHeader('Errors-To: <no_reply@migom.by>');
 		$mailer->AddCustomHeader('Precedence: bulk');
-		//$mailer->AddCustomHeader('From: migom.by<noreply@migom.by>');
-		$mailer->AddCustomHeader('Reply-To: <noreply@social.migom.by>');
-		//$mailer->AddCustomHeader('Return-Path: <noreply@migom.by>');
+		$mailer->AddCustomHeader('Reply-To: <no_reply@migom.by>');
+		$mailer->AddCustomHeader('Return-Path: <no_reply@migom.by>');*/
 
         $this->params['user'] = $user;
 		$this->params['mailer'] = $mailer;
 		try {
             $mailer->getView($template, $this->params);
 			$result = $mailer->Send();
-			$mailLog = new Mail_log();
-			$mailLog->user_id = $user->id;
-			$mailLog->template = $template;
-			$mailLog->save();
+			if($result){
+				$mailLog = new Mail_log();
+				$mailLog->user_id = $user->id;
+				$mailLog->template = $template;
+				$mailLog->save();
+			}			
         } catch (CException $exc) {
 			$errors = array('message' => Yii::t('Command', 'Email error: {ex}', array('{ex}' => $exc->getTraceAsString())));
             Yii::log($errors['message'], CLogger::LEVEL_ERROR, 'console');
@@ -64,27 +61,22 @@ class MailCommand extends ConsoleCommand {
 			return true;
         }
         $mailer = Yii::app()->mailer;
-//        if($mailer->Host){
-//            $mailer->IsSMTP();
-//        } else {
-            $mailer->IsMail();
-//        }
 
+		$mailer->IsSMTP();
 		$mailer->ClearAddresses();
 		$mailer->AddAddress($user->email);
-        $mailer->FromName = 'Social.Migom.By';
+        $mailer->FromName = 'Migom.By';
         $mailer->CharSet = 'UTF-8';
+        $mailer->Subject = Yii::t('Mail', 'Migom.By');
 		$mailer->SingleTo = true;
-		$mailer->Mailer = 'mail';
-		$mailer->Sender = 'noreply@social.migom.by';
-		$mailer->Subject = Yii::t('Mail', 'Social.Migom.By');
-		$mailer->ClearCustomHeaders();
-		//$mailer->AddCustomHeader('Return-path: <evgeniy.kazak@gmail.com>');
-		$mailer->AddCustomHeader('Errors-To: <noreply@social.migom.by>');
+		$mailer->Mailer = 'smtp';
+		$mailer->Hostname = 'migom.by';
+		$mailer->Sender = 'noreply@migom.by';
+		/*$mailer->ClearCustomHeaders();
+		$mailer->AddCustomHeader('Errors-To: <noreply@migom.by>');
 		$mailer->AddCustomHeader('Precedence: bulk');
-		//$mailer->AddCustomHeader('From: migom.by<noreply@migom.by>');
-		$mailer->AddCustomHeader('Reply-To: <noreply@social.migom.by>');
-		//$mailer->AddCustomHeader('Return-Path: <noreply@migom.by>');
+		$mailer->AddCustomHeader('Reply-To: <noreply@migom.by>');
+		$mailer->AddCustomHeader('Return-Path: <noreply@migom.by>');*/
         
 		$this->params['user'] = $user;
 		$this->params['mailer'] = $mailer;

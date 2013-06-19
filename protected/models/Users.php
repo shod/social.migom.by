@@ -274,6 +274,22 @@ class Users extends ActiveRecord
         parent::afterDelete();
     }
 	
+	public function afterSave(){
+		$criterea = new EMongoCriteria();
+        $criterea->addCond('id', '==', $this->id);
+		$user = Mongo_Users::model()->find($criterea);
+		if(!$user){
+			$user = new Mongo_Users;
+			$user->id = $this->id;
+		}
+		$user->name = $this->fullname;
+		$user->email = $this->email;
+		$user->date_add = $this->date_add;
+		$user->login = $this->login;
+		$user->phone = $this->phone;
+		$user->save();
+	}
+	
 	public function getFullName(){
 		$res = $this->login;
 		if($this->profile && $this->profile->name && !$this->login){

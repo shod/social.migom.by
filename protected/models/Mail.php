@@ -24,7 +24,11 @@ class Mail extends CModel{
         $params = array_merge($params, array('template' => $template));
         $queue->user_id = $user->id;
         $queue->param = $params;
-        return $queue->save();
+		$return = $queue->save();
+		if($return && $fast){
+			@exec('/h/socialmigomby/htdocs/protected/yiic mail send --actions=10');
+		}
+        return $return;
     }
 	
 	public function sendOnce(Users $user, $template, $params = array(), $fast = false){
@@ -63,6 +67,7 @@ class Mail extends CModel{
 				'time' => $answerComment->created_at,
 				'link' => News::getLink($type).$answerComment->entity_id,
 				'comment_id' => $answerComment->id,
+				'type' => $type,
 			);
 		
         $queue->param = $params;
@@ -84,6 +89,7 @@ class Mail extends CModel{
 				'fromUser' => $auction['user_id'],
 				'link' => News::getLink('Adverts'),
 				'id' => $advert['id'],
+				'title' => $advert['title'],
 			);
 		
         $queue->param = $params;
@@ -161,10 +167,83 @@ class Mail extends CModel{
 				'time' => $answerComment->created_at,
 				'link' => News::getLink($type).$answerComment->entity_id,
 				'comment_id' => $answerComment->id,
+				'type' => $type,
 			);
 		
         $queue->param = $params;
 		return $queue->save();
 	}
-    
+	
+	public function sendDigest($usersDigest){
+		
+		foreach($usersDigest as $user_id => $user){
+			$params = array(
+				'template' => 'weeklyDigets',
+			);
+			foreach($user as $entityName => $entities){
+				switch($entityName){
+					case'adverts':
+						$adverts = Api_Adverts::model()->getAdverts(array('ids' => $entities));
+						if($adverts){
+							foreach($adverts as $adv){
+								$params['adverts'][] = array(
+									'type' => 'adverts',
+									'id' => $adv->id,
+									'title' => $adv->description,
+									'created_at' => $adv->created_at,
+									'image' => $adv->image,
+									'authorName' => $adv->name,
+									'authorId' => $adv->user_id,
+									'price' => $adv->price,
+									'currency' => $adv->currency,
+								);
+							}
+						}
+						break;
+					case'news':
+						$adverts = Api_News::model()->getByIds(array('ids' => $entities));
+						if($adverts->success){
+							unset($adverts->success);
+							foreach($adverts as $adv){
+								$params['news'][] = array(
+									'type' => 'news',
+									'id' => $adv->id,
+									'title' => $adv->title,
+									'created_at' => $adv->start_date,
+									'image' => 'http://static.migom.by/img/news/' .$adv->id. '/main-medium.jpg',
+								);
+							}
+						}
+						break;
+					case'article':
+						$adverts = Api_Article::model()->getByIds(array('ids' => $entities));
+						if($adverts->success){
+							unset($adverts->success);
+							foreach($adverts as $adv){
+								$params['article'][] = array(
+									'type' => 'article',
+									'id' => $adv->id,
+									'title' => $adv->title,
+									'created_at' => $adv->start_date,
+									'image' => 'http://static.migom.by/img/articles/img$' .$adv->id. '.jpg',
+								);
+							}
+						}
+						break;
+				}
+			}
+			
+			$user = Users::model()->findByPk($user_id);
+			$queue = new Queue();
+			$queue->priority = self::MEDIUM_PRIORITY;
+			$queue->what = self::WORKER;
+			$queue->user_id = $user_id;
+			
+			$queue->param = $params;
+			if($user_id == 1 || $user_id == 5346 || $user_id == 26){
+				$queue->save();
+			}
+			
+		}
+	}
 }

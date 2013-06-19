@@ -8,7 +8,7 @@ class UsersController extends ERestController
 {
 	
 	public function actionGetInfo(){
-		$id = Yii::app()->request->getParam('entity', '', 'int');
+		$id = Yii::app()->request->getParam('id', '', 'int');
 		$user = Users::model()->findByPk($id);
 		if(!$user){
 			$this->render()->sendResponse(

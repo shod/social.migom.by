@@ -3,7 +3,7 @@
 ?>
 <?php foreach($adverts as $advert): ?>
 	<div class="post">
-		<div class="related"><?= Yii::t('UserNews', 'Объявление'); ?> <a href="<?= Yii::app()->params['yamaBaseUrl'] . '/ahimsa/' ?><?= $advert->id ?>"><?= '#' . $advert->id ; ?></a></div>
+		<div class="related"><?= Yii::t('UserNews', 'Объявление'); ?> <a href="<?= Yii::app()->params['yamaBaseUrl'] . '/ahimsa/' ?><?= $advert->id ?>"><?= mb_substr($advert->description, 0, 50, 'utf8') ; ?></a></div>
 		<div class="message">
 			<div class="avatar"><?= UserService::printAvatar($model->id, ($model->profile->name) ? $model->profile->name : $model->login); ?></div>
 			<?= CHtml::link(($model->profile->name) ? $model->profile->name : $model->login, array('/user/profile', 'id' => $model->id), array('class' => 'author')) ?>
@@ -12,9 +12,11 @@
 			<?php if($advert->status != 1): ?>
 				<b class="tag-1">НЕАКТУАЛЬНО</b>
 			<?php endif; ?>
+			<?php if($advert->image): ?>
 			<div class="image">
 				<?= CHtml::image(Yii::app()->params['yamaBaseUrl'] . '/images/ahimsa/' . $advert->id . '/mini/' . $advert->image); ?>
 			</div>
+			<?php endif; ?>
 			<div class="b-market__item-form">
 			<?php if($advert->price): ?>   
                 <span class="price"><b><?= $advert->price ?></b> <?= Api_Adverts::$currencySymbol[$advert->currency] ?></span>

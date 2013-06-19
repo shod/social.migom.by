@@ -19,7 +19,7 @@ class NotifyCommand extends ConsoleCommand
 		if($this->offset === null ){
 			$count = Notify::model('Product_Cost')->count('is_send = 0');
 			for($offset = 0; $offset < $count; $offset = $offset + $this->limit){
-				exec('/h/socialmigomby/htdocs/protected/yiic.php notify productCost --offset=' . $offset );
+				exec('/h/socialmigomby/htdocs/protected/yiic notify productCost --offset=' . $offset );
 			}
 			return;
 		}
@@ -95,7 +95,7 @@ class NotifyCommand extends ConsoleCommand
 		if($this->offset === null ){
 			$count = Notify::model('Product')->count('is_send = 0');
 			for($offset = 0; $offset < $count; $offset = $offset + $this->limit){
-				exec('/h/socialmigomby/htdocs/protected/yiic.php notify product --offset=' . $offset );
+				exec('/h/socialmigomby/htdocs/protected/yiic notify product --offset=' . $offset );
 			}
 			return;
 		}

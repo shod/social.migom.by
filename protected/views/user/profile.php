@@ -95,7 +95,7 @@
 			<?php endif; ?>
         </table>
 		<?php endif; ?>
-		<?php if($model->getCountNewsComments() || $model->getCountArticleComments() || $model->getCountProductComments()): ?>
+		<?php if($model->getCountNewsComments() || $model->getCountArticleComments() || $model->getCountProductComments() || $adverts): ?>
         <table>
             <caption><span><?= Yii::t('Profile', 'Активность на сайте'); ?></span></caption>
 			<?php 
@@ -153,7 +153,7 @@
 			<?php if($adverts): ?>
 			<tr>
                 <th><a href="<?= Yii::app()->params['yamaBaseUrl'] . '/?user=' . $model->id ?>"><?= count($adverts) ?></a></th>
-                <td><?= SiteService::getCorectWordsT('Yama', 'adverts', count($adverts)) ?></td>
+                <td><?= SiteService::getCorectWordsT('Yama', 'adverts', count($adverts)) ?> (<?= CHtml::link(Yii::t('Site', 'просмотреть'), Yii::app()->params['yamaBaseUrl'] . '/?user=' . $model->id); ?>)</td>
             </tr>
 			<?php endif; ?>
         </table>

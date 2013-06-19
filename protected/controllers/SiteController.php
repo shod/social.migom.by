@@ -22,7 +22,7 @@ class SiteController extends Controller {
                 'users' => array('*')
             ),
 			array('allow', // allow readers only access to the view file
-                'actions' => array('index', 'info'),
+                'actions' => array('index', 'info', 'mail'),
                 'roles' => array('administrator')
             ),
             array('deny', // deny everybody else
@@ -235,4 +235,34 @@ class SiteController extends Controller {
             }
         }
     }
+	
+	public function actionMail(){
+		die;
+		$mailer = Yii::app()->mailerMailChimp;
+
+		
+		$mailer->IsSMTP();
+		$mailer->ClearAddresses();
+		$mailer->AddAddress('evgeniy.kazak@gmail.com');
+        $mailer->FromName = 'Migom.By';
+        $mailer->CharSet = 'UTF-8';
+        $mailer->Subject = Yii::t('Mail', 'Migom.By');
+		$mailer->SingleTo = true;
+		$mailer->Mailer = 'smtp';
+		$mailer->Hostname = 'migom.by';
+		$mailer->Sender = 'noreply@migom.by';
+		$mailer->ClearCustomHeaders();
+		//$mailer->AddCustomHeader('Errors-To: <noreply@migom.by>');
+		//$mailer->AddCustomHeader('Precedence: bulk');
+		//$mailer->AddCustomHeader('Reply-To: <noreply@migom.by>');
+		//$mailer->AddCustomHeader('Return-Path: <noreply@migom.by>');
+		
+		$mailer->IsHTML(true);
+
+        $params['user'] = $user;
+		$params['mailer'] = $mailer;
+
+            $mailer->getView('test');
+			$result = $mailer->Send();
+	}
 }

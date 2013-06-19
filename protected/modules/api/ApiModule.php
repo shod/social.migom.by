@@ -12,9 +12,9 @@ class ApiModule extends CWebModule {
             'api/auth/login/<key:\w+>' => 'api/auth/getLogin',
 			'api/<controller:\w+>/findbypk/<id:\d+>' => 'api/<controller>/findbypk',
 			
+			'api/<controller:\w+>/<action:\w+>/<id:\d+>' => 'api/<controller>/get<action>',
             'api/<controller:\w+>/<action:\w+>/<entity:\w+>/<id:\d+>' => 'api/<controller>/get<action>',
             'api/<controller:\w+>/<action:\w+>/<entity:\w+>' => 'api/<controller>/get<action>',
-            'api/<controller:\w+>/<action:\w+>/<id:\d+>' => 'api/<controller>/get<action>',
             'api/<controller:\w+>/<_a:(list|login)>' => 'api/<controller>/get<_a>',
 			'api/<controller:\w+>/<action:\w+>' => 'api/<controller>/get<action>',
 			
