@@ -5,9 +5,9 @@
 return array(
     'import' => array(
         'core.models.api.*',
-        'application.models.*',
         'core.services.*',
         'application.models.mongo.*',
+		'application.models.*',
         'core.components.*',
         'core.components.ConsoleCommand',
         'core.extensions.yiiRestSuite.*',

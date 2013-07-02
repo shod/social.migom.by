@@ -51,6 +51,11 @@ class YamaController extends Controller
 		}
 	
 		$offset = Yii::app()->request->getParam('offset', 0, 'int');
+		
+		
+		if(isset($_GET['debug'])){
+			Api_Adverts::model()->debug = 1;
+		}
 		$adverts = Api_Adverts::model();
 		$adverts = $adverts->getByUser(Yii::app()->user->id, 
 							array(

@@ -59,17 +59,19 @@ class CommentsController extends ERestController
         }
         $rawData = Comments::model($entity)->with('user')->findAll($criteria);
 
-        //TODO Как то не правельно related элименты так получать
+        //TODO Как то не правельно related элименты так получать //исправил[ek] - использовать массив attributes
         foreach ($rawData as $value) {
-
             $row = array();
-            foreach ($value as $key => $attr) {
+            /*foreach ($value as $key => $attr) {
                 $row[$key] = $attr;
-            }
+            }*/
+			$row = $value->attributes;
 			if(isset($value->user)){
-				foreach ($value->user as $key => $attr) {
+				$row['user'] = $value->user->attributes;
+				$row['user']['login'] = $value->user->fullname;
+				/*foreach ($value->user as $key => $attr) {
 					$row['user'][$key] = $attr;
-				}
+				}*/
 			}
 //            foreach ($value->profile as $key => $attr) {
 //                $row['users']['profile'][$key] = $attr;
