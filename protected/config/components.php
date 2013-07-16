@@ -4,6 +4,7 @@ return array(
     'db'            => require(dirname(__FILE__) . '/components/db.php'),
     'mongodb'       => require(dirname(__FILE__) . '/components/mongodb.php'),
     'session'       => require(dirname(__FILE__) . '/components/session.php'),
+	'sessionCache'  => require(dirname(__FILE__) . '/components/session/cache.php'),
     'eauth'         => require(dirname(__FILE__) . '/components/eauth.php'),
     'cache'         => require(dirname(__FILE__) . '/components/cache.php'),
     'widgetFactory' => require(dirname(__FILE__) . '/components/widgetFactory.php'),
