@@ -16,7 +16,7 @@ return CMap::mergeArray(
         'import' => array(
             'core.models.api.*',
 			'core.models.*',
-			'application.models.mongo.*',
+			//'application.models.mongo.*',
             'application.models.*',
             'core.components.*',
             'core.widgets.*',

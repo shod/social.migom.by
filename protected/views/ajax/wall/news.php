@@ -8,7 +8,7 @@
                 'login' => $comment->user->login,
                 'created_at' => $comment->created_at,
                 'text' => $comment->text,
-                'link' => News::getLink(array_pop(explode('_', get_class($comment)))),
+                'link' => Mongo_News::getLink(array_pop(explode('_', get_class($comment)))),
                 'entity_id' => $comment->entity_id,
                 'id' => $comment->id,
                 'name' => get_class($comment),

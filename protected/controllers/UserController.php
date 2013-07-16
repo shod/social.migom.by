@@ -39,7 +39,7 @@ class UserController extends Controller
                 'roles' => array('administrator')
             ),
             array('allow', // allow readers only access to the view file
-                'actions' => array('index', 'createUserAvatar', 'comments', 'authorNews', 'profile', 'authorArticle', 'commentsArticle', 'commentsProduct', 'emailConfirm'),
+                'actions' => array('index', 'createUserAvatar', 'comments', 'authorNews', 'profile', 'authorArticle', 'commentsArticle', 'commentsProduct', 'emailConfirm', 'subscribes'),
                 'users' => array('*')
             ),
             array('deny', // deny everybody else
@@ -71,7 +71,7 @@ class UserController extends Controller
 		
         $criterea = new EMongoCriteria();
         $criterea->addCond('user_id', '==', Yii::app()->user->id);
-        $news     = News::model()->find($criterea);
+        $news     = Mongo_News::model()->find($criterea);
 		$saveFlag = false;
 		if ($news && is_array($news->entities)) {
             foreach ($news->entities as $key => $en) {
@@ -81,7 +81,7 @@ class UserController extends Controller
 				}
             }
         }
-		
+
 		if($saveFlag == true){
 			$news->save();
 		}
@@ -154,7 +154,7 @@ class UserController extends Controller
 		
         if (isset($_POST['Users_Profile'])) 
 		{
-			$notifyParams = array('comments_activity', 'all_activity', 'messages_activity');
+			$notifyParams = array('comments_activity', 'all_activity', 'messages_activity', 'weekly_digest');
 			if($news){
 				foreach($notifyParams as $notifyParam){
 					if(Yii::app()->request->getParam($notifyParam)){
@@ -528,5 +528,27 @@ class UserController extends Controller
 		$user->save();
 		$this->render('emailConfirm', array('userName' => $user->fullName));
 		Yii::app()->end();
+	}
+	
+	public function actionSubscribes(){
+		if(isset($_POST['subscribe_group'])){
+			$gIds = implode(',', array_keys($_POST['subscribe_group']));
+			Subscribes::model()->deleteAll('time_group IN (' .$gIds. ') AND user_id = :uid', array(':uid' => Yii::app()->user->id));
+			$this->redirect();
+		}
+		$model = Users::model()->findByPk(Yii::app()->user->id);
+		
+		$criterea = new EMongoCriteria();
+        $criterea->addCond('user_id', '==', Yii::app()->user->id);
+        $news     = News::model()->find($criterea);
+		
+		$subscribes = new Subscribes('search'); 
+		$subscribes->user_id = Yii::app()->user->id;
+		
+		$count = Subscribes::model()->count(array('condition' => 'user_id = :uid', 'params' => array(':uid' => Yii::app()->user->id), 'group' => 'time_group'));
+		
+		$data = $subscribes->searchByUser($model->id, Subscribes::LIMIT, Yii::app()->request->getParam('offset', 0, 'int'));
+		
+		$this->render('subscribes', array('model' => $model, 'news' => $news, 'subscribes' => $subscribes, 'data' => $data, 'count' => $count));
 	}
 }

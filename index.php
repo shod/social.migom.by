@@ -2,7 +2,7 @@
 /*if(!isset($_GET['build'])){
 	die('Ведутся работы');
 }*/
-defined('YII_DEBUG') or define('YII_DEBUG',false);
+defined('YII_DEBUG') or define('YII_DEBUG',true);
 if(isset($_GET['debug']) && $_GET['debug'] == 777){
 	define('YII_DEBUG',true);
 }
@@ -28,7 +28,7 @@ require_once($yii);
 require_once($yiiEx);
 Yii::getLogger()->autoDump = true;
 Yii::getLogger()->autoFlush=1;
-Yii::setPathOfAlias("core", dirname(__FILE__).'/../core');
+Yii::setPathOfAlias("core", dirname(__FILE__).'/../core_ek');
 $yii = Yii::createWebApplication($config);
 spl_autoload_unregister(array('YiiBase', 'autoload'));
 spl_autoload_register(array('YiiBaseEx', 'autoload'));

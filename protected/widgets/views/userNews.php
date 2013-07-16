@@ -20,7 +20,7 @@
                     $this->render('news/_'.$model->template, array('model' => $model));
                 } catch (Exception $exc) {
 					Yii::log('No template for news with name - ' . 'news/_'.$model->template, CLogger::LEVEL_ERROR);
-                    //echo $exc->getTraceAsString();
+                    echo $exc->getTraceAsString();
                 }
             ?>
         <?php endforeach; ?>

@@ -135,6 +135,7 @@ a img {border: 0}
 .profile table td, .profile input, .profile select {color: #333}
 .profile table + table {margin-top: 20px}
 .profile table a {color: #195e85;text-decoration:none;}
+.profile .delete_button{padding-top: 10px;}
 
 /* :hover  text-decoration:underline; */
 .profile table a:hover, .profile .buttons .cancel-link a:hover {text-decoration:underline;}
