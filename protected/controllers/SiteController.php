@@ -41,13 +41,12 @@ class SiteController extends Controller {
 		d($new);
 		die;
     }
-	
+
 	public function actionInfo(){
         phpinfo();
     }
-	
+
 	public function actionStatic($url){
-		
 		$page = Pages::model()->find('url = :url', array(':url' => $url));
 		if($page){
 			$this->layout = 'user';
@@ -73,7 +72,7 @@ class SiteController extends Controller {
      * Displays the login page
      */
     public function actionLogin() {
-		
+
 		if(isset($_GET['return_url'])){
 			$_SERVER['HTTP_REFERER'] = $_GET['return_url'];
 		}
@@ -81,22 +80,22 @@ class SiteController extends Controller {
 			if(!isset($_SERVER['HTTP_REFERER']) || strpos($_SERVER['HTTP_REFERER'], Yii::app()->params['socialBaseUrl'].'/login') === 0){
 				$this->redirect('/user/index');
 			}
-			$this->redirect($_SERVER['HTTP_REFERER']);	
+			$this->redirect($_SERVER['HTTP_REFERER']);
         }
 
-        if(isset($_SERVER['HTTP_REFERER']) && 
-					!Yii::app()->request->isAjaxRequest && 
-					!Yii::app()->request->isPostRequest && 
+        if(isset($_SERVER['HTTP_REFERER']) &&
+					!Yii::app()->request->isAjaxRequest &&
+					!Yii::app()->request->isPostRequest &&
 					!Yii::app()->request->getParam('reg_ask') &&
 					!Yii::app()->request->getParam('haveALogin') &&
 					!Yii::app()->request->getParam('new') &&
-					Yii::app()->request->getBaseUrl(true).'/login' != $_SERVER['HTTP_REFERER'] && 
+					Yii::app()->request->getBaseUrl(true).'/login' != $_SERVER['HTTP_REFERER'] &&
 					Yii::app()->request->getBaseUrl(true).'/site/login' != $_SERVER['HTTP_REFERER'] &&
 					strpos(Yii::app()->user->returnUrl, Yii::app()->params['yamaBaseUrl']) === false
 				){
 						Yii::app()->user->setReturnUrl($_SERVER['HTTP_REFERER']);
         }
-		
+
         $this->layout = 'login';
 
         $service = Yii::app()->request->getQuery('service');
@@ -109,7 +108,7 @@ class SiteController extends Controller {
 
             if ($authIdentity->authenticate()) {
                 $identity = new EAuthUserIdentity($authIdentity);
-				
+
                 // successful authentication
                 if ($identity->authenticate()) {
                     Yii::app()->user->login($identity);
@@ -235,12 +234,12 @@ class SiteController extends Controller {
             }
         }
     }
-	
+
 	public function actionMail(){
 		die;
 		$mailer = Yii::app()->mailerMailChimp;
 
-		
+
 		$mailer->IsSMTP();
 		$mailer->ClearAddresses();
 		$mailer->AddAddress('evgeniy.kazak@gmail.com');
@@ -256,7 +255,7 @@ class SiteController extends Controller {
 		//$mailer->AddCustomHeader('Precedence: bulk');
 		//$mailer->AddCustomHeader('Reply-To: <noreply@migom.by>');
 		//$mailer->AddCustomHeader('Return-Path: <noreply@migom.by>');
-		
+
 		$mailer->IsHTML(true);
 
         $params['user'] = $user;

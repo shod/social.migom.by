@@ -38,9 +38,9 @@ class AjaxController extends Controller
     {
         $criteria = new EMongoCriteria();
         $criteria->addCond('user_id', 'equals', Yii::app()->user->id);
-        $news     = News::model()->find($criteria);
+        $news     = Mongo_News::model()->find($criteria);
         if (!$news) {
-            $news          = new News();
+            $news          = new Mongo_News();
             $news->user_id = Yii::app()->user->id;
         }
         if (isset($news->disable_entities[Yii::app()->request->getParam('filter')])) {
@@ -64,7 +64,7 @@ class AjaxController extends Controller
 
         $criteria = new EMongoCriteria;
         $criteria->addCond('user_id', 'equals', Yii::app()->user->id);
-        $news  = News::model()->find($criteria);
+        $news  = Mongo_News::model()->find($criteria);
 		$new = false;
         foreach ($news->entities as $key => $en) {
             if ($en->name == $entity && $en->id == $id) {
@@ -85,7 +85,7 @@ class AjaxController extends Controller
 
         $criteria = new EMongoCriteria;
         $criteria->addCond('user_id', 'equals', Yii::app()->user->id);
-        $news  = News::model()->find($criteria);
+        $news  = Mongo_News::model()->find($criteria);
 		$new = false;
         foreach ($news->entities as $key => $en) {
             if ($en->name == $entity && $en->id == $id) {
@@ -113,7 +113,7 @@ class AjaxController extends Controller
 		}
 		
         foreach ($comments as $comm) {
-            $likes = Likes::model(get_class($comm))->findByPk($comm->id);
+            $likes = Mongo_Likes::model(get_class($comm))->findByPk($comm->id);
             if($likes){
                 $comm->likes = $likes->likes;
                 $comm->dislikes = $likes->dislikes;
@@ -180,7 +180,7 @@ class AjaxController extends Controller
 		}
         $likes->setWeightInc($weight, $isNew);
         if ($likes->save()) {
-            News::pushLike($comment, $likes);
+            Mongo_News::pushLike($comment, $likes);
             echo json_encode(array('success' => true, 'new' => $isNew));
             Yii::app()->end();
         }

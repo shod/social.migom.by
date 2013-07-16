@@ -45,15 +45,21 @@ class SubscribesCommand extends ConsoleCommand {
 		$events = Subscribe_Events::model()->findAll(array('condition' => 'is_weekly_send = 0'));
 		$subscribes = Subscribes::model()->findAll();
 		$subscribers = array();
+		
 		foreach($subscribes as $sub){
-			if(!isset($subscribers[$sub->user_id]['tags'])){
-				$subscribers[$sub->user_id]['tags'] = array();
+			$criteria = new EMongoCriteria();
+			$criteria->addCond('user_id', '==', $sub->user_id);
+			$news = News::model()->find($criteria);
+			if(!isset($news->disable_notify['weekly_digest'])){
+				if(!isset($subscribers[$sub->user_id]['tags'])){
+					$subscribers[$sub->user_id]['tags'] = array();
+				}
+				if(!isset($subscribers[$sub->user_id]['tagGroups'][$sub->time_group])){
+					$subscribers[$sub->user_id]['tagGroups'][$sub->time_group] = array();
+				}
+				array_push($subscribers[$sub->user_id]['tags'], $sub->tag_id);
+				array_push($subscribers[$sub->user_id]['tagGroups'][$sub->time_group], $sub->tag_id);
 			}
-			if(!isset($subscribers[$sub->user_id]['tagGroups'][$sub->time_group])){
-				$subscribers[$sub->user_id]['tagGroups'][$sub->time_group] = array();
-			}
-			array_push($subscribers[$sub->user_id]['tags'], $sub->tag_id);
-			array_push($subscribers[$sub->user_id]['tagGroups'][$sub->time_group], $sub->tag_id);
 		}
 		
 		$bestEntitiesForUser = array();

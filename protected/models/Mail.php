@@ -13,7 +13,7 @@ class Mail extends CModel{
     }
     
     public function send(Users $user, $template, $params = array(), $fast = false){
-        $queue = new Queue();
+        $queue = new Mongo_Queue();
         
         if($fast){
            $queue->priority = self::MAX_PRIORITY;
@@ -36,9 +36,9 @@ class Mail extends CModel{
         $criteria->addCond('what', '==', self::WORKER);
         $criteria->addCond('user_id', '==', $user->id);
 
-		$queue = Queue::model()->find($criteria);
+		$queue = Mongo_Queue::model()->find($criteria);
 		if(!$queue){
-			$queue = new Queue();
+			$queue = new Mongo_Queue();
 		}
         
         if($fast){
@@ -65,7 +65,7 @@ class Mail extends CModel{
 				'answerer_id' => $answerComment->user->id,
 				'answerText' => $answerComment->text,
 				'time' => $answerComment->created_at,
-				'link' => News::getLink($type).$answerComment->entity_id,
+				'link' => Mongo_News::getLink($type).$answerComment->entity_id,
 				'comment_id' => $answerComment->id,
 				'type' => $type,
 			);
@@ -87,7 +87,7 @@ class Mail extends CModel{
 				'price' => $auction['price'],
 				'currency' => $advert['currency'],
 				'fromUser' => $auction['user_id'],
-				'link' => News::getLink('Adverts'),
+				'link' => Mongo_News::getLink('Adverts'),
 				'id' => $advert['id'],
 				'title' => $advert['title'],
 			);
@@ -165,7 +165,7 @@ class Mail extends CModel{
 				'answerer_id' => $answerComment->user->id,
 				'answerText' => $answerComment->text,
 				'time' => $answerComment->created_at,
-				'link' => News::getLink($type).$answerComment->entity_id,
+				'link' => Mongo_News::getLink($type).$answerComment->entity_id,
 				'comment_id' => $answerComment->id,
 				'type' => $type,
 			);

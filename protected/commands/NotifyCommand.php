@@ -73,7 +73,7 @@ class NotifyCommand extends ConsoleCommand
             $user = Users::model()->findByPk($userId);
             $mail = new Mail();
             foreach ($products as $product) {
-                News::pushPriceDown($user, $product, $productInfo[$product['product_id']]);
+                Mongo_News::pushPriceDown($user, $product, $productInfo[$product['product_id']]);
                 $mail->send($user, 'notifyProductCost', array(
                     'date'        => $time,
                     'cost'        => $product['cost'],
@@ -150,7 +150,7 @@ class NotifyCommand extends ConsoleCommand
 			}
             $mail = new Mail();
             foreach ($products as $product) {
-                News::pushInSale($user, $product, $productInfo[$product['product_id']]);
+                Mongo_News::pushInSale($user, $product, $productInfo[$product['product_id']]);
                 $mail->send($user, 'notifyProduct', array(
                     'date'        => $time,
                     'cost'        => $product['cost'],
