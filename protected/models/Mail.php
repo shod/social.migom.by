@@ -54,7 +54,7 @@ class Mail extends CModel{
     }
 	
 	public function sendCommentsNotification($answerComment, $type, $entityTitle){
-		$queue = new Queue();
+		$queue = new Mongo_Queue();
 		$queue->priority = self::MAX_PRIORITY;
 		$queue->what = self::WORKER;
 		$queue->user_id = $answerComment->parent->user_id;
@@ -75,7 +75,7 @@ class Mail extends CModel{
 	}
 	
 	public function sendYamaAucionNotify($advert, $auction, $fromName){
-		$queue = new Queue();
+		$queue = new Mongo_Queue();
 		$queue->priority = self::MAX_PRIORITY;
 		$queue->what = self::WORKER;
 		$queue->user_id = $advert['user_id'];
@@ -97,7 +97,7 @@ class Mail extends CModel{
 	}
 	
 	public function sendMessageNotify($modelTo, $text){
-		$queue = new Queue();
+		$queue = new Mongo_Queue();
 		
 		$queue->priority = self::MAX_PRIORITY;
 		$queue->what = self::WORKER;
@@ -120,9 +120,9 @@ class Mail extends CModel{
         $criteria->addCond('what', '==', self::AN_WORKER);
         $criteria->addCond('user_id', '==', $user_id);
 
-		$queue = Queue::model()->find($criteria);
+		$queue = Mongo_Queue::model()->find($criteria);
 		if(!$queue){
-			$queue = new Queue();
+			$queue = new Mongo_Queue();
 		}
 		
 		$queue->priority = self::MIN_PRIORITY;
@@ -139,7 +139,7 @@ class Mail extends CModel{
         $criteria->addCond('what', '==', self::AN_WORKER);
         $criteria->addCond('user_id', '==', $user_id);
 	
-		$queue = Queue::model()->find($criteria);
+		$queue = Mongo_Queue::model()->find($criteria);
 		if($queue){
 			$queue->delete();
 		}
@@ -154,7 +154,7 @@ class Mail extends CModel{
 	
 	public function sendCommentsAuthorNotification($answerComment, $type, $entityTitle, $authorId){
 		$user = Users::model()->findByPk($authorId);
-		$queue = new Queue();
+		$queue = new Mongo_Queue();
 		$queue->priority = self::MAX_PRIORITY;
 		$queue->what = self::WORKER;
 		$queue->user_id = $authorId;
@@ -234,7 +234,7 @@ class Mail extends CModel{
 			}
 			
 			$user = Users::model()->findByPk($user_id);
-			$queue = new Queue();
+			$queue = new Mongo_Queue();
 			$queue->priority = self::MEDIUM_PRIORITY;
 			$queue->what = self::WORKER;
 			$queue->user_id = $user_id;

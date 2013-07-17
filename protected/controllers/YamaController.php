@@ -39,7 +39,7 @@ class YamaController extends Controller
     {
 		$criterea = new EMongoCriteria();
         $criterea->addCond('user_id', '==', Yii::app()->user->id);
-		$news     = News::model()->find($criterea);
+		$news     = Mongo_News::model()->find($criterea);
 		
 		if(Yii::app()->request->getParam('filter')){
 			if (isset($news->disable_entities[Yii::app()->request->getParam('filter')])) {

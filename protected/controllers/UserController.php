@@ -150,7 +150,7 @@ class UserController extends Controller
 		
 		$criteria = new EMongoCriteria();
 		$criteria->addCond('user_id', 'equals', Yii::app()->user->id);
-		$news     = News::model()->find($criteria);
+		$news     = Mongo_News::model()->find($criteria);
 		
         if (isset($_POST['Users_Profile'])) 
 		{
@@ -540,7 +540,7 @@ class UserController extends Controller
 		
 		$criterea = new EMongoCriteria();
         $criterea->addCond('user_id', '==', Yii::app()->user->id);
-        $news     = News::model()->find($criterea);
+        $news     = Mongo_News::model()->find($criterea);
 		
 		$subscribes = new Subscribes('search'); 
 		$subscribes->user_id = Yii::app()->user->id;
