@@ -2,7 +2,7 @@
 /*if(!isset($_GET['build'])){
 	die('Ведутся работы');
 }*/
-defined('YII_DEBUG') or define('YII_DEBUG',false);
+defined('YII_DEBUG') or define('YII_DEBUG',true);
 if(isset($_GET['debug']) && $_GET['debug'] == 777){
 	define('YII_DEBUG',true);
 }

@@ -1,16 +1,16 @@
 <?php
-
 class UsersTest extends CTestCase
 {
 
-    public $fixtures=array(
+    /*public $fixtures=array(
         'users'=>'Users',
         'profile'=>'Users_Profile',
-    );
+    );*/
 
     public function testValidateAndDBUsersProfile()
     {
-        new Users_Profile();
+        $profile = new Users_Profile();
+
         // insert a comment in pending status
         $user=new Users;
         $user->setAttributes(array(

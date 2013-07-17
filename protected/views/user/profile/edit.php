@@ -209,6 +209,10 @@
                 <th><?php echo CHtml::checkbox('messages_activity', isset($news->disable_notify['messages_activity'])); ?></th>
                 <td class="checkbox_info"><?php echo CHtml::label(Yii::t('Profile', 'Отключить уведомления о личных сообщениях'), 'messages_activity'); ?></td>
             </tr>
+			<tr>
+                <th><?php echo CHtml::checkbox('weekly_digest', isset($news->disable_notify['weekly_digest'])); ?></th>
+                <td class="checkbox_info"><?php echo CHtml::label(Yii::t('Profile', 'Отключить еженедельный дайджест'), 'weekly_digest'); ?> <?= CHtml::link('(подписки)', array('/users/subscribes')) ?></td>
+            </tr>
         </table>
 
         <div class="buttons">

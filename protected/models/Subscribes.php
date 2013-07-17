@@ -11,6 +11,7 @@
 class Subscribes extends CActiveRecord
 {
 	public $group_count;
+	const LIMIT = 20;
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -80,9 +81,48 @@ class Subscribes extends CActiveRecord
 
 		$criteria->compare('user_id',$this->user_id);
 		$criteria->compare('tag_id',$this->tag_id);
+		$criteria->compare('is_search',0);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
+	}
+	
+	public function searchByUser($id, $limit, $offset)
+	{
+		$sql="
+			SELECT 
+				s.tag_id, s.time_group
+			FROM 
+				subscribes as s, (SELECT `time_group` FROM `subscribes` where user_id = {$id} group by time_group order by time_group limit {$offset},{$limit}) groups 
+			WHERE 
+				s.time_group IN (groups.time_group)
+			ORDER BY 
+				s.time_group";
+
+		$connection = Yii::app()->db;
+
+		$command=$connection->createCommand($sql);
+		$rowCount=$command->execute();
+		$subscribes=$command->queryAll();
+
+		$ids = array();
+		foreach($subscribes as $sub){
+			$ids[$sub['tag_id']] = $sub['tag_id'];
+		}
+		$tags = Tags::model()->getByIds(array('ids' => $ids));
+		if(!count($tags)){
+			return array();
+		}
+		unset($tags->success);
+		$words = array();
+		foreach($tags as $tag){
+			$words[$tag->id] = $tag->name;
+		}
+		$return = array();
+		foreach($subscribes as $sub){
+			$return[$sub['time_group']][] = $words[$sub['tag_id']];
+		}
+		return $return;
 	}
 }
