@@ -165,7 +165,11 @@ class News extends EMongoDocument {
             $entity->template = self::getTemplate($name);
         }
 		$userFrom = Users::model()->findByPk($auction['user_id']);
-		$entity->image = Yii::app()->params['yamaBaseUrl'] . '/images/ahimsa/' . $advert['id'] . '/mini/' . $advert['image'];
+		if(isset($advert['image']) && $advert['image']){
+			$entity->image = Yii::app()->params['yamaBaseUrl'] . '/images/ahimsa/' . $advert['id'] . '/mini/' . $advert['image'];
+		} else {
+			$entity->image = '';
+		}
 		$entity->link = self::getLink($name);
         $entity->entity_id = $advert['id'];
         $entity->filter = 'advert';

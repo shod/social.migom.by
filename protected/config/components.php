@@ -111,7 +111,9 @@ return array(
         ),
     ),
     'request' => array(
-        'class' => 'HttpRequest'
+        'class' => 'HttpRequest',
+		'enableCsrfValidation' => true,
+		'noCsrfValidationRoutes'=>array('api/*'),
     ),
     'errorHandler' => array(
         // use 'site/error' action to display errors

@@ -55,6 +55,7 @@ class Users extends ActiveRecord
             array('email', 'required', 'on' => array('simpleRegistration')),
 //                        array('password', 'required', 'on' => array('general_update')),
             array('email, reemail', 'email'),
+			array('login', 'filter', 'filter' => array(new CHtmlPurifier(), 'purify')),
             array('reemail', 'compareEmail', 'on' => 'general_update'),
             array('email', 'unique', 'message' => 'Пользователь с таким email уже зарегистрирован'),
             array('status, date_add, date_edit', 'numerical', 'integerOnly' => true),

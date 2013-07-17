@@ -47,6 +47,7 @@ class Users_Profile extends CActiveRecord
             array('user_id, city_id', 'numerical', 'integerOnly' => true),
             array('birthday', 'date', 'format' => 'yyyy-MM-dd'),
             array('name, surname', 'length', 'max' => 255),
+			array('name, surname', 'filter', 'filter' => array(new CHtmlPurifier(), 'purify')),
             array('avatar', 'file', 'types'      => 'jpg', 'allowEmpty' => true),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.

@@ -63,13 +63,15 @@ class YamaController extends Controller
 								'offset' => $offset,
 								'with' => 'auction',
 							));
-		
 		$uIds = array();
-		foreach($adverts as $adv){
-			foreach($adv->auctions as $auc){
-				$uIds[] = $auc->user_id;
-			}
+		if(is_object($adverts)){
+			foreach($adverts as $adv){
+				foreach($adv->auctions as $auc){
+					$uIds[] = $auc->user_id;
+				}
+			} 
 		}
+		
 		$uIds = array_unique($uIds);
 		$users = array();
 		if(count($uIds)){
@@ -83,7 +85,7 @@ class YamaController extends Controller
 		$model    = Users::model()->findByPk(Yii::app()->user->id);
 		
 		$more = false;
-		if(count($adverts) > UserNews::NEWS_ON_WALL){
+		if($adverts && count($adverts) > UserNews::NEWS_ON_WALL){
 			array_pop($adverts);
 			$more = true;
 		}
