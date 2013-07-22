@@ -5,6 +5,7 @@
 return array(
     'import' => array(
         'core.models.api.*',
+		'core.models.*',
         'core.services.*',
         'application.models.mongo.*',
 		'application.models.*',
