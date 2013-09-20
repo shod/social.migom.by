@@ -1,6 +1,7 @@
 <?php
 	$limit = UserNews::NEWS_ON_WALL + $offset;
 ?>
+<?php if(!is_object($adverts)) return; ?>
 <?php foreach($adverts as $advert): ?>
 	<div class="post">
 		<div class="related"><?= Yii::t('UserNews', 'Объявление'); ?> <a href="<?= Yii::app()->params['yamaBaseUrl'] . '/ahimsa/' ?><?= $advert->id ?>"><?= mb_substr($advert->description, 0, 50, 'utf8') ; ?></a></div>

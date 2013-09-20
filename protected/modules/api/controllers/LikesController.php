@@ -25,7 +25,7 @@ class LikesController extends ERestController
 
         try {
             /* @var $res Likes */
-            $res = Likes::model($entity)->findAll($criteria);
+            $res = Mongo_Likes::model($entity)->findAll($criteria);
         } catch (Exception $exc) {
             throw new ERestException(Yii::t('Likes', "Entity '{entity}' is not exist", array('{entity}' => $entity)));
         }
@@ -39,7 +39,7 @@ class LikesController extends ERestController
     public function actionGetEntity($entity, $id)
     {
         /* @var $res Likes */
-        $res = Likes::model($entity)->findAll(array('entity_id' => $id));
+        $res = Mongo_Likes::model($entity)->findAll(array('entity_id' => $id));
 
         $content = array(ERestComponent::CONTENT_ITEM => $res);
         $this->render()->sendResponse($content);
@@ -87,7 +87,7 @@ class LikesController extends ERestController
 		
         try {
              /* @var $likes Likes */
-            if ($likes = Likes::model($entity)->findByPk($entity_id)) {
+            if ($likes = Mongo_Likes::model($entity)->findByPk($entity_id)) {
                 foreach ($likes->users as $user) {
                     if ($user->id == $userId) {
 						if($user->weight != $weight){
@@ -113,7 +113,7 @@ class LikesController extends ERestController
 			if(!$userModel){
 				throw new ERestException(Yii::t('Likes', "User #{id} not found", array('{id}' => $userId)));
 			}
-			$user = new Likes_Embidded_Users();
+			$user = new Mongo_Likes_Embidded_Users();
 			$user->id = $userId;
 			$user->login = $userModel->login;
 			$user->weight = $weight;
@@ -138,7 +138,7 @@ class LikesController extends ERestController
 			}
 			$comment->save();
 			try {	
-				News::pushLike($comment, $likes);
+				Mongo_News::pushLike($comment, $likes);
 			} catch (Exception $exc) {
 				throw new ERestException('News::pushLike - ' . $exc->getMessage());
 			}
@@ -158,7 +158,7 @@ class LikesController extends ERestController
     {
 //        $connection = Yii::app()->cache->get($this->key);
 //        return 'Likes_' . $connection['name'] . '_' . $entity;
-        return 'Likes_' . $entity;
+        return 'Mongo_Likes_' . $entity;
     }
 
 }

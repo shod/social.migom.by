@@ -176,7 +176,7 @@ class CommentsController extends ERestController
 		if ($comment->save()) {
 			$count = Comments::model($entity)->count('parent_id = :parent_id', array(':parent_id' => $comment->parent_id));
 			if($comment->parent){
-                News::pushComment($comment, $count);
+                Mongo_News::pushComment($comment, $count);
             }else{
 					switch($entity){
 						case 'news':
@@ -195,9 +195,8 @@ class CommentsController extends ERestController
 					$new = $apiModel->find('id = :id', array(':id' => $comment->entity_id));
 					if($new && $new->user_id){
 						$count = $comment::model()->count('entity_id = :eId AND parent_id = 0', array(':eId' => $comment->entity_id));
-						News::pushCommentToAuthor($comment, $count, $new);
+						Mongo_News::pushCommentToAuthor($comment, $count, $new);
 					}
-				
 			}
 		    $content = array(self::CONTENT_COMMENT => $comment->attributes);
             $this->render()->sendResponse($content);

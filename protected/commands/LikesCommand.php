@@ -37,7 +37,7 @@ class LikesCommand extends ConsoleCommand
 
     protected function _getLikeModel($modelName)
     {
-        return Likes::model($modelName);
+        return Mongo_Likes::model($modelName);
     }
 
     protected function _getModel($model)

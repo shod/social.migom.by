@@ -85,6 +85,7 @@ return array(
             'user/<id:\d+>' => 'user/index',
             'user' => 'user/index',
             'profile/<id:\d+>' => 'user/profile',
+			'isauth/<puid:\w+>' => 'site/isauth',
 			
 			'site/default' => 'test/link',
 
@@ -112,7 +113,9 @@ return array(
         ),
     ),
     'request' => array(
-        'class' => 'HttpRequest'
+        'class' => 'HttpRequest',
+		'enableCsrfValidation' => true,
+		'noCsrfValidationRoutes'=>array('api/*'),
     ),
     'errorHandler' => array(
         // use 'site/error' action to display errors

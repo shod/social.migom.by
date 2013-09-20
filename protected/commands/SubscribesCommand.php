@@ -49,7 +49,7 @@ class SubscribesCommand extends ConsoleCommand {
 		foreach($subscribes as $sub){
 			$criteria = new EMongoCriteria();
 			$criteria->addCond('user_id', '==', $sub->user_id);
-			$news = News::model()->find($criteria);
+			$news = Mongo_News::model()->find($criteria);
 			if(!isset($news->disable_notify['weekly_digest'])){
 				if(!isset($subscribers[$sub->user_id]['tags'])){
 					$subscribers[$sub->user_id]['tags'] = array();

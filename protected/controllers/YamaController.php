@@ -4,7 +4,7 @@ class YamaController extends Controller
 {
 
     public $layout = 'user';
-    public $title  = '';
+    public $title  = 'Мои объявления | Migom.by';
 
     public function filters()
     {
@@ -39,7 +39,7 @@ class YamaController extends Controller
     {
 		$criterea = new EMongoCriteria();
         $criterea->addCond('user_id', '==', Yii::app()->user->id);
-		$news     = News::model()->find($criterea);
+		$news     = Mongo_News::model()->find($criterea);
 		
 		if(Yii::app()->request->getParam('filter')){
 			if (isset($news->disable_entities[Yii::app()->request->getParam('filter')])) {
@@ -63,13 +63,15 @@ class YamaController extends Controller
 								'offset' => $offset,
 								'with' => 'auction',
 							));
-		
 		$uIds = array();
-		foreach($adverts as $adv){
-			foreach($adv->auctions as $auc){
-				$uIds[] = $auc->user_id;
-			}
+		if(is_object($adverts)){
+			foreach($adverts as $adv){
+				foreach($adv->auctions as $auc){
+					$uIds[] = $auc->user_id;
+				}
+			} 
 		}
+		
 		$uIds = array_unique($uIds);
 		$users = array();
 		if(count($uIds)){
@@ -83,7 +85,7 @@ class YamaController extends Controller
 		$model    = Users::model()->findByPk(Yii::app()->user->id);
 		
 		$more = false;
-		if(count($adverts) > UserNews::NEWS_ON_WALL){
+		if($adverts && count($adverts) > UserNews::NEWS_ON_WALL){
 			array_pop($adverts);
 			$more = true;
 		}

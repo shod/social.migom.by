@@ -4,7 +4,7 @@ class MessagesController extends Controller
 {
 
 	public $layout = 'application.views.layouts.user';
-    public $title  = '';
+    public $title  = 'Мои cообщения | Migom.by';
 
 	public function filters()
     {
