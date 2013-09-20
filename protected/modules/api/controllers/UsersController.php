@@ -31,7 +31,6 @@ class UsersController extends ERestController
 	}
 	
 	public function actionGetInfoByIds(){
-		$id = Yii::app()->request->getParam('entity', '', 'list', array('list'));
 		$ids = Yii::app()->request->getParam('ids');
 
 		$users = Users::model()->findAll('id IN (' . implode(',', $ids) . ')');

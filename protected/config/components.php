@@ -84,6 +84,7 @@ return array(
             'user/<id:\d+>' => 'user/index',
             'user' => 'user/index',
             'profile/<id:\d+>' => 'user/profile',
+			'isauth/<puid:\w+>' => 'site/isauth',
 			
 			'site/default' => 'test/link',
 
