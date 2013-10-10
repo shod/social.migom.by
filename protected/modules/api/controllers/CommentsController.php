@@ -197,7 +197,6 @@ class CommentsController extends ERestController
 						$count = $comment::model()->count('entity_id = :eId AND parent_id = 0', array(':eId' => $comment->entity_id));
 						Mongo_News::pushCommentToAuthor($comment, $count, $new);
 					}
-				
 			}
 		    $content = array(self::CONTENT_COMMENT => $comment->attributes);
             $this->render()->sendResponse($content);

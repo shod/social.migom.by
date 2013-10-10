@@ -4,7 +4,7 @@ class YamaController extends Controller
 {
 
     public $layout = 'user';
-    public $title  = '';
+    public $title  = 'Мои объявления | Migom.by';
 
     public function filters()
     {

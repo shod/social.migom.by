@@ -16,6 +16,11 @@ class Mail_Log extends ActiveRecord
     {
         return 'mail_log';
     }
+	
+	public static function model($className = __CLASS__)
+    {
+        return parent::model($className);
+    }
 
     /**
      * Returns the static model of the specified AR class.

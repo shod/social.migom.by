@@ -120,7 +120,7 @@ class UserController extends Controller
 			$news = Api_News_Author::model()->count('user_id = :id', array(':id' => $model->id));
 			$article = Api_Article_Author::model()->count('user_id = :id', array(':id' => $model->id));
 		}
-		
+
         $this->render('profile', array('model' => $model, 'news' => $news, 'article' => $article, 'adverts' => $adverts));
     }
 

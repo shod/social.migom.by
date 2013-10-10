@@ -18,7 +18,7 @@ class SiteController extends Controller {
     public function accessRules() {
         return array(
             array('allow', // allow readers only access to the view file
-                'actions' => array('error', 'static', 'login', 'test', 'logout', 'registration', 'info', 'remindPass', 'autocomplete', 'session'),
+                'actions' => array('error', 'static', 'login', 'test', 'logout', 'registration', 'info', 'remindPass', 'autocomplete', 'session', 'isauth'),
                 'users' => array('*')
             ),
 			array('allow', // allow readers only access to the view file
@@ -41,6 +41,22 @@ class SiteController extends Controller {
 		d($new);
 		die;
     }
+	
+	public function actionIsAuth(){
+		$puid = Yii::app()->request->getParam('puid');
+		if(Yii::app()->user->isGuest){
+			session_write_close();
+			session_id($puid);
+			session_start();
+			Yii::app()->getRequest()->redirect(Yii::app()->request->getParam('return_url'),true,302);
+		} else {
+			$url = Yii::app()->request->getParam('return_url');
+			$url .= '?' . http_build_query(array('puid' => session_id(), 'return_url' => Yii::app()->request->getParam('return_url')));
+			Yii::app()->getRequest()->redirect($url,true,302);
+		}
+		d(Yii::app()->request->getParam('puid'));
+		die;
+	}
 
 	public function actionInfo(){
         phpinfo();
@@ -72,15 +88,17 @@ class SiteController extends Controller {
      * Displays the login page
      */
     public function actionLogin() {
-
+		Yii::app()->cache->delete('session' . session_id());
 		if(isset($_GET['return_url'])){
 			$_SERVER['HTTP_REFERER'] = $_GET['return_url'];
 		}
         if (!Yii::app()->user->getIsGuest()) {
 			if(!isset($_SERVER['HTTP_REFERER']) || strpos($_SERVER['HTTP_REFERER'], Yii::app()->params['socialBaseUrl'].'/login') === 0){
-				$this->redirect('/user/index');
+				$this->redirect('/user/index', true, 302);
 			}
-			$this->redirect($_SERVER['HTTP_REFERER']);
+			$url = $_SERVER['HTTP_REFERER'];
+			$url .= '?' . http_build_query(array('puid' => session_id(), 'return_url' => $url));
+			Yii::app()->getRequest()->redirect($url,true,302);
         }
 
         if(isset($_SERVER['HTTP_REFERER']) &&

@@ -7,7 +7,9 @@ return CMap::mergeArray(
                 'application.models.*',
                 'api.models.*',
                 'api.components.*',
+				'core.components.*',
                 'api.controllers.*',
+				'application.commands.*',
             ),
             'modules' => array(
                 'api',
