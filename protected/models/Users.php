@@ -196,7 +196,7 @@ class Users extends ActiveRecord
             if (!$this->password) {
                 $this->password = $this->oldAttributes['password'];
             }
-            if ($this->oldAttributes['email'] && $this->status == 1) {
+            if (isset($this->oldAttributes['email']) && $this->oldAttributes['email'] && $this->status == 1) {
                 $this->email = $this->oldAttributes['email'];
             } elseif($this->email && $this->status == 2 && $this->scenario != 'registration'){
 				$this->sendEmailConfirm();
@@ -225,7 +225,7 @@ class Users extends ActiveRecord
 	private function _getCountComments($entity){
 		$count = Yii::app()->cache->get('comments_count_user_' . $entity . $this->id);
         if (!$count) {
-            $count = Comments::model($entity)->count('user_id = :user_id', array(':user_id' => $this->id));
+            $count = Comments::model($entity)->count('user_id = :user_id and status = 1', array(':user_id' => $this->id));
             Yii::app()->cache->set('comments_count_user_' . $entity . $this->id, $count, 60 * 10);
         }
 		return $count;

@@ -119,7 +119,7 @@ class Form_Registration extends CFormModel
                 $mail = new Mail();
                 $mail->send($user, 'registration', array('password' => $pass), true);
             }
-			News::pushHellow($user);
+			Mongo_News::pushHellow($user);
             return $identity;
         }
 }

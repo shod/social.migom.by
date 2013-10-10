@@ -1,4 +1,11 @@
-<p style="color:blue; font-size:16px;"><?= CHtml::link('LinkNew', Yii::app()->params['migomBaseUrl'].'/?'.Yii::app()->request->getParam('model').'_id='.$model->entity_id); ?></p>
+<p style="color:blue; font-size:16px;">
+	<?php if(Yii::app()->request->getParam('model') == 'product'): ?>
+		<?php $link = Yii::app()->params['migomBaseUrl'].'/'.$model->entity_id . '/discussion/?'; ?>
+	<?php else: ?>
+		<?php $link = Yii::app()->params['migomBaseUrl'].'/?'.Yii::app()->request->getParam('model').'_id='.$model->entity_id; ?>
+	<?php endif; ?>
+	<?= CHtml::link('LinkNew', $link); ?>
+</p>
 <?php if($model->parent): ?>
     <?php $this->renderPartial('popup/comment', array('model' => $model->parent)); ?>
 <?php endif; ?>
@@ -21,3 +28,4 @@
 <?php $this->endWidget(); ?>
 
 </div>
+<input onclick="$.get('<?= $link.'&debug=5' ?>')" type="button" value="Обновить кэш" />

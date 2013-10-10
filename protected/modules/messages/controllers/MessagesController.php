@@ -88,6 +88,7 @@ class MessagesController extends Controller
 					$textModel->text = $message_prefix . $textModel->text;
 				}
 				
+				
 				$transaction = Yii::app()->db->beginTransaction();
 				try{
 					$textModel->save();
@@ -102,7 +103,7 @@ class MessagesController extends Controller
 				{
 					$transaction->rollBack();
 				}
-				
+
 				$params = array(
 					'dialog' => array(
 						'to' => $modelTo->user_id,
@@ -127,7 +128,7 @@ class MessagesController extends Controller
 				$criteria = new EMongoCriteria();
 				$criteria->addCond('user_id', '==', $modelTo->user_id);
 
-				$news = News::model()->find($criteria);
+				$news = Mongo_News::model()->find($criteria);
 				
 				if(!Yii::app()->cache->get('online_user_' . $modelTo->user_id) && !isset($news->disable_notify['messages_activity'])){
 					$mail = new Mail;

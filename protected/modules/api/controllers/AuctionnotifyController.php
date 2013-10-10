@@ -12,7 +12,7 @@ class AuctionNotifyController extends ERestController
 		$auction = Yii::app()->request->getParam('auction');
 		$advert = Yii::app()->request->getParam('advert');
 		
-		News::pushAuction($advert, $auction);
+		Mongo_News::pushAuction($advert, $auction);
 		
 		Yii::app()->end();
     }

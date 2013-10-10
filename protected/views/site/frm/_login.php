@@ -20,7 +20,7 @@
             </label>
             <p>
                 <?= $form->passwordField($model,'password', array('placeholder' => Yii::t('Login', 'Пароль'))); ?>
-                <span class="remind"><?= Yii::t('Login', 'Напомнить'); ?></span>
+                <span class="remind"><?= Yii::t('Login', 'Восстановить пароль'); ?></span>
                 <?= $form->error($model,'password'); ?>
             </p>
             <p class="buttons">
