@@ -44,15 +44,15 @@ class SiteController extends Controller {
 	
 	public function actionIsAuth(){
 		$puid = Yii::app()->request->getParam('puid');
-		if(Yii::app()->user->isGuest){
+		if(Yii::app()->user->isGuest && $puid){
 			session_write_close();
 			session_id($puid);
 			session_start();
-			Yii::app()->getRequest()->redirect(Yii::app()->request->getParam('return_url'),true,302);
+			Yii::app()->getRequest()->redirect(Yii::app()->request->getParam('return_url'),true,301);
 		} else {
 			$url = Yii::app()->request->getParam('return_url');
 			$url .= '?' . http_build_query(array('puid' => session_id(), 'return_url' => Yii::app()->request->getParam('return_url')));
-			Yii::app()->getRequest()->redirect($url,true,302);
+			Yii::app()->getRequest()->redirect($url,true,301);
 		}
 		d(Yii::app()->request->getParam('puid'));
 		die;
@@ -96,9 +96,9 @@ class SiteController extends Controller {
 			if(!isset($_SERVER['HTTP_REFERER']) || strpos($_SERVER['HTTP_REFERER'], Yii::app()->params['socialBaseUrl'].'/login') === 0){
 				$this->redirect('/user/index', true, 302);
 			}
-			$url = $_SERVER['HTTP_REFERER'];
-			$url .= '?' . http_build_query(array('puid' => session_id(), 'return_url' => $url));
-			Yii::app()->getRequest()->redirect($url,true,302);
+			/*$url = $_SERVER['HTTP_REFERER'];
+			$url .= '?' . http_build_query(array('puid' => session_id(), 'return_url' => $url));*/
+			Yii::app()->getRequest()->redirect($_SERVER['HTTP_REFERER'],true,302);
         }
 
         if(isset($_SERVER['HTTP_REFERER']) &&
@@ -190,6 +190,8 @@ class SiteController extends Controller {
         // if it is ajax validation request
         if (Yii::app()->getRequest()->isAjaxRequest && Yii::app()->getRequest()->getParam('ajax') == 'formLogin') {
             echo CActiveForm::validate($model);
+			Yii::log('Ajax validation: ""'.print_r($model->attributes, 1), CLogger::LEVEL_INFO, 'mobileAuth');
+			Yii::log('Ajax validation: ""'.print_r($model->getErrors(), 1), CLogger::LEVEL_INFO, 'mobileAuth');
             Yii::app()->end();
         }
 

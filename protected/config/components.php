@@ -4,9 +4,10 @@ return array(
     'db'            => require(dirname(__FILE__) . '/components/db.php'),
     'mongodb'       => require(dirname(__FILE__) . '/components/mongodb.php'),
     'session'       => require(dirname(__FILE__) . '/components/session.php'),
-	'sessionCache'  => require(dirname(__FILE__) . '/components/session/cache.php'),
+	//'sessionCache'  => require(dirname(__FILE__) . '/components/session/cache.php'),
     'eauth'         => require(dirname(__FILE__) . '/components/eauth.php'),
     'cache'         => require(dirname(__FILE__) . '/components/cache.php'),
+	'fileCache'     => require(dirname(__FILE__) . '/components/fileCache.php'),
     'widgetFactory' => require(dirname(__FILE__) . '/components/widgetFactory.php'),
     'migom'         => require(dirname(__FILE__) . '/components/migom.php'),
 	'tags'          => require(dirname(__FILE__) . '/components/tags.php'),
@@ -86,6 +87,7 @@ return array(
             'user' => 'user/index',
             'profile/<id:\d+>' => 'user/profile',
 			'isauth/<puid:\w+>' => 'site/isauth',
+			'isauth' => 'site/isauth',
 			
 			'site/default' => 'test/link',
 

@@ -5,6 +5,8 @@ class UserController extends Controller
 
     public $layout = 'user';
     public $title  = '';
+	public $keywords = '';
+	public $description = '';
 
     public function filters()
     {
@@ -91,13 +93,15 @@ class UserController extends Controller
 
     public function actionProfile()
     {
+		
 		Header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); //Дата в прошлом 
 		Header("Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0"); // HTTP/1.1 
 		Header("Pragma: no-cache"); // HTTP/1.1
 		Header("Last-Modified: ".gmdate("D, d M Y H:i:s")."GMT");
         $id    = Yii::app()->request->getParam('id', Yii::app()->user->id);
         $model = Users::model()->findByPk($id);
-        if(!$model){
+		
+		if(!$model){
             throw new CHttpException(404, Yii::t('Site', 'Upps! Такой страницы нету'));
         }
 
@@ -243,20 +247,33 @@ class UserController extends Controller
     }
 	
 	protected function _getComments($id){
+		$user = Users::model()->findByPk($id);
 		switch($this->action->id){
 			case 'comments':
+				$this->title = 'Комментарии пользователя ' . $user->fullname . ' на migom.by';
+				Yii::app()->clientScript->registerMetaTag('Комментарии пользователя ' . $user->fullname, 'keywords');
+				Yii::app()->clientScript->registerMetaTag('Комментарии пользователя ' . $user->fullname . ' на migom.by', 'description');
 				$commentsModel = Comments_News::model();
 				$titlesModel = Api_News::model();
 				break;
 			case 'commentsArticle':
+				$this->title = 'Комментарии обзоров пользователя ' . $user->fullname . ' на migom.by';
+				Yii::app()->clientScript->registerMetaTag('Комментарии обзоров пользователя ' . $user->fullname, 'keywords');
+				Yii::app()->clientScript->registerMetaTag('Комментарии обзоров пользователя ' . $user->fullname . ' на migom.by', 'description');
 				$commentsModel = Comments_Article::model();
 				$titlesModel = Api_Article_Author::model();
 				break;
 			case 'commentsProduct':
+				$this->title = 'Комментарии к прдуктам пользователя ' . $user->fullname . ' на migom.by';
+				Yii::app()->clientScript->registerMetaTag('Комментарии к прдуктам пользователя ' . $user->fullname, 'keywords');
+				Yii::app()->clientScript->registerMetaTag('Комментарии к прдуктам пользователя ' . $user->fullname . ' на migom.by', 'description');
 				$commentsModel = Comments_Product::model();
 				$titlesModel = Api_Product::model();
 				break;
 			default:
+				$this->title = 'Комментарии пользователя ' . $user->fullname . ' на migom.by';
+				Yii::app()->clientScript->registerMetaTag('Комментарии пользователя ' . $user->fullname, 'keywords');
+				Yii::app()->clientScript->registerMetaTag('Комментарии пользователя ' . $user->fullname . ' на migom.by', 'description');
 				$commentsModel = Comments_News::model();
 				$titlesModel = Api_News::model();
 		}

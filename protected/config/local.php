@@ -19,6 +19,7 @@ return CMap::mergeArray(
 			//'application.models.mongo.*',
             'application.models.*',
             'core.components.*',
+			'core.components.caching.*',
             'core.widgets.*',
 			'application.widgets.*',
             'core.services.*',
