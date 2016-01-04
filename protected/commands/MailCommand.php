@@ -42,13 +42,13 @@ class MailCommand extends ConsoleCommand {
 			}			
         } catch (CException $exc) {
 			$errors = array('message' => Yii::t('Command', 'Email error: {ex}', array('{ex}' => $exc->getTraceAsString())));
-            Yii::log($errors['message'], CLogger::LEVEL_ERROR, 'console');
+            Yii::log($errors['message'], CLogger::LEVEL_ERROR, 'email_error');
 			$result = false;
         }
         
         if(!$result){
             $errors = array('message' => Yii::t('Command', 'Email not send (email = :email, template = :template)', array(':email' => $user->email, ':template' => $template)));
-            Yii::log($errors['message'], CLogger::LEVEL_ERROR, 'console');
+            Yii::log($errors['message'], CLogger::LEVEL_ERROR, 'email_not_send');
         }
         return $result;
     }

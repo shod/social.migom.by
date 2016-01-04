@@ -13,6 +13,7 @@ class Mail extends CModel{
     }
     
     public function send(Users $user, $template, $params = array(), $fast = false){
+
         $queue = new Mongo_Queue();
         
         if($fast){
@@ -174,6 +175,7 @@ class Mail extends CModel{
 		return $queue->save();
 	}
 	
+	/*Формирование параметров на отсылке */
 	public function sendDigest($usersDigest){
 		
 		foreach($usersDigest as $user_id => $user){
@@ -225,6 +227,7 @@ class Mail extends CModel{
 									'id' => $adv->id,
 									'title' => $adv->title,
 									'created_at' => $adv->start_date,
+									'anounce_text' => mb_substr(strip_tags($adv->anounce_text),0,250, 'utf-8') . '...',
 									'image' => 'http://static.migom.by/img/articles/img$' .$adv->id. '.jpg',
 								);
 							}
@@ -233,6 +236,10 @@ class Mail extends CModel{
 				}
 			}
 			
+			/*$command = Yii::app()->db->createCommand("insert into temp_mail (user_id) values ({$user_id})");
+			$command->execute();					
+			*/
+			
 			$user = Users::model()->findByPk($user_id);
 			$queue = new Mongo_Queue();
 			$queue->priority = self::MEDIUM_PRIORITY;
@@ -240,10 +247,12 @@ class Mail extends CModel{
 			$queue->user_id = $user_id;
 			
 			$queue->param = $params;
-			if($user_id == 1 || $user_id == 5346 || $user_id == 26){
+			$queue->save();
+			
+			/*if($user_id == 1 || $user_id == 5346 || $user_id == 26){
 				$queue->save();
 			}
-			
+			*/
 		}
 	}
 }

@@ -95,7 +95,7 @@
 			<?php endif; ?>
         </table>
 		<?php endif; ?>
-		<?php if($model->getCountNewsComments() || $model->getCountArticleComments() || $model->getCountProductComments() || $adverts): ?>
+		<?php if($model->getCountNewsComments() || $model->getCountArticleComments() || $model->getCountProductComments() || $model->getCountSellerComments() || $adverts): ?>
         <table>
             <caption><span><?= Yii::t('Profile', 'Активность на сайте'); ?></span></caption>
 			<?php 
@@ -128,6 +128,12 @@
 			<tr>
                 <th><?= $model->getCountProductComments() ?></th>
                 <td><?= SiteService::getCorectWordsT('Site', 'comments to products', $model->getCountProductComments()) ?> (<?= CHtml::link(Yii::t('Site', 'просмотреть'), array('/user/commentsProduct', 'id' => $model->id)); ?>)</td>
+            </tr>
+			<?php endif; ?>
+			<?php if($model->getCountSellerComments()): ?>
+			<tr>
+                <th><?= $model->getCountSellerComments() ?></th>
+                <td><?= SiteService::getCorectWordsT('Site', 'comments to seller', $model->getCountSellerComments()) ?></td>
             </tr>
 			<?php endif; ?>
 			<?php if($cl): ?>

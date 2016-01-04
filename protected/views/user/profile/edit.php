@@ -213,6 +213,10 @@
                 <th><?php echo CHtml::checkbox('weekly_digest', isset($news->disable_notify['weekly_digest'])); ?></th>
                 <td class="checkbox_info"><?php echo CHtml::label(Yii::t('Profile', 'Отключить еженедельный дайджест'), 'weekly_digest'); ?> <?= CHtml::link('(подписки)', array('/users/subscribes')) ?></td>
             </tr>
+			<tr>
+                <th><?php echo CHtml::checkbox('news_digest', isset($news->disable_notify['news_digest'])); ?></th>
+                <td class="checkbox_info"><?php echo CHtml::label(Yii::t('Profile', 'Отключить новостной дайджест'), 'news_digest'); ?></td>
+            </tr>
         </table>
 
         <div class="buttons">

@@ -41,26 +41,36 @@ class SubscribesCommand extends ConsoleCommand {
 		}
 	}
 
+	/*
+	* Отправка рассылки пользователям
+	*/
     public function actionSetMails() {
-		$events = Subscribe_Events::model()->findAll(array('condition' => 'is_weekly_send = 0'));
+		$events = Subscribe_Events::model()->findAll(array('condition' => 'is_weekly_send = 0 and DATEDIFF(now(), FROM_UNIXTIME(created_at))  < 200'));		
 		$subscribes = Subscribes::model()->findAll();
-		$subscribers = array();
+		//$subscribes[] = array('user_id'=>5346); //shod
+		$subscribers = array();		
 		
-		foreach($subscribes as $sub){
-			$criteria = new EMongoCriteria();
-			$criteria->addCond('user_id', '==', $sub->user_id);
-			$news = Mongo_News::model()->find($criteria);
-			if(!isset($news->disable_notify['weekly_digest'])){
-				if(!isset($subscribers[$sub->user_id]['tags'])){
-					$subscribers[$sub->user_id]['tags'] = array();
+		foreach($subscribes as $sub){	
+			
+			//if(isset($sub) && $sub->user_id == 12482){
+				$criteria = new EMongoCriteria();			
+				$criteria->addCond('user_id', '==', $sub->user_id);
+				$news = Mongo_News::model()->find($criteria);
+
+				if(!isset($news->disable_notify['weekly_digest'])){
+					if(!isset($subscribers[$sub->user_id]['tags'])){
+						$subscribers[$sub->user_id]['tags'] = array();
+					}
+					if(!isset($subscribers[$sub->user_id]['tagGroups'][$sub->time_group])){
+						$subscribers[$sub->user_id]['tagGroups'][$sub->time_group] = array();
+					}
+					array_push($subscribers[$sub->user_id]['tags'], $sub->tag_id);
+					array_push($subscribers[$sub->user_id]['tagGroups'][$sub->time_group], $sub->tag_id);
 				}
-				if(!isset($subscribers[$sub->user_id]['tagGroups'][$sub->time_group])){
-					$subscribers[$sub->user_id]['tagGroups'][$sub->time_group] = array();
-				}
-				array_push($subscribers[$sub->user_id]['tags'], $sub->tag_id);
-				array_push($subscribers[$sub->user_id]['tagGroups'][$sub->time_group], $sub->tag_id);
-			}
-		}
+			//}
+			
+		}		
+		
 		
 		$bestEntitiesForUser = array();
 		
@@ -85,17 +95,19 @@ class SubscribesCommand extends ConsoleCommand {
 				
 			}
 		}
+		
+		
+		
 		$bestEntitiesForUser = $this->getPart($ahimsaIds, $subscribers, $bestEntitiesForUser, 'adverts');
 		$bestEntitiesForUser = $this->getPart($newsIds, $subscribers, $bestEntitiesForUser, 'news');
+		$bestEntitiesForUser = $this->getPart($articlesIds, $subscribers, $bestEntitiesForUser, 'article');
 		
-		foreach($bestEntitiesForUser as &$userDigest){
-			foreach($userDigest as &$theme){
-				$theme=array_slice($theme,0,$this->limitThemeNews);
-			}
-		}
+		//var_dump($bestEntitiesForUser);
+		/*Создаем модель Mail*/
 		$mail = new Mail;
 		$mail->sendDigest($bestEntitiesForUser);
-		Subscribe_Events::model()->updateAll(array('is_weekly_send' => 1), 'is_weekly_send = 0');
+		//Subscribe_Events::model()->updateAll(array('is_weekly_send' => 1), 'is_weekly_send = 0');
+		
     }
 	
 	protected function getPart($ids, $subscribers, $bestEntitiesForUser, $theme)
@@ -119,7 +131,19 @@ class SubscribesCommand extends ConsoleCommand {
 		if(!$ids && count($ids) == 0){
 			return $bestEntitiesForUser;
 		}
-		$tags = Tags::model()->getTagsForEntities(array('entities' => $ids, 'entity_type_id' => $typeId))->message;
+		//var_dump($ids);
+		//var_dump($typeId);
+		$modelTags = Tags::model();
+		//$modelTags->debug=1;
+		
+		$tagsModele = $modelTags->getTagsForEntities(array('entities' => $ids, 'entity_type_id' => $typeId));
+		
+		$tags = array();
+		
+		if($tagsModele){
+			$tags = $tagsModele->message;
+		}
+		
 		$entities = array();
 		foreach($tags as $tag){
 			$entities[$tag->entity_id][] = $tag->tag_id;
@@ -151,11 +175,19 @@ class SubscribesCommand extends ConsoleCommand {
 					}
 				}
 			}
-			if(isset($bestEntitiesForUser[$user][$theme])){
-				arsort($bestEntitiesForUser[$user][$theme]);
-				$bestEntitiesForUser[$user][$theme] = array_keys($bestEntitiesForUser[$user][$theme]);
-			}
+			$this->_getTopUserThemeEntities(&$bestEntitiesForUser, $user, $theme);
+			
 		}
 		return $bestEntitiesForUser;
 	}
+	
+	private function _getTopUserThemeEntities(&$bestEntitiesForUser, $user, $theme){
+		if(isset($bestEntitiesForUser[$user][$theme])){
+			arsort($bestEntitiesForUser[$user][$theme]);
+			$bestEntitiesForUser[$user][$theme] = array_keys($bestEntitiesForUser[$user][$theme]);
+			$bestEntitiesForUser[$user][$theme] = array_slice($bestEntitiesForUser[$user][$theme],0,$this->limitThemeNews);
+		}
+		
+	}
+	
 }

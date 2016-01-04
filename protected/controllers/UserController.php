@@ -32,7 +32,7 @@ class UserController extends Controller
     public function accessRules()
     {
         return array(
-            array('allow', // allow readers only access to the view file
+			array('allow', // allow readers only access to the view file
                 'actions' => array('edit', 'deletenew', 'uploadavatar'),
                 'roles' => array('user', 'moderator', 'administrator')
             ),
@@ -41,7 +41,7 @@ class UserController extends Controller
                 'roles' => array('administrator')
             ),
             array('allow', // allow readers only access to the view file
-                'actions' => array('index', 'createUserAvatar', 'comments', 'authorNews', 'profile', 'authorArticle', 'commentsArticle', 'commentsProduct', 'emailConfirm', 'subscribes'),
+                'actions' => array('index', 'createUserAvatar', 'comments', 'authorNews', 'profile', 'authorArticle', 'commentsArticle', 'commentsProduct', 'emailConfirm', 'subscribes', 'unsubscribe'),
                 'users' => array('*')
             ),
             array('deny', // deny everybody else
@@ -127,6 +127,36 @@ class UserController extends Controller
 
         $this->render('profile', array('model' => $model, 'news' => $news, 'article' => $article, 'adverts' => $adverts));
     }
+	
+	public function actionUnsubscribe(){
+		$notify = $_GET['notify'];
+		$email = $_GET['email'];
+		$notifyParams = array('comments_activity', 'all_activity', 'messages_activity', 'weekly_digest');
+		
+		if(strlen($email) > 250){
+			die('Unsubscribe 1');
+		}
+		
+		$user = Users::model()->find(' email = :email ', array(':email' => $email));
+		
+		if(!in_array($notify, $notifyParams)){
+			die('Unsubscribe 2');
+		}
+		if(!$user){
+			dD($email);
+			die('Unsubscribe 3');
+		}
+		
+		$criteria = new EMongoCriteria();
+		$criteria->addCond('user_id', 'equals', $user->id);
+		$news     = Mongo_News::model()->find($criteria);
+		
+		if($news){
+			$news->disable_notify[$notify] = $notify;
+			$news->save();
+		}
+		die('Unsubscribe email');
+	}
 
     public function actionEdit()
     {

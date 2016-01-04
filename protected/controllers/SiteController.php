@@ -18,7 +18,7 @@ class SiteController extends Controller {
     public function accessRules() {
         return array(
             array('allow', // allow readers only access to the view file
-                'actions' => array('error', 'static', 'login', 'test', 'logout', 'registration', 'info', 'remindPass', 'autocomplete', 'session', 'isauth'),
+                'actions' => array('error', 'static', 'login', 'test', 'logout', 'registration', 'info', 'remindPass', 'autocomplete', 'session', 'isauth','DigestTest','DigestSend'),
                 'users' => array('*')
             ),
 			array('allow', // allow readers only access to the view file
@@ -57,6 +57,13 @@ class SiteController extends Controller {
 		d(Yii::app()->request->getParam('puid'));
 		die;
 	}
+	
+	public function actionDigestTest(){
+        die('test');
+    }
+	public function actionDigestSend(){
+        die('test2');
+    }
 
 	public function actionInfo(){
         phpinfo();
@@ -93,7 +100,8 @@ class SiteController extends Controller {
 			$_SERVER['HTTP_REFERER'] = $_GET['return_url'];
 		}
         if (!Yii::app()->user->getIsGuest()) {
-			if(!isset($_SERVER['HTTP_REFERER']) || strpos($_SERVER['HTTP_REFERER'], Yii::app()->params['socialBaseUrl'].'/login') === 0){
+			if(!isset($_SERVER['HTTP_REFERER']) || strpos($_SERVER['HTTP_REFERER'], Yii::app()->params['socialBaseUrl'].'/login') === 0
+				|| strpos($_SERVER['HTTP_REFERER'], Yii::app()->params['socialBaseUrl'].'/site/login') === 0){
 				$this->redirect('/user/index', true, 302);
 			}
 			/*$url = $_SERVER['HTTP_REFERER'];

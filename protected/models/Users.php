@@ -245,6 +245,20 @@ class Users extends ActiveRecord
     {
         return $this->_getCountComments('Product');
     }
+	
+	public function getCountSellerComments()
+    {
+		$entity = 'seller';
+        //$count = Yii::app()->cache->get('comments_count_user_' . $entity . $this->id);
+        if (!$count) {
+		
+				$adverts = Api_Comment::model();
+				$count = (int) $adverts->getCount('seller', $this->id);
+				
+	        Yii::app()->cache->set('comments_count_user_' . $entity . $this->id, $count, 60 * 10);
+        }
+		return $count;
+    }
 
     public function getAvatarPath($temp = false){
         if(!$this->id){

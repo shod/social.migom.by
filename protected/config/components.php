@@ -32,6 +32,7 @@ return array(
         // enable cookie-based authentication
         'allowAutoLogin' => false,
         'class' => 'WebUser',
+		'identityCookie' => array('domain' => '.migom.by'),
         'loginUrl' => array('login'),
         'defaultRole' => 'guest',
     ),
@@ -93,6 +94,7 @@ return array(
 
             'profile' => 'user/profile',
             'profile/edit' => 'user/edit',
+			'unsubscribe' => 'user/unsubscribe',
             '' => 'user/index',
 			
 			'messages' => 'messages/messages/index',
